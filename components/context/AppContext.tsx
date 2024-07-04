@@ -1,0 +1,82 @@
+'use client';
+import { Announcement, defaultContent } from '@/utils/defaultContent';
+import { createClient } from '@/utils/supabase/client';
+import { redirect } from 'next/navigation';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+
+import type { Lesson, AnnouncementsAndLessons } from '@/utils/defaultContent';
+
+type AppContextProviderProps = {
+	children: ReactNode;
+};
+// Define the shape of the context state
+type AppContextState = {
+	content: typeof defaultContent;
+	setContent: (content: typeof defaultContent) => void;
+	handleAddAnnouncementOrLesson: (type: 'announcement' | 'lesson') => void;
+};
+
+const AppContext = createContext<AppContextState>({} as AppContextState);
+
+// Create a provider component
+
+export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
+	const supabase = createClient();
+
+	const [content, setContent] = useState(defaultContent);
+	// const [content, setContent] = useState({} as typeof defaultContent);
+
+	const getData = async () => {
+		const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
+
+		if (error) {
+			console.error('Error fetching data:', error);
+			return;
+		}
+		setContent(data[0].bulletin);
+	};
+
+	useEffect(() => {
+		// getData();
+	}, []);
+
+	const handleAddAnnouncementOrLesson = (type: string) => {
+		const blankAnnouncement: Announcement = {
+			type: 'announcement',
+			title: '',
+			text: [],
+		};
+		const blankLesson: Lesson = {
+			type: 'lesson',
+			title: '',
+			lessons: [],
+		};
+		setContent(() => {
+			// push the new announcement or lesson to content.announcementsAndLessons
+			return {
+				...content,
+				announcementsAndLessons: [
+					...(content.announcementsAndLessons as AnnouncementsAndLessons),
+					type === 'announcement' ? blankAnnouncement : blankLesson,
+				],
+			};
+		});
+	};
+	// const handleDeleteBlockIndex = (block, index) => {
+	// 	if (block === 'intermediateMusicPerformers') {
+	// 		const newPerformers = content.intermediateMusicPerformers.filter((_, i) => i !== index);
+	// 		setContent({ ...content, intermediateMusicPerformers: newPerformers });
+	// 	} else {
+	// 		console.log('content', block, content);
+	// 		const newBlock = content[block].filter((_, i) => i !== index);
+	// 		setContent({ ...content, [block]: newBlock });
+	// 	}
+	// };
+
+	const value = { content, setContent, handleAddAnnouncementOrLesson };
+
+	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+};
+
+// Custom hook to use the context
+export const useAppContext = () => useContext(AppContext);

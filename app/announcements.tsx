@@ -32,16 +32,12 @@ const Announcements = () => {
 										<a
 											href={lesson.link}
 											key={index}
-											className="underline list-disc text-blue-800"
+											className="underline  text-blue-800"
 										>
 											<li key={index}>{lesson.text}</li>
 										</a>
 									) : (
-										<li
-											key={index}
-											className="list-disc"
-											style={{ wordWrap: 'break-word' }}
-										>
+										<li key={index} style={{ wordWrap: 'break-word' }}>
 											{lesson.text}
 										</li>
 									),

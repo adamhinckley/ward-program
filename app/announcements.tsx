@@ -18,7 +18,7 @@ const Announcements = () => {
 	}
 
 	return (
-		<div className="px-4">
+		<div className="mx-4">
 			{announcementsAndLessons.map((itemToNarrow, index) => {
 				const item = itemToNarrow as Lesson | Announcement;
 

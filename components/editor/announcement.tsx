@@ -9,6 +9,8 @@ import Textfield from '@mui/material/TextField';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ClearIcon from '@mui/icons-material/Clear';
+import Tooltip from '@mui/material/Tooltip';
 
 import type { Announcement, AnnouncementsAndLessons } from '@/utils/defaultContent';
 import { Label } from '@mui/icons-material';
@@ -73,17 +75,19 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 					<Typography variant="h6">Announcement Block</Typography>
 					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
 				</div>
-				<IconButton
-					onClick={() => handleDeleteBlock(index)}
-					sx={{
-						height: '40px',
-						position: 'absolute',
-						right: '-55px',
-						top: '17px',
-					}}
-				>
-					<DeleteForeverIcon color="error" />
-				</IconButton>
+				<Tooltip title="Delete Block">
+					<IconButton
+						onClick={() => handleDeleteBlock(index)}
+						sx={{
+							height: '40px',
+							position: 'absolute',
+							right: '-55px',
+							top: '17px',
+						}}
+					>
+						<DeleteForeverIcon color="error" />
+					</IconButton>
+				</Tooltip>
 			</AccordionSummary>
 			<Textfield
 				value={data.title}
@@ -107,18 +111,20 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 							borderRadius: '4px',
 						}}
 					/>
-					<IconButton
-						onClick={() => handleDeleteAnnouncementIndex(index)}
-						sx={{
-							height: '40px',
-							margin: '42px 0 0',
-							position: 'absolute',
-							right: '-40px',
-							top: '-22px',
-						}}
-					>
-						<DeleteForeverIcon color="error" />
-					</IconButton>
+					<Tooltip title="Delete Announcement">
+						<IconButton
+							onClick={() => handleDeleteAnnouncementIndex(index)}
+							sx={{
+								height: '40px',
+								margin: '42px 0 0',
+								position: 'absolute',
+								right: '-40px',
+								top: '-22px',
+							}}
+						>
+							<ClearIcon color="error" />
+						</IconButton>
+					</Tooltip>
 				</div>
 			))}
 			<div className="flex justify-center">

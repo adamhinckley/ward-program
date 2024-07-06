@@ -10,6 +10,8 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import set from 'lodash/set';
+import ClearIcon from '@mui/icons-material/Clear';
+import Tooltip from '@mui/material/Tooltip';
 
 import type { Lesson, AnnouncementsAndLessons, Lessons } from '@/utils/defaultContent';
 import type { ChangeEvent } from 'react';
@@ -54,6 +56,24 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 		setContent(newContent);
 	};
 
+	const handleAddLessonIndex = () => {
+		const newContent = cloneDeep(content);
+		const narrowedAnnouncementsAndLessons =
+			newContent.announcementsAndLessons as AnnouncementsAndLessons;
+		const narrowedIndex = narrowedAnnouncementsAndLessons[titleIndex] as Lesson;
+		narrowedIndex.lessons.push({ link: '', text: '' });
+		setContent(newContent);
+	};
+
+	const handleDeleteLessonIndex = () => {
+		const newContent = cloneDeep(content);
+		const narrowedAnnouncementsAndLessons =
+			newContent.announcementsAndLessons as AnnouncementsAndLessons;
+		const narrowedIndex = narrowedAnnouncementsAndLessons[titleIndex] as Lesson;
+		narrowedIndex.lessons.pop();
+		setContent(newContent);
+	};
+
 	return (
 		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
 			<AccordionSummary
@@ -64,17 +84,22 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 					<Typography variant="h6">Lesson Block</Typography>
 					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
 				</div>
-				<IconButton
-					onClick={() => handleDeleteBlock(index)}
-					sx={{
-						height: '40px',
-						position: 'absolute',
-						right: '-55px',
-						top: '17px',
-					}}
-				>
-					<DeleteForeverIcon color="error" />
-				</IconButton>
+				<Tooltip title="Delete Block">
+					<IconButton
+						onClick={() => handleDeleteBlock(index)}
+						sx={{
+							height: '40px',
+							position: 'absolute',
+							right: '-55px',
+							top: '17px',
+						}}
+						className="text-red-600"
+						color="error"
+						// variant="contained"
+					>
+						<DeleteForeverIcon color="error" />
+					</IconButton>
+				</Tooltip>
 			</AccordionSummary>
 			<Textfield
 				value={data.title}
@@ -107,23 +132,25 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 								<Divider sx={{ margin: '12px 0' }} />
 							)}
 						</div>
-						<IconButton
-							// onClick={() => handleDeleteBlockIndex(index)}
-							sx={{
-								height: '40px',
-								margin: '42px 0 0',
-								position: 'absolute',
-								right: '-40px',
-							}}
-						>
-							<DeleteForeverIcon color="error" />
-						</IconButton>
+						<Tooltip title="Delete Lesson">
+							<IconButton
+								onClick={handleDeleteLessonIndex}
+								sx={{
+									height: '40px',
+									margin: '42px 0 0',
+									position: 'absolute',
+									right: '-40px',
+								}}
+							>
+								<ClearIcon color="error" />
+							</IconButton>
+						</Tooltip>
 					</div>
 				);
 			})}
 			<div className="flex justify-center">
 				<IconButton
-					// onClick={() => handleAddBlockIndex('reliefSocietyLessons')}
+					onClick={handleAddLessonIndex}
 					sx={{ width: '40px', marginTop: '12px' }}
 				>
 					<AddIcon />

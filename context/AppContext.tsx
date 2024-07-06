@@ -65,9 +65,12 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	};
 
 	const handleDeleteBlock = (index: number) => {
+		console.log(content.announcementsAndLessons);
+
 		const newContent = cloneDeep(content);
 		Array.isArray(newContent.announcementsAndLessons) &&
 			newContent.announcementsAndLessons.splice(index, 1);
+		console.log(index, newContent.announcementsAndLessons);
 		setContent(newContent);
 	};
 

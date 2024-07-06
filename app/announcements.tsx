@@ -17,48 +17,58 @@ const Announcements = () => {
 		return null;
 	}
 
-	return announcementsAndLessons.map((itemToNarrow, index) => {
-		const item = itemToNarrow as Lesson | Announcement;
+	return (
+		<div className="px-4">
+			{announcementsAndLessons.map((itemToNarrow, index) => {
+				const item = itemToNarrow as Lesson | Announcement;
 
-		if (item.type === 'lesson') {
-			return (
-				<div key={index}>
-					<h3 className="text-base font-semibold text-center">{item.title}</h3>
-					<ul>
-						{item.lessons?.map((lesson, index) =>
-							lesson.link ? (
-								<a
-									href={lesson.link}
-									key={index}
-									className="underline list-disc text-blue-800"
-								>
-									<li key={index}>{lesson.text}</li>
-								</a>
-							) : (
-								<li key={index} className="list-disc">
-									{lesson.text}
-								</li>
-							),
-						)}
-					</ul>
-					<Divider className="my-4" />
-				</div>
-			);
-		}
-		if (item.type === 'announcement') {
-			return (
-				<div key={index}>
-					<h3 className="text-base font-semibold text-center">{item.title}</h3>
-					<ul>
-						{item.text?.map((text: string, index: number) => (
-							<li key={index}>{text}</li>
-						))}
-					</ul>
-					<Divider className="my-4" />
-				</div>
-			);
-		}
-	});
+				if (item.type === 'lesson') {
+					return (
+						<div key={index}>
+							<h3 className="text-base font-semibold text-center">{item.title}</h3>
+							<ul>
+								{item.lessons?.map((lesson, index) =>
+									lesson.link ? (
+										<a
+											href={lesson.link}
+											key={index}
+											className="underline list-disc text-blue-800"
+										>
+											<li key={index}>{lesson.text}</li>
+										</a>
+									) : (
+										<li
+											key={index}
+											className="list-disc"
+											style={{ wordWrap: 'break-word' }}
+										>
+											{lesson.text}
+										</li>
+									),
+								)}
+							</ul>
+							<Divider className="my-4" />
+						</div>
+					);
+				}
+				if (item.type === 'announcement') {
+					return (
+						<div key={index}>
+							<h3 className="text-base font-semibold text-center">{item.title}</h3>
+							<ul>
+								{item.text?.map((text: string, index: number) => (
+									<li key={index} style={{ wordWrap: 'break-word' }}>
+										{text}
+									</li>
+								))}
+							</ul>
+							<Divider className="my-4" />
+						</div>
+					);
+				}
+			})}
+		</div>
+	);
 };
 
 export default Announcements;

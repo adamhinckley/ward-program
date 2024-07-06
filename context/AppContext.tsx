@@ -3,6 +3,7 @@ import { Announcement, defaultContent } from '@/utils/defaultContent';
 import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import cloneDeep from 'lodash/cloneDeep';
 
 import type { Lesson, AnnouncementsAndLessons } from '@/utils/defaultContent';
 
@@ -14,6 +15,7 @@ type AppContextState = {
 	content: typeof defaultContent;
 	setContent: (content: typeof defaultContent) => void;
 	handleAddAnnouncementOrLesson: (type: 'announcement' | 'lesson') => void;
+	handleDeleteBlock: (index: number) => void;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -23,8 +25,7 @@ const AppContext = createContext<AppContextState>({} as AppContextState);
 export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
 	const supabase = createClient();
 
-	const [content, setContent] = useState(defaultContent);
-	// const [content, setContent] = useState({} as typeof defaultContent);
+	const [content, setContent] = useState({} as typeof defaultContent);
 
 	const getData = async () => {
 		const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
@@ -37,7 +38,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	};
 
 	useEffect(() => {
-		// getData();
+		getData();
 	}, []);
 
 	const handleAddAnnouncementOrLesson = (type: string) => {
@@ -62,18 +63,15 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 			};
 		});
 	};
-	// const handleDeleteBlockIndex = (block, index) => {
-	// 	if (block === 'intermediateMusicPerformers') {
-	// 		const newPerformers = content.intermediateMusicPerformers.filter((_, i) => i !== index);
-	// 		setContent({ ...content, intermediateMusicPerformers: newPerformers });
-	// 	} else {
-	// 		console.log('content', block, content);
-	// 		const newBlock = content[block].filter((_, i) => i !== index);
-	// 		setContent({ ...content, [block]: newBlock });
-	// 	}
-	// };
 
-	const value = { content, setContent, handleAddAnnouncementOrLesson };
+	const handleDeleteBlock = (index: number) => {
+		const newContent = cloneDeep(content);
+		Array.isArray(newContent.announcementsAndLessons) &&
+			newContent.announcementsAndLessons.splice(index, 1);
+		setContent(newContent);
+	};
+
+	const value = { content, setContent, handleAddAnnouncementOrLesson, handleDeleteBlock };
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from './submit-button';
+import Textfield from '@mui/material/TextField';
 
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
 	const signIn = async (formData: FormData) => {
@@ -12,7 +13,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 		const password = formData.get('password') as string;
 		const supabase = createClient();
 
-		const { error } = await supabase.auth.signInWithPassword({
+		const { error, ...rest } = await supabase.auth.signInWithPassword({
 			email,
 			password,
 		});
@@ -71,24 +72,14 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 			</Link>
 
 			<form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-				<label className="text-md text-gray-800" htmlFor="email">
-					Email
-				</label>
-				<input
-					className="rounded-md px-4 py-2 bg-inherit border mb-6"
-					name="email"
-					placeholder="you@example.com"
-					required
-				/>
-				<label className="text-md text-gray-800" htmlFor="password">
-					Password
-				</label>
-				<input
-					className="rounded-md px-4 py-2 bg-inherit border mb-6"
+				<Textfield name="email" placeholder="you@example.com" required label="Email" />
+
+				<Textfield
 					type="password"
 					name="password"
 					placeholder="••••••••"
 					required
+					label="Password"
 				/>
 				<SubmitButton
 					formAction={signIn}

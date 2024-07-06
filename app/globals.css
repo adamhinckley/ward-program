@@ -30,3 +30,96 @@ input {
 	border: 1px solid black;
 	border-radius: 4px;
 }
+
+body {
+	background-color: #f1f1f4;
+	margin: 0 auto;
+}
+p,
+h2,
+h1 {
+	margin: 0;
+}
+
+h1 {
+	font-size: 1.3rem;
+}
+
+h2 {
+	font-size: 1rem;
+}
+
+li {
+	margin-bottom: 8px;
+}
+
+.heading {
+	white-space: nowrap;
+	font-size: clamp(1rem, 1vw, 2rem);
+	text-align: center;
+	margin-top: 8px;
+}
+
+.date {
+	text-align: center;
+	margin: 8px 0;
+}
+
+.block {
+	text-align: center;
+	font-weight: 600;
+	margin: 12px 0;
+}
+
+.leader-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	h2 {
+		font-size: 1rem;
+		margin-bottom: 8px;
+	}
+
+	.names {
+		text-align: left;
+	}
+}
+
+.agenda-block {
+	display: flex;
+	flex-direction: column;
+
+	.title-container {
+		display: flex;
+		justify-content: space-between;
+		margin: 8px 0;
+		width: 100%;
+	}
+
+	.multiple-performers {
+		display: flex;
+		justify-content: center;
+		margin: 4px 0;
+	}
+	.agenda-title {
+		white-space: nowrap;
+		margin: 0 12px 8px 0;
+	}
+
+	.agenda-content {
+		justify-content: flex-end;
+	}
+
+	.no-margin {
+		margin: 0;
+	}
+	.hymn {
+		display: flex;
+		justify-content: center;
+	}
+	.title {
+		display: flex;
+		justify-content: center;
+	}
+}

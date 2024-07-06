@@ -1,71 +1,64 @@
-"use client";
-import { settings } from "./settings";
-
-const {
-  wardAnnouncements,
-  reliefSocietyLessons,
-  priesthoodLessons,
-  sundaySchoolLessons,
-  primaryAnnouncements,
-} = settings;
+import { useAppContext } from '@/context/AppContext';
+import { Divider } from '@mui/material';
+import type { Announcement, Lesson } from '@/utils/defaultContent';
 
 const Announcements = () => {
-  return (
-    <>
-      <h2 style={{ textAlign: "center" }}>Ward Announcements</h2>
-      <ul>
-        {wardAnnouncements.map((announcement, index) => (
-          <li key={index}>{announcement}</li>
-        ))}
-      </ul>
-      <h2 style={{ textAlign: "center" }}>
-        Relief Society Lessons (2nd & 4th) & Announcements
-      </h2>
-      <ul>
-        {reliefSocietyLessons.map((lesson, index) =>
-          lesson.link ? (
-            <a href={lesson.link} key={index}>
-              <li key={index}>{lesson.text}</li>
-            </a>
-          ) : (
-            <li key={index}>{lesson.text}</li>
-          ),
-        )}
-      </ul>
-      <h2 style={{ textAlign: "center" }}>
-        Priesthood Lessons (2nd & 4th) & Announcements
-      </h2>
-      <ul>
-        {priesthoodLessons.map((lesson, index) =>
-          lesson.link ? (
-            <a href={lesson.link} key={index}>
-              <li key={index}>{lesson.text}</li>
-            </a>
-          ) : (
-            <li key={index}>{lesson.text}</li>
-          ),
-        )}
-      </ul>
-      <h2 style={{ textAlign: "center" }}>Sunday School Lessons (1st & 3rd)</h2>
-      <ul>
-        {sundaySchoolLessons.map((lesson, index) =>
-          lesson.link ? (
-            <a href={lesson.link} key={index}>
-              <li key={index}>{lesson.text}</li>
-            </a>
-          ) : (
-            <li key={index}>{lesson.text}</li>
-          ),
-        )}
-      </ul>
-      <h2 style={{ textAlign: "center" }}>Primary Announcements</h2>
-      <ul>
-        {primaryAnnouncements.map((announcement, index) => (
-          <li key={index}>{announcement}</li>
-        ))}
-      </ul>
-    </>
-  );
+	const { content } = useAppContext();
+
+	if (Object.keys(content).length === 0) {
+		return null;
+	}
+
+	const { announcementsAndLessons } = content;
+	if (!Array.isArray(announcementsAndLessons)) {
+		return null;
+	}
+	if (!announcementsAndLessons.length) {
+		return null;
+	}
+
+	return announcementsAndLessons.map((itemToNarrow, index) => {
+		const item = itemToNarrow as Lesson | Announcement;
+
+		if (item.type === 'lesson') {
+			return (
+				<div key={index}>
+					<h3 className="text-base font-semibold text-center">{item.title}</h3>
+					<ul>
+						{item.lessons?.map((lesson, index) =>
+							lesson.link ? (
+								<a
+									href={lesson.link}
+									key={index}
+									className="underline list-disc text-blue-800"
+								>
+									<li key={index}>{lesson.text}</li>
+								</a>
+							) : (
+								<li key={index} className="list-disc">
+									{lesson.text}
+								</li>
+							),
+						)}
+					</ul>
+					<Divider className="my-4" />
+				</div>
+			);
+		}
+		if (item.type === 'announcement') {
+			return (
+				<div key={index}>
+					<h3 className="text-base font-semibold text-center">{item.title}</h3>
+					<ul>
+						{item.text?.map((text: string, index: number) => (
+							<li key={index}>{text}</li>
+						))}
+					</ul>
+					<Divider className="my-4" />
+				</div>
+			);
+		}
+	});
 };
 
 export default Announcements;

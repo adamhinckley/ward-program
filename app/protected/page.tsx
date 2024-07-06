@@ -2,6 +2,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import Editor from './editor';
+import TopBar from '@/components/editor/topBar';
 
 export default async function ProtectedPage() {
 	const supabase = createClient();
@@ -15,6 +16,7 @@ export default async function ProtectedPage() {
 
 	return (
 		<div>
+			<TopBar />
 			<Editor />
 		</div>
 	);

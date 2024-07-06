@@ -1,6 +1,6 @@
-import Textfield from '@mui/material/Textfield';
+import Textfield from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

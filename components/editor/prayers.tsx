@@ -1,14 +1,14 @@
-import Textfield from '@mui/material/Textfield';
+import Textfield from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../../context/AppContext';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Switch from '@mui/material/Switch';
 
-import type { EditorChildren } from '@/utils/types';
+import type { EditorChildren } from '../../utils/types';
 
-const Prayers = ({ handleChange, handleCheckboxChange }: EditorChildren) => {
+const Prayers = ({ handleChange }: EditorChildren) => {
 	const { content } = useAppContext();
 	return (
 		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
@@ -23,6 +23,7 @@ const Prayers = ({ handleChange, handleCheckboxChange }: EditorChildren) => {
 				label="Opening Prayer"
 				sx={{ mb: 2 }}
 			/>
+
 			<Textfield
 				name="closingPrayer"
 				value={content.closingPrayer}

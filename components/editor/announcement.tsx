@@ -1,12 +1,17 @@
 import IconButton from '@mui/material/IconButton';
-import { TextareaAutosize } from '@mui/material';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Typography from '@mui/material/Typography';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import cloneDeep from 'lodash/cloneDeep';
+import Textfield from '@mui/material/TextField';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import type { Announcement, AnnouncementsAndLessons } from '@/utils/defaultContent';
+import { Label } from '@mui/icons-material';
 
 type AnnouncementProps = {
 	data: Announcement;
@@ -14,7 +19,7 @@ type AnnouncementProps = {
 };
 
 const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
-	const { setContent, content } = useAppContext();
+	const { setContent, content, handleDeleteBlock } = useAppContext();
 
 	const narrowedAnnouncementEditorsAndLessons =
 		content.announcementsAndLessons as AnnouncementsAndLessons;
@@ -23,7 +28,7 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 		(item) => item.title === data.title,
 	);
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => {
-		const newContent = { ...content };
+		const newContent = cloneDeep(content);
 		const narrowedAnnouncementsAndLessons =
 			newContent.announcementsAndLessons as AnnouncementsAndLessons;
 		const narrowedIndex = narrowedAnnouncementsAndLessons[titleIndex] as Announcement;
@@ -49,9 +54,44 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 		setContent(newContent);
 	};
 
+	const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const newContent = cloneDeep(content);
+		const narrowedAnnouncementsAndLessons =
+			newContent.announcementsAndLessons as AnnouncementsAndLessons;
+		const narrowedIndex = narrowedAnnouncementsAndLessons[titleIndex] as Announcement;
+		narrowedIndex.title = e.target.value;
+		setContent(newContent);
+	};
+
 	return (
-		<>
-			<Typography variant="h6">{data.title}</Typography>
+		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
+			<AccordionSummary
+				expandIcon={<ExpandMoreIcon />}
+				className="flex justify-between w-full"
+			>
+				<div className="flex flex-col">
+					<Typography variant="h6">Announcement Block</Typography>
+					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
+				</div>
+				<IconButton
+					onClick={() => handleDeleteBlock(index)}
+					sx={{
+						height: '40px',
+						position: 'absolute',
+						right: '-55px',
+						top: '17px',
+					}}
+				>
+					<DeleteForeverIcon color="error" />
+				</IconButton>
+			</AccordionSummary>
+			<Textfield
+				value={data.title}
+				onChange={handleTitleChange}
+				label="Announcement Title"
+				sx={{ mb: 2 }}
+				fullWidth
+			/>
 			{data.text.map((announcement, index) => (
 				<div className="flex relative" key={index}>
 					<TextareaAutosize
@@ -89,7 +129,7 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 					<AddIcon />
 				</IconButton>
 			</div>
-		</>
+		</Accordion>
 	);
 };
 

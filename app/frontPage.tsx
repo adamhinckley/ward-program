@@ -1,18 +1,13 @@
 'use client';
 import Image from 'next/image';
-import { settings } from './settings';
+import { useAppContext } from '../context/AppContext';
 
 const FrontPage = () => {
+	const { content } = useAppContext();
 	return (
 		<>
 			<div style={{ width: '100%' }}>
-				<Image
-					src={settings.imageUrl}
-					alt=""
-					width={500}
-					height={500}
-					// objectFit="cover"
-				/>
+				<Image src={content.imageUrl as string} alt="" width={550} height={550} />
 			</div>
 		</>
 	);

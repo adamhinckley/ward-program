@@ -14,7 +14,7 @@ export default function Home() {
 	}
 
 	return (
-		<main className="max-w-lg m-auto ">
+		<main className="max-w-lg m-auto w-full ">
 			<FrontPage />
 			<Agenda />
 			<Divider sx={{ margin: '12px 0', borderColor: 'black' }} />

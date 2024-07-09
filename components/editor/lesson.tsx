@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import SchoolIcon from '@mui/icons-material/School';
 
 import type { Lesson, AnnouncementsAndLessons, Lessons } from '@/utils/defaultContent';
-import type { ChangeEvent } from 'react';
+import { useState, type ChangeEvent } from 'react';
 
 type LessonProps = {
 	data: Lesson;
@@ -23,7 +23,12 @@ type LessonProps = {
 };
 
 const LessonEditor = ({ data, index }: LessonProps) => {
-	const { setContent, content, handleDeleteBlock } = useAppContext();
+	const { setContent, content, handleDeleteBlock, expandedState, setExpandedState } =
+		useAppContext();
+
+	if (!content.announcementsAndLessons || !expandedState) {
+		return null;
+	}
 
 	const narrowedAnnouncementEditorsAndLessons =
 		content.announcementsAndLessons as AnnouncementsAndLessons;
@@ -75,8 +80,16 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 		setContent(newContent);
 	};
 
+	console.log('expandedState', expandedState);
+
 	return (
-		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
+		<Accordion
+			sx={{ padding: '0 12px 6px 12px' }}
+			expanded={expandedState[data.title]}
+			onChange={() =>
+				setExpandedState({ ...expandedState, [data.title]: !expandedState[data.title] })
+			}
+		>
 			<AccordionSummary
 				expandIcon={<ExpandMoreIcon />}
 				className="flex justify-between w-full"

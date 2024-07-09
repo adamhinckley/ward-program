@@ -1,11 +1,11 @@
 'use client';
-import { Announcement, defaultContent } from '@/utils/defaultContent';
+import { defaultContent } from '@/utils/defaultContent';
 import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import type { Lesson, AnnouncementsAndLessons } from '@/utils/defaultContent';
+import type { Lesson, AnnouncementsAndLessons, Announcement } from '@/utils/defaultContent';
 
 type AppContextProviderProps = {
 	children: ReactNode;
@@ -16,6 +16,8 @@ type AppContextState = {
 	setContent: (content: typeof defaultContent) => void;
 	handleAddAnnouncementOrLesson: (type: 'announcement' | 'lesson') => void;
 	handleDeleteBlock: (index: number) => void;
+	expandedState: { [key: string]: boolean } | null;
+	setExpandedState: React.Dispatch<React.SetStateAction<{ [key: string]: boolean } | null>>;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -65,8 +67,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	};
 
 	const handleDeleteBlock = (index: number) => {
-		console.log(content.announcementsAndLessons);
-
 		const newContent = cloneDeep(content);
 		Array.isArray(newContent.announcementsAndLessons) &&
 			newContent.announcementsAndLessons.splice(index, 1);
@@ -74,7 +74,39 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		setContent(newContent);
 	};
 
-	const value = { content, setContent, handleAddAnnouncementOrLesson, handleDeleteBlock };
+	const announcementsAndLessons = content.announcementsAndLessons as AnnouncementsAndLessons;
+
+	type ExpandedState = {
+		[key: string]: boolean;
+	};
+
+	const expanded: { [key: string]: boolean } = announcementsAndLessons?.reduce<ExpandedState>(
+		(acc, item, i) => {
+			acc[item.title] = false;
+			return acc;
+		},
+		{},
+	);
+
+	const [expandedState, setExpandedState] = useState<ExpandedState | null>(null);
+
+	useEffect(() => {
+		if (expandedState === null && expanded) {
+			console.log('fired');
+			setExpandedState(expanded);
+		}
+	}, [expanded]);
+
+	console.log('expandedState', expandedState);
+
+	const value = {
+		content,
+		setContent,
+		handleAddAnnouncementOrLesson,
+		handleDeleteBlock,
+		expandedState,
+		setExpandedState,
+	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

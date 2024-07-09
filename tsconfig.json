@@ -28,8 +28,7 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"app/protected/editor.jsx",
-		"components/editor/announcementsAndLessons.jsx"
+		"app/protected/editor.jsx"
 	],
 	"exclude": ["node_modules"]
 }

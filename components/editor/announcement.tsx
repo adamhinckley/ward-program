@@ -11,7 +11,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
-import CampaignIcon from '@mui/icons-material/Campaign';
 
 import type { Announcement, AnnouncementsAndLessons } from '@/utils/defaultContent';
 import { Label } from '@mui/icons-material';
@@ -83,9 +82,9 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 				expandIcon={<ExpandMoreIcon />}
 				className="flex justify-between w-full"
 			>
-				<div className="flex ">
-					<CampaignIcon sx={{ fontSize: '1.5rem', color: 'red', marginRight: '12px' }} />
-					<Typography variant="h6">{data.title || 'Announcement'}</Typography>
+				<div className="flex flex-col">
+					<Typography variant="h6">Announcement Block</Typography>
+					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
 				</div>
 				<Tooltip title="Delete Block">
 					<IconButton

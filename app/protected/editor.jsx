@@ -1,7 +1,8 @@
 'use client';
-import { useCallback } from 'react';
 import Textfield from '@mui/material/TextField';
-import { Button, Typography } from '@mui/material';
+import { Button, Divider, IconButton, TextareaAutosize, Typography } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddIcon from '@mui/icons-material/Add';
 import Switch from '@mui/material/Switch';
 import { useAppContext } from '../../context/AppContext';
 import Leaders from '@/components/editor/leaders';
@@ -10,8 +11,6 @@ import Prayers from '@/components/editor/prayers';
 import Block from '@/components/editor/block';
 import AnnouncementEditor from '@/components/editor/announcement';
 import LessonEditor from '@/components/editor/lesson';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
 
 const blankLessonBlock = {
 	type: 'lesson',
@@ -120,138 +119,88 @@ const Editor = () => {
 			setContent({ ...content, [block]: newBlock });
 		}
 	};
-
-	const DraggableItem = ({ data, index }) => {
-		const [, drag] = useDrag(() => ({
-			type: 'ITEM',
-			item: { index },
-		}));
-		const moveItem = useCallback((dragIndex, hoverIndex) => {
-			const items = content.announcementsAndLessons;
-			const dragItem = items[dragIndex];
-			const newItems = [...items];
-			newItems.splice(dragIndex, 1);
-			newItems.splice(hoverIndex, 0, dragItem);
-			// add the new items to the content
-			setContent({ ...content, announcementsAndLessons: newItems });
-		}, []);
-
-		const [, drop] = useDrop(() => ({
-			accept: 'ITEM',
-			hover(item) {
-				const dragIndex = item.index;
-				const hoverIndex = index;
-				if (dragIndex === hoverIndex) {
-					return;
-				}
-				moveItem(dragIndex, hoverIndex);
-				item.index = hoverIndex;
-			},
-			collect: (monitor) => ({
-				isOver: !!monitor.isOver(),
-			}),
-		}));
-
-		return (
-			<DndProvider backend={HTML5Backend}>
-				<div ref={drop}>
-					{data.type === 'announcement' ? (
-						<div ref={drag}>
-							<AnnouncementEditor data={data} index={index} />
-						</div>
-					) : (
-						<div ref={drag}>
-							<LessonEditor data={data} index={index} />
-						</div>
-					)}
-				</div>
-			</DndProvider>
-		);
-	};
-
 	return (
-		<DndProvider backend={HTML5Backend}>
-			<div className="max-w-4xl flex justify-center flex-col m-auto p-4">
-				<div className="bg-white p-4 mb-4">
-					<div className="flex">
-						<Typography variant="h6">Testimony Meeting</Typography>
-						<Switch
-							checked={content.isTestimonyMeeting}
-							onChange={handleCheckboxChange}
-							name="isTestimonyMeeting"
-							inputProps={{ 'aria-label': 'controlled' }}
-						/>
-					</div>
-					<Textfield
-						name="title"
-						value={content.title}
-						onChange={handleChange}
-						fullWidth
-						label="title"
-						sx={{ mb: 2 }}
-					/>
-					<Textfield
-						name="imageUrl"
-						value={content.imageUrl}
-						onChange={handleChange}
-						fullWidth
-						label="Image URL"
-						sx={{ mb: 2 }}
+		<div className="max-w-4xl flex justify-center flex-col m-auto p-4">
+			<div className="bg-white p-4 mb-4">
+				<div className="flex">
+					<Typography variant="h6">Testimony Meeting</Typography>
+					<Switch
+						checked={content.isTestimonyMeeting}
+						onChange={handleCheckboxChange}
+						name="isTestimonyMeeting"
+						inputProps={{ 'aria-label': 'controlled' }}
 					/>
 				</div>
-				<Typography variant="h6">Sacrament Meeting Program:</Typography>
-				<Leaders handleChange={handleChange} />
-				<Music
-					handleChange={handleChange}
-					handleDeleteBlockIndex={handleDeleteBlockIndex}
-					handleAddBlockIndex={handleAddBlockIndex}
+				<Textfield
+					name="title"
+					value={content.title}
+					onChange={handleChange}
+					fullWidth
+					label="title"
+					sx={{ mb: 2 }}
 				/>
-				<Prayers handleChange={handleChange} handleCheckboxChange={handleCheckboxChange} />
-				<Block
-					handleChange={handleChange}
-					handleDeleteBlockIndex={handleDeleteBlockIndex}
-					handleAddBlockIndex={handleAddBlockIndex}
-					blockName="blockOne"
+				<Textfield
+					name="imageUrl"
+					value={content.imageUrl}
+					onChange={handleChange}
+					fullWidth
+					label="Image URL"
+					sx={{ mb: 2 }}
 				/>
-				<Block
-					handleChange={handleChange}
-					handleDeleteBlockIndex={handleDeleteBlockIndex}
-					handleAddBlockIndex={handleAddBlockIndex}
-					blockName="blockTwo"
-				/>
-				<Block
-					handleChange={handleChange}
-					handleDeleteBlockIndex={handleDeleteBlockIndex}
-					handleAddBlockIndex={handleAddBlockIndex}
-					blockName="blockThree"
-				/>
-				<Typography variant="h6" sx={{ marginTop: '12px' }}>
-					Announcements and Lessons:
-				</Typography>
-				<Typography variant="body2" sx={{ marginBottom: '12px' }}>
-					Drag and drop to reorder
-				</Typography>
-				{content.announcementsAndLessons.map((data, index) => (
-					<DraggableItem key={index} data={data} index={index} />
-				))}
-				<div className="flex justify-around py-4">
-					<Button
-						variant="contained"
-						className="bg-blue-800"
-						onClick={() => addNewAnnouncementOrLessonBlock('announcement')}
-					>
-						Add Announcement Block
-					</Button>
-					<Button
-						variant="contained"
-						className="bg-blue-800"
-						onClick={() => addNewAnnouncementOrLessonBlock('lesson')}
-					>
-						Add Lesson Block
-					</Button>
-				</div>
 			</div>
-		</DndProvider>
+			<Leaders handleChange={handleChange} />
+			<Music
+				handleChange={handleChange}
+				handleDeleteBlockIndex={handleDeleteBlockIndex}
+				handleAddBlockIndex={handleAddBlockIndex}
+			/>
+			<Prayers handleChange={handleChange} handleCheckboxChange={handleCheckboxChange} />
+			<Block
+				handleChange={handleChange}
+				handleDeleteBlockIndex={handleDeleteBlockIndex}
+				handleAddBlockIndex={handleAddBlockIndex}
+				blockName="blockOne"
+			/>
+			<Block
+				handleChange={handleChange}
+				handleDeleteBlockIndex={handleDeleteBlockIndex}
+				handleAddBlockIndex={handleAddBlockIndex}
+				blockName="blockTwo"
+			/>
+			<Block
+				handleChange={handleChange}
+				handleDeleteBlockIndex={handleDeleteBlockIndex}
+				handleAddBlockIndex={handleAddBlockIndex}
+				blockName="blockThree"
+			/>
+			<Typography variant="h6" sx={{ margin: '12px 0' }}>
+				Announcements and Lessons:
+			</Typography>
+			{content.announcementsAndLessons.map((data, index) => {
+				// return <div key={index}>{data.type}</div>;
+				return data.type === 'announcement' ? (
+					<AnnouncementEditor data={data} index={index} key={index} />
+				) : (
+					<LessonEditor data={data} index={index} key={index} />
+				);
+			})}
+			<div className="flex justify-around py-4">
+				<Button
+					variant="contained"
+					className="bg-blue-800"
+					onClick={() => addNewAnnouncementOrLessonBlock('announcement')}
+				>
+					Add Announcement Block
+				</Button>
+				<Button
+					variant="contained"
+					className="bg-blue-800"
+					onClick={() => addNewAnnouncementOrLessonBlock('lesson')}
+				>
+					Add Lesson Block
+				</Button>
+			</div>
+		</div>
 	);
 };
 

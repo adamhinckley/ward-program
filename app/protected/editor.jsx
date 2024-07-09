@@ -199,6 +199,7 @@ const Editor = () => {
 						sx={{ mb: 2 }}
 					/>
 				</div>
+				<Typography variant="h6">Sacrament Meeting Program:</Typography>
 				<Leaders handleChange={handleChange} />
 				<Music
 					handleChange={handleChange}

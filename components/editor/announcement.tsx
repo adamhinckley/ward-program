@@ -21,12 +21,7 @@ type AnnouncementProps = {
 };
 
 const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
-	const { setContent, content, handleDeleteBlock, expandedState, setExpandedState } =
-		useAppContext();
-
-	if (!content.announcementsAndLessons || !expandedState) {
-		return null;
-	}
+	const { setContent, content, handleDeleteBlock } = useAppContext();
 
 	const narrowedAnnouncementEditorsAndLessons =
 		content.announcementsAndLessons as AnnouncementsAndLessons;
@@ -71,13 +66,7 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 	};
 
 	return (
-		<Accordion
-			sx={{ padding: '0 12px 6px 12px' }}
-			expanded={expandedState[data.title]}
-			onChange={() =>
-				setExpandedState({ ...expandedState, [data.title]: !expandedState[data.title] })
-			}
-		>
+		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
 			<AccordionSummary
 				expandIcon={<ExpandMoreIcon />}
 				className="flex justify-between w-full"

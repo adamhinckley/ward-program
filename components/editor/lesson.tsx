@@ -12,7 +12,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import set from 'lodash/set';
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
-import SchoolIcon from '@mui/icons-material/School';
 
 import type { Lesson, AnnouncementsAndLessons, Lessons } from '@/utils/defaultContent';
 import { useState, type ChangeEvent } from 'react';
@@ -94,11 +93,9 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 				expandIcon={<ExpandMoreIcon />}
 				className="flex justify-between w-full"
 			>
-				<div className="flex">
-					<SchoolIcon
-						sx={{ fontSize: '1.5rem', color: '#3f51b5', marginRight: '12px' }}
-					/>
-					<Typography variant="h6">{data.title || 'Lesson'}</Typography>
+				<div className="flex flex-col">
+					<Typography variant="h6">Lesson Block</Typography>
+					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
 				</div>
 				<Tooltip title="Delete Block">
 					<IconButton

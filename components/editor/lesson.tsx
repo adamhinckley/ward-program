@@ -12,6 +12,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import set from 'lodash/set';
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import Controls from './controls';
 
 import type { Lesson, AnnouncementsAndLessons, Lessons } from '@/utils/defaultContent';
 import type { ChangeEvent } from 'react';
@@ -80,81 +82,76 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 				expandIcon={<ExpandMoreIcon />}
 				className="flex justify-between w-full"
 			>
-				<div className="flex flex-col">
-					<Typography variant="h6">Lesson Block</Typography>
-					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
+				<div className="flex justify-between w-full items-center ">
+					<div className="flex ">
+						<AutoStoriesIcon
+							sx={{ fontSize: '1.5rem', color: '#035efc', marginRight: '12px' }}
+						/>
+						<div>
+							<Typography variant="h6">{data.title}</Typography>
+						</div>
+					</div>
+					<Controls index={index} />
 				</div>
-				<Tooltip title="Delete Block">
-					<IconButton
-						onClick={() => handleDeleteBlock(index)}
-						sx={{
-							height: '40px',
-							position: 'absolute',
-							right: '-55px',
-							top: '17px',
-						}}
-						className="text-red-600"
-						color="error"
-						// variant="contained"
-					>
-						<DeleteForeverIcon color="error" />
-					</IconButton>
-				</Tooltip>
 			</AccordionSummary>
 			<Textfield
 				value={data.title}
 				onChange={handleTitleChange}
 				label="Announcement Title"
-				sx={{ mb: 2 }}
+				sx={{ mb: 2, paddingRight: '40px' }}
 				fullWidth
 			/>
+
+			{<Divider sx={{ margin: '12px 0 24px 0' }} />}
+
 			{data.lessons.map((lesson, index) => {
 				return (
-					<div className="flex relative" key={index}>
-						<div className="min-w-full">
-							<Textfield
-								name={`link`}
-								value={lesson.link}
-								onChange={(e) => handleChange(e, index, 'link')}
-								fullWidth
-								label="Link"
-								sx={{ mb: 2 }}
-							/>
-							<Textfield
-								name={`text`}
-								value={lesson.text}
-								onChange={(e) => handleChange(e, index, 'text')}
-								fullWidth
-								label="Text"
-								sx={{ mb: 2 }}
-							/>
-							{index < data.lessons.length - 1 && (
-								<Divider sx={{ margin: '12px 0' }} />
-							)}
+					<div key={index}>
+						<div className="min-w-full flex">
+							<div className="min-w-full mr-10">
+								<Textfield
+									name={`link`}
+									value={lesson.link}
+									onChange={(e) => handleChange(e, index, 'link')}
+									fullWidth
+									label="Link"
+									sx={{ mb: 2, paddingRight: '40px' }}
+								/>
+								<Textfield
+									name={`text`}
+									value={lesson.text}
+									onChange={(e) => handleChange(e, index, 'text')}
+									fullWidth
+									label="Text"
+									sx={{ mb: 2, paddingRight: '40px' }}
+								/>
+							</div>
+							<Tooltip title="Delete Lesson">
+								<IconButton
+									onClick={handleDeleteLessonIndex}
+									sx={{
+										marginLeft: ' -74px',
+										height: '40px',
+										alignSelf: 'center',
+									}}
+								>
+									<ClearIcon color="error" />
+								</IconButton>
+							</Tooltip>
 						</div>
-						<Tooltip title="Delete Lesson">
-							<IconButton
-								onClick={handleDeleteLessonIndex}
-								sx={{
-									height: '40px',
-									margin: '42px 0 0',
-									position: 'absolute',
-									right: '-40px',
-								}}
-							>
-								<ClearIcon color="error" />
-							</IconButton>
-						</Tooltip>
+						<Divider sx={{ margin: '12px 0 24px 0' }} />
 					</div>
 				);
 			})}
 			<div className="flex justify-center">
-				<IconButton
-					onClick={handleAddLessonIndex}
-					sx={{ width: '40px', marginTop: '12px' }}
-				>
-					<AddIcon />
-				</IconButton>
+				<Tooltip title="Add Lesson">
+					<IconButton
+						onClick={handleAddLessonIndex}
+						sx={{ width: '40px', margin: '12px 0' }}
+					>
+						<AddIcon />
+					</IconButton>
+				</Tooltip>
 			</div>
 		</Accordion>
 	);

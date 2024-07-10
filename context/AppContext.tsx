@@ -15,7 +15,7 @@ type AppContextState = {
 	content: typeof defaultContent;
 	setContent: (content: typeof defaultContent) => void;
 	handleAddAnnouncementOrLesson: (type: 'announcement' | 'lesson') => void;
-	handleDeleteBlock: (index: number) => void;
+	handleDeleteBlock: (e: React.MouseEvent<HTMLButtonElement>, index: number) => void;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -64,8 +64,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		});
 	};
 
-	const handleDeleteBlock = (index: number) => {
-		console.log(content.announcementsAndLessons);
+	const handleDeleteBlock = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+		e.stopPropagation();
 
 		const newContent = cloneDeep(content);
 		Array.isArray(newContent.announcementsAndLessons) &&

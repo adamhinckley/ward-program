@@ -11,6 +11,8 @@ import Prayers from '@/components/editor/prayers';
 import Block from '@/components/editor/block';
 import AnnouncementEditor from '@/components/editor/announcement';
 import LessonEditor from '@/components/editor/lesson';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 const blankLessonBlock = {
 	type: 'lesson',
@@ -187,17 +189,25 @@ const Editor = () => {
 			<div className="flex justify-around py-4">
 				<Button
 					variant="contained"
-					className="bg-blue-800"
+					className="bg-gray-400 hover:bg-gray-500 flex items-center"
 					onClick={() => addNewAnnouncementOrLessonBlock('announcement')}
+					disableRipple
 				>
-					Add Announcement Block
+					<CampaignIcon
+						sx={{ fontSize: '1.5rem', color: '#FFA500', margin: '-4px 12px 0px 0' }}
+					/>
+					Add Announcement
 				</Button>
 				<Button
 					variant="contained"
-					className="bg-blue-800"
+					className="bg-gray-400 hover:bg-gray-600"
 					onClick={() => addNewAnnouncementOrLessonBlock('lesson')}
+					disableRipple
 				>
-					Add Lesson Block
+					<AutoStoriesIcon
+						sx={{ fontSize: '1.5rem', color: '#035efc', margin: '-4px 12px 0px 0' }}
+					/>
+					Add Lesson
 				</Button>
 			</div>
 		</div>

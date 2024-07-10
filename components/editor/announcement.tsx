@@ -1,3 +1,4 @@
+import { MouseEvent, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Typography from '@mui/material/Typography';
@@ -11,9 +12,12 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearIcon from '@mui/icons-material/Clear';
 import Tooltip from '@mui/material/Tooltip';
+import CampaignIcon from '@mui/icons-material/Campaign';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import type { Announcement, AnnouncementsAndLessons } from '@/utils/defaultContent';
-import { Label } from '@mui/icons-material';
+import Controls from './controls';
 
 type AnnouncementProps = {
 	data: Announcement;
@@ -22,6 +26,7 @@ type AnnouncementProps = {
 
 const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 	const { setContent, content, handleDeleteBlock } = useAppContext();
+	const [expanded, setExpanded] = useState(false);
 
 	const narrowedAnnouncementEditorsAndLessons =
 		content.announcementsAndLessons as AnnouncementsAndLessons;
@@ -65,35 +70,46 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 		setContent(newContent);
 	};
 
+	const handleReorder = (e: React.MouseEvent<HTMLButtonElement>, direction: 'up' | 'down') => {
+		e.stopPropagation();
+		const newContent = cloneDeep(content);
+		const narrowedAnnouncementsAndLessons =
+			newContent.announcementsAndLessons as AnnouncementsAndLessons;
+		const newIndex = narrowedAnnouncementsAndLessons[titleIndex] as Announcement;
+		const currentIndex = narrowedAnnouncementsAndLessons.indexOf(newIndex);
+		const newIndexPosition = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+		if (newIndexPosition < 0 || newIndexPosition >= narrowedAnnouncementsAndLessons.length) {
+			return;
+		}
+		narrowedAnnouncementsAndLessons[currentIndex] =
+			narrowedAnnouncementsAndLessons[newIndexPosition];
+		narrowedAnnouncementsAndLessons[newIndexPosition] = newIndex;
+		setContent(newContent);
+	};
+
 	return (
 		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
 			<AccordionSummary
 				expandIcon={<ExpandMoreIcon />}
 				className="flex justify-between w-full"
 			>
-				<div className="flex flex-col">
-					<Typography variant="h6">Announcement Block</Typography>
-					<Typography sx={{ fontSize: `${12 / 16}rem` }}>{data.title}</Typography>
+				<div className="flex justify-between w-full items-center ">
+					<div className="flex ">
+						<CampaignIcon
+							sx={{ fontSize: '1.5rem', color: '#FFA500', marginRight: '12px' }}
+						/>
+						<div>
+							<Typography variant="h6">{data.title}</Typography>
+						</div>
+					</div>
+					<Controls index={index} />
 				</div>
-				<Tooltip title="Delete Block">
-					<IconButton
-						onClick={() => handleDeleteBlock(index)}
-						sx={{
-							height: '40px',
-							position: 'absolute',
-							right: '-55px',
-							top: '17px',
-						}}
-					>
-						<DeleteForeverIcon color="error" />
-					</IconButton>
-				</Tooltip>
 			</AccordionSummary>
 			<Textfield
 				value={data.title}
 				onChange={handleTitleChange}
 				label="Announcement Title"
-				sx={{ mb: 2 }}
+				sx={{ mb: 2, paddingRight: '40px' }}
 				fullWidth
 			/>
 			{data.text.map((announcement, index) => (
@@ -116,10 +132,8 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 							onClick={() => handleDeleteAnnouncementIndex(index)}
 							sx={{
 								height: '40px',
-								margin: '42px 0 0',
-								position: 'absolute',
-								right: '-40px',
-								top: '-22px',
+								alignSelf: 'center',
+								marginBottom: '12px',
 							}}
 						>
 							<ClearIcon color="error" />
@@ -128,12 +142,14 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 				</div>
 			))}
 			<div className="flex justify-center">
-				<IconButton
-					onClick={() => handleAddAnnouncementIndex()}
-					sx={{ width: '40px', marginTop: '12px' }}
-				>
-					<AddIcon />
-				</IconButton>
+				<Tooltip title="Add Announcement">
+					<IconButton
+						onClick={() => handleAddAnnouncementIndex()}
+						sx={{ width: '40px', marginBottom: '12px' }}
+					>
+						<AddIcon />
+					</IconButton>
+				</Tooltip>
 			</div>
 		</Accordion>
 	);

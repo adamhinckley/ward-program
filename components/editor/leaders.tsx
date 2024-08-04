@@ -10,10 +10,8 @@ import type { EditorChildren } from '@/utils/types';
 const Leaders = ({ handleChange }: EditorChildren) => {
 	const { content } = useAppContext();
 	return (
-		<Accordion sx={{ padding: '0 12px' }}>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-				<Typography variant="h6">Leaders</Typography>
-			</AccordionSummary>
+		<>
+			<Typography variant="h6">Leaders</Typography>
 			<Textfield
 				name="presiding"
 				value={content.presiding}
@@ -46,7 +44,7 @@ const Leaders = ({ handleChange }: EditorChildren) => {
 				label="Accompanist"
 				sx={{ mb: 2 }}
 			/>
-		</Accordion>
+		</>
 	);
 };
 

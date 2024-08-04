@@ -43,7 +43,6 @@ export const defaultContent: Content = {
 	imageUrl:
 		'https://www.churchofjesuschrist.org/imgs/9ea119c36c7384d775ee8779753b8bff64d33f52/full/1600%2C/0/default',
 	isTestimonyMeeting: false,
-	isIntermediateMusicActive: true,
 	meetingHasBabyBlessing: false,
 	showBlockOne: true,
 	showBlockTwo: true,
@@ -52,23 +51,27 @@ export const defaultContent: Content = {
 	conducting: 'Brother Justin Lowry',
 	musicLeader: 'Sister Vanessa Pettus',
 	accompanist: 'Sister Wendy Infanger',
-	openingHymn: '265',
+	openingHymnNumber: '265',
 	openingHymnTitle: 'Arise, O God, and Shine',
 	openingPrayer: 'By Invitation',
 	babyBlessing: '',
-	sacramentHymn: '169',
+	sacramentHymnNumber: '169',
 	sacramentHymnTitle: 'As Now We Take the Sacrament',
+	intermediateMusicLeftSide: '',
+	intermediateMusicRightSide: '',
 	blockOne: [
 		{
 			left: 'Speaker',
 			right: 'Testimonies as requested',
 		},
 	],
-	intermediateMusic: {
-		title: 'Special Musical Number',
-		songTitle: 'How Great Thou Art',
-		hymnNumber: '', // This will not show when performers are listed.
-	},
+	interMediateMusicType: 'congregation', // congregation | performance
+
+	// intermediateMusic: {
+	// 	title: 'Special Musical Number',
+	// 	songTitle: 'How Great Thou Art',
+	// 	hymnNumber: '', // This will not show when performers are listed.
+	// },
 	intermediateMusicPerformers: ['Peggy Gulli', 'Rebekah Bungei', 'Wendy Infanger'],
 	blockTwo: [
 		{

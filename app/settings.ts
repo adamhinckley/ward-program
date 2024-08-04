@@ -11,10 +11,10 @@ const presiding = 'Bishop Rob Dickson';
 const conducting = 'Brother Justin Lowry';
 const musicLeader = 'Sister Vanessa Pettus';
 const accompanist = 'Sister Wendy Infanger';
-const openingHymn = '265';
+const openingHymnNumber = '265';
 const openingHymnTitle = 'Arise, O God, and Shine';
 const openingPrayer = 'By Invitation';
-const sacramentHymn = '169';
+const sacramentHymnNumber = '169';
 const sacramentHymnTitle = 'As Now We Take the Sacrament';
 const blockOne = [
 	{
@@ -35,7 +35,7 @@ const blockTwo = [
 		content: 'Testimonies as requested',
 	},
 ];
-const closingHymn = '156';
+const closingHymnNumber = '156';
 const closingHymnTitle = 'Sing We Now at Parting';
 const closingPrayer = 'By Invitation';
 
@@ -145,15 +145,15 @@ export const settings = {
 	conducting,
 	musicLeader,
 	accompanist,
-	openingHymn,
+	openingHymnNumber,
 	openingHymnTitle,
 	openingPrayer,
-	sacramentHymn,
+	sacramentHymnNumber,
 	sacramentHymnTitle,
 	blockOne,
 	intermediateMusic,
 	blockTwo,
-	closingHymn,
+	closingHymnNumber,
 	closingHymnTitle,
 	closingPrayer,
 	wardAnnouncements,

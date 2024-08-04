@@ -1,5 +1,6 @@
 'use client';
 import { useAppContext } from '@/context/AppContext';
+import { getHymnLink } from '@/utils/helpers';
 
 const currentOrNextSundayDate = (() => {
 	const date = new Date();
@@ -27,13 +28,27 @@ const PreSacramentAgenda = () => {
 		conducting,
 		musicLeader,
 		accompanist,
-		openingHymn,
+		openingHymnNumber,
 		openingHymnTitle,
 		openingPrayer,
-		sacramentHymn,
+		sacramentHymnNumber,
 		sacramentHymnTitle,
 		blockOne,
+		openingHymnLink: savedOpeningHymnLink,
+		sacramentHymnLink: savedSacramentHymnLink,
 	} = content;
+
+	const openingHymnLink = getHymnLink(
+		openingHymnNumber as string,
+		openingHymnTitle as string,
+		savedOpeningHymnLink as string,
+	);
+	const sacramentHymnLink = getHymnLink(
+		sacramentHymnNumber as string,
+		sacramentHymnTitle as string,
+		savedSacramentHymnLink as string,
+	);
+
 	return (
 		<>
 			<h1 className="text-base font-semibold text-center mt-2">{title as string}</h1>
@@ -56,7 +71,18 @@ const PreSacramentAgenda = () => {
 			<div className="agenda-block">
 				<div className="title-container no-margin">
 					<p className="agenda-title">Opening Hymn</p>
-					<p className="agenda-content">{openingHymn as string}</p>
+					{openingHymnLink ? (
+						<a
+							href={openingHymnLink as string}
+							target="_blank"
+							rel="noreferrer"
+							className="underline text-blue-800"
+						>
+							<p className="agenda-content">{openingHymnNumber as string}</p>
+						</a>
+					) : (
+						<p className="agenda-content">{openingHymnNumber as string}</p>
+					)}
 				</div>
 				<div className="title-container  hymn">
 					<p className="agenda-content title">{openingHymnTitle as string}</p>
@@ -82,7 +108,18 @@ const PreSacramentAgenda = () => {
 			<div className="agenda-block">
 				<div className="title-container">
 					<p className="agenda-title no-margin">Sacrament Hymn</p>
-					<p className="agenda-content ">{sacramentHymn as string}</p>
+					{sacramentHymnLink ? (
+						<a
+							href={sacramentHymnLink as string}
+							target="_blank"
+							rel="noreferrer"
+							className="underline text-blue-800"
+						>
+							<p className="agenda-content">{sacramentHymnNumber as string}</p>
+						</a>
+					) : (
+						<p className="agenda-content ">{sacramentHymnNumber as string}</p>
+					)}
 				</div>
 				<div className="title-container hymn">
 					<p className="agenda-content">{sacramentHymnTitle as string}</p>

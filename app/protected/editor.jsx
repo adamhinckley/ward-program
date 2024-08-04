@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import Textfield from '@mui/material/TextField';
 import { Button, Divider, IconButton, TextareaAutosize, Typography } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -13,6 +14,8 @@ import AnnouncementEditor from '@/components/editor/announcement';
 import LessonEditor from '@/components/editor/lesson';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 const blankLessonBlock = {
 	type: 'lesson',
@@ -33,6 +36,7 @@ const blankAnnouncementBlock = {
 
 const Editor = () => {
 	const { content, setContent } = useAppContext();
+	const [currentTab, setCurrentTab] = useState(0);
 
 	// return loading if content is not available
 	// check if content is an empty object
@@ -49,13 +53,6 @@ const Editor = () => {
 
 	const handleChange = (e, block, index) => {
 		if (block) {
-			if (block === 'intermediateMusic') {
-				setContent({
-					...content,
-					[block]: { ...content[block], [e.target.name]: e.target.value },
-				});
-				return;
-			}
 			if (Array.isArray(content[block]) && typeof content[block][0] === 'string') {
 				// Check if content[block] is an array of strings
 				const newBlock = content[block].map((item, i) => {
@@ -121,95 +118,147 @@ const Editor = () => {
 			setContent({ ...content, [block]: newBlock });
 		}
 	};
+
+	const TabPanel = (props) => {
+		const { children, value, index, ...other } = props;
+
+		return (
+			<div
+				role="tabpanel"
+				hidden={value !== index}
+				id={`sidebar-tabpanel-${index}`}
+				aria-labelledby={`sidebar-tab-${index}`}
+				{...other}
+			>
+				{value === index && <div>{children}</div>}
+			</div>
+		);
+	};
+
+	const a11yProps = (index) => {
+		return {
+			id: `tab-${index}`,
+			'aria-controls': `tabpanel-${index}`,
+		};
+	};
+
+	const handleTabChange = (_, newValue) => {
+		setCurrentTab(newValue);
+	};
+
 	return (
 		<div className="max-w-4xl flex justify-center flex-col m-auto p-4">
-			<div className="bg-white p-4 mb-4">
-				<div className="flex">
-					<Typography variant="h6">Testimony Meeting</Typography>
-					<Switch
-						checked={content.isTestimonyMeeting}
-						onChange={handleCheckboxChange}
-						name="isTestimonyMeeting"
-						inputProps={{ 'aria-label': 'controlled' }}
+			<Tabs
+				value={currentTab}
+				onChange={handleTabChange}
+				aria-label="order customizer module tabs"
+			>
+				<Tab label="Settings" {...a11yProps(0)} />
+				<Tab label="Leaders" {...a11yProps(1)} />
+				<Tab label="Music" {...a11yProps(2)} />
+				<Tab label="Prayers" {...a11yProps(3)} />
+				<Tab label="Blocks" {...a11yProps(4)} />
+				<Tab label="Announcements" {...a11yProps(5)} />
+			</Tabs>
+			<TabPanel value={currentTab} index={0}>
+				<div className="bg-white p-4 mb-4">
+					<div className="flex">
+						<Typography variant="h6">Testimony Meeting</Typography>
+						<Switch
+							checked={content.isTestimonyMeeting}
+							onChange={handleCheckboxChange}
+							name="isTestimonyMeeting"
+							inputProps={{ 'aria-label': 'controlled' }}
+						/>
+					</div>
+					<Textfield
+						name="title"
+						value={content.title}
+						onChange={handleChange}
+						fullWidth
+						label="title"
+						sx={{ mb: 2 }}
+					/>
+					<Textfield
+						name="imageUrl"
+						value={content.imageUrl}
+						onChange={handleChange}
+						fullWidth
+						label="Image URL"
+						sx={{ mb: 2 }}
 					/>
 				</div>
-				<Textfield
-					name="title"
-					value={content.title}
-					onChange={handleChange}
-					fullWidth
-					label="title"
-					sx={{ mb: 2 }}
+			</TabPanel>
+			<TabPanel value={currentTab} index={1}>
+				<Leaders handleChange={handleChange} />
+			</TabPanel>
+			<TabPanel value={currentTab} index={2}>
+				<Music
+					handleChange={handleChange}
+					handleDeleteBlockIndex={handleDeleteBlockIndex}
+					handleAddBlockIndex={handleAddBlockIndex}
 				/>
-				<Textfield
-					name="imageUrl"
-					value={content.imageUrl}
-					onChange={handleChange}
-					fullWidth
-					label="Image URL"
-					sx={{ mb: 2 }}
+			</TabPanel>
+			<TabPanel value={currentTab} index={3}>
+				<Prayers handleChange={handleChange} handleCheckboxChange={handleCheckboxChange} />
+			</TabPanel>
+			<TabPanel value={currentTab} index={4}>
+				<Block
+					handleChange={handleChange}
+					handleDeleteBlockIndex={handleDeleteBlockIndex}
+					handleAddBlockIndex={handleAddBlockIndex}
+					blockName="blockOne"
 				/>
-			</div>
-			<Leaders handleChange={handleChange} />
-			<Music
-				handleChange={handleChange}
-				handleDeleteBlockIndex={handleDeleteBlockIndex}
-				handleAddBlockIndex={handleAddBlockIndex}
-			/>
-			<Prayers handleChange={handleChange} handleCheckboxChange={handleCheckboxChange} />
-			<Block
-				handleChange={handleChange}
-				handleDeleteBlockIndex={handleDeleteBlockIndex}
-				handleAddBlockIndex={handleAddBlockIndex}
-				blockName="blockOne"
-			/>
-			<Block
-				handleChange={handleChange}
-				handleDeleteBlockIndex={handleDeleteBlockIndex}
-				handleAddBlockIndex={handleAddBlockIndex}
-				blockName="blockTwo"
-			/>
-			<Block
-				handleChange={handleChange}
-				handleDeleteBlockIndex={handleDeleteBlockIndex}
-				handleAddBlockIndex={handleAddBlockIndex}
-				blockName="blockThree"
-			/>
-			<Typography variant="h6" sx={{ margin: '12px 0' }}>
-				Announcements and Lessons:
-			</Typography>
-			{content.announcementsAndLessons.map((data, index) => {
-				// return <div key={index}>{data.type}</div>;
-				return data.type === 'announcement' ? (
-					<AnnouncementEditor data={data} index={index} key={index} />
-				) : (
-					<LessonEditor data={data} index={index} key={index} />
-				);
-			})}
-			<div className="flex justify-around py-4">
-				<Button
-					variant="contained"
-					className="bg-gray-400 hover:bg-gray-500 flex items-center"
-					onClick={() => addNewAnnouncementOrLessonBlock('announcement')}
-					disableRipple
-				>
-					<CampaignIcon
-						sx={{ fontSize: '1.5rem', color: '#FFA500', margin: '-4px 12px 0px 0' }}
-					/>
-					Add Announcement
-				</Button>
-				<Button
-					variant="contained"
-					className="bg-gray-400 hover:bg-gray-600"
-					onClick={() => addNewAnnouncementOrLessonBlock('lesson')}
-					disableRipple
-				>
-					<AutoStoriesIcon
-						sx={{ fontSize: '1.5rem', color: '#035efc', margin: '-4px 12px 0px 0' }}
-					/>
-					Add Lesson
-				</Button>
-			</div>
+				<Block
+					handleChange={handleChange}
+					handleDeleteBlockIndex={handleDeleteBlockIndex}
+					handleAddBlockIndex={handleAddBlockIndex}
+					blockName="blockTwo"
+				/>
+				<Block
+					handleChange={handleChange}
+					handleDeleteBlockIndex={handleDeleteBlockIndex}
+					handleAddBlockIndex={handleAddBlockIndex}
+					blockName="blockThree"
+				/>
+			</TabPanel>
+			<TabPanel value={currentTab} index={5}>
+				<Typography variant="h6" sx={{ margin: '12px 0' }}>
+					Announcements and Lessons:
+				</Typography>
+				{content.announcementsAndLessons.map((data, index) => {
+					// return <div key={index}>{data.type}</div>;
+					return data.type === 'announcement' ? (
+						<AnnouncementEditor data={data} index={index} key={index} />
+					) : (
+						<LessonEditor data={data} index={index} key={index} />
+					);
+				})}
+				<div className="flex justify-around py-4">
+					<Button
+						variant="contained"
+						className="bg-gray-400 hover:bg-gray-500 flex items-center"
+						onClick={() => addNewAnnouncementOrLessonBlock('announcement')}
+						disableRipple
+					>
+						<CampaignIcon
+							sx={{ fontSize: '1.5rem', color: '#FFA500', margin: '-4px 12px 0px 0' }}
+						/>
+						Add Announcement
+					</Button>
+					<Button
+						variant="contained"
+						className="bg-gray-400 hover:bg-gray-600"
+						onClick={() => addNewAnnouncementOrLessonBlock('lesson')}
+						disableRipple
+					>
+						<AutoStoriesIcon
+							sx={{ fontSize: '1.5rem', color: '#035efc', margin: '-4px 12px 0px 0' }}
+						/>
+						Add Lesson
+					</Button>
+				</div>
+			</TabPanel>
 		</div>
 	);
 };

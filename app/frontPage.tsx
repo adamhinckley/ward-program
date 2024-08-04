@@ -7,7 +7,9 @@ const FrontPage = () => {
 	return (
 		<>
 			<div style={{ width: '100%' }}>
-				<Image src={content.imageUrl as string} alt="" width={550} height={550} />
+				{content.imageUrl ? (
+					<Image src={content.imageUrl as string} alt="" width={550} height={550} />
+				) : null}
 			</div>
 		</>
 	);

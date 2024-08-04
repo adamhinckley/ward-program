@@ -11,10 +11,8 @@ import type { EditorChildren } from '../../utils/types';
 const Prayers = ({ handleChange }: EditorChildren) => {
 	const { content } = useAppContext();
 	return (
-		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-				<Typography variant="h6">Prayers</Typography>
-			</AccordionSummary>
+		<>
+			<Typography variant="h6">Prayers</Typography>
 			<Textfield
 				name="openingPrayer"
 				value={content.openingPrayer}
@@ -32,7 +30,7 @@ const Prayers = ({ handleChange }: EditorChildren) => {
 				label="Closing Prayer"
 				sx={{ mb: 2 }}
 			/>
-		</Accordion>
+		</>
 	);
 };
 

@@ -1,7 +1,6 @@
 'use client';
 import { Announcement, defaultContent } from '@/utils/defaultContent';
 import { createClient } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -27,8 +26,26 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 
 	const [content, setContent] = useState({} as typeof defaultContent);
 
+	// const [urlParams, setUrlParams] = useState<{ [key: string]: string }>({});
+
+	// grab params from the url
+	// useEffect(() => {
+	// 	const queryString = window.location.search;
+	// 	const params = new URLSearchParams(queryString);
+	// 	const paramsObj: { [key: string]: string } = {};
+	// 	params.forEach((value, key) => {
+	// 		paramsObj[key] = value;
+	// 	});
+	// 	setUrlParams(paramsObj);
+	// }, []);
+
+	// const { ward, stake } = urlParams;
+
 	const getData = async () => {
 		const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
+		// const { data, error } = await supabase.from('ward-bulletin').select().eq('id', 6);
+		// .eq('stake', stake)
+		// .eq('ward', ward);
 
 		if (error) {
 			console.error('Error fetching data:', error);
@@ -70,7 +87,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		const newContent = cloneDeep(content);
 		Array.isArray(newContent.announcementsAndLessons) &&
 			newContent.announcementsAndLessons.splice(index, 1);
-		console.log(index, newContent.announcementsAndLessons);
 		setContent(newContent);
 	};
 

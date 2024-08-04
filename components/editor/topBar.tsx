@@ -17,6 +17,7 @@ const TopBar = () => {
 				.from('ward-bulletin')
 				.update({ bulletin: content }) // Assuming 'bulletin' is the column you want to update.
 				.eq('id', 2)
+				// .eq('id', 6)
 				.select();
 
 			if (error) {
@@ -30,6 +31,18 @@ const TopBar = () => {
 		setSaving(false);
 	};
 
+	// const insertData = async () => {
+	// 	const { data, error } = await supabase
+	// 		.from('ward-bulletin')
+	// 		.insert([{ bulletin: content, stake: 'Test', ward: 'test' }]);
+
+	// 	if (error) {
+	// 		console.error('Error inserting data:', error);
+	// 		setError(true);
+	// 		return;
+	// 	}
+	// };
+
 	return (
 		<div className="sticky z-50 bg-gray-300 top-0 flex ">
 			<div className="max-w-4xl flex justify-end flex-col m-auto p-4">
@@ -41,6 +54,9 @@ const TopBar = () => {
 				>
 					{saving ? 'Saving...' : 'Save'}
 				</Button>
+				{/* <Button variant="contained" className="bg-blue-800" onClick={insertData}>
+					Insert Data
+				</Button> */}
 				{error && <div className="text-red-500">Error saving data</div>}
 			</div>
 		</div>

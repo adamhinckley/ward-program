@@ -67,12 +67,12 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 		setContent(newContent);
 	};
 
-	const handleDeleteLessonIndex = () => {
+	const handleDeleteLessonIndex = (index: number) => {
 		const newContent = cloneDeep(content);
 		const narrowedAnnouncementsAndLessons =
 			newContent.announcementsAndLessons as AnnouncementsAndLessons;
 		const narrowedIndex = narrowedAnnouncementsAndLessons[titleIndex] as Lesson;
-		narrowedIndex.lessons.pop();
+		narrowedIndex.lessons.splice(index, 1);
 		setContent(newContent);
 	};
 
@@ -128,7 +128,7 @@ const LessonEditor = ({ data, index }: LessonProps) => {
 							</div>
 							<Tooltip title="Delete Lesson">
 								<IconButton
-									onClick={handleDeleteLessonIndex}
+									onClick={() => handleDeleteLessonIndex(index)}
 									sx={{
 										marginLeft: ' -74px',
 										height: '40px',

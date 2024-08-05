@@ -59,6 +59,7 @@ export const defaultContent: Content = {
 	sacramentHymnTitle: 'As Now We Take the Sacrament',
 	intermediateMusicLeftSide: '',
 	intermediateMusicRightSide: '',
+	announcements: '',
 	blockOne: [
 		{
 			left: 'Speaker',

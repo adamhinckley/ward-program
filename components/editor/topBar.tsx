@@ -6,18 +6,20 @@ import { useState } from 'react';
 
 const TopBar = () => {
 	const supabase = createClient();
-	const { content } = useAppContext();
+	const { content, setContent, editorContentRef } = useAppContext();
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState(false);
 
 	const handleSave = async () => {
-		setSaving(true);
 		try {
+			// save the announcement content before saving the entire content
+			const contentToSave = { ...content, announcements: editorContentRef.current };
+			SVGTextContentElement;
 			const { data, error } = await supabase
 				.from('ward-bulletin')
-				.update({ bulletin: content }) // Assuming 'bulletin' is the column you want to update.
-				.eq('id', 2)
-				// .eq('id', 6)
+				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
+				// .eq('id', 2)
+				.eq('id', 6)
 				.select();
 
 			if (error) {

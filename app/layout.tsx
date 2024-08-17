@@ -24,9 +24,9 @@ export default function RootLayout({
 				{/* Step 3: Add og:image meta tag */}
 				{/* Add more meta tags as needed */}
 			</Head>
-			{/* <AppContextProvider> */}
-			<body className="bg-white">{children}</body>
-			{/* </AppContextProvider> */}
+			<AppContextProvider>
+				<body className="bg-white">{children}</body>
+			</AppContextProvider>
 		</html>
 	);
 }

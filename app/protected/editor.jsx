@@ -16,6 +16,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Tiptap from '@/components/editor/Tiptap';
 
 const blankLessonBlock = {
 	type: 'lesson',
@@ -226,15 +227,16 @@ const Editor = () => {
 				<Typography variant="h6" sx={{ margin: '12px 0' }}>
 					Announcements and Lessons:
 				</Typography>
-				{content.announcementsAndLessons.map((data, index) => {
+				<Tiptap />
+				{/* {content.announcementsAndLessons.map((data, index) => {
 					// return <div key={index}>{data.type}</div>;
 					return data.type === 'announcement' ? (
 						<AnnouncementEditor data={data} index={index} key={index} />
 					) : (
 						<LessonEditor data={data} index={index} key={index} />
 					);
-				})}
-				<div className="flex justify-around py-4">
+				})} */}
+				{/* <div className="flex justify-around py-4">
 					<Button
 						variant="contained"
 						className="bg-gray-400 hover:bg-gray-500 flex items-center"
@@ -257,7 +259,7 @@ const Editor = () => {
 						/>
 						Add Lesson
 					</Button>
-				</div>
+				</div> */}
 			</TabPanel>
 		</div>
 	);

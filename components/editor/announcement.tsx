@@ -1,3 +1,4 @@
+'use client';
 import { MouseEvent, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
@@ -15,6 +16,7 @@ import Tooltip from '@mui/material/Tooltip';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import Tiptap from '@/components/editor/Tiptap';
 
 import type { Announcement, AnnouncementsAndLessons } from '@/utils/defaultContent';
 import Controls from './controls';
@@ -88,70 +90,73 @@ const AnnouncementEditor = ({ data, index }: AnnouncementProps) => {
 	};
 
 	return (
-		<Accordion sx={{ padding: '0 12px 6px 12px' }}>
-			<AccordionSummary
-				expandIcon={<ExpandMoreIcon />}
-				className="flex justify-between w-full"
-			>
-				<div className="flex justify-between w-full items-center ">
-					<div className="flex ">
-						<CampaignIcon
-							sx={{ fontSize: '1.5rem', color: '#FFA500', marginRight: '12px' }}
-						/>
-						<div>
-							<Typography variant="h6">{data.title}</Typography>
+		<>
+			<Tiptap />
+			<Accordion sx={{ padding: '0 12px 6px 12px' }}>
+				<AccordionSummary
+					expandIcon={<ExpandMoreIcon />}
+					className="flex justify-between w-full"
+				>
+					<div className="flex justify-between w-full items-center ">
+						<div className="flex ">
+							<CampaignIcon
+								sx={{ fontSize: '1.5rem', color: '#FFA500', marginRight: '12px' }}
+							/>
+							<div>
+								<Typography variant="h6">{data.title}</Typography>
+							</div>
 						</div>
+						<Controls index={index} />
 					</div>
-					<Controls index={index} />
-				</div>
-			</AccordionSummary>
-			<Textfield
-				value={data.title}
-				onChange={handleTitleChange}
-				label="Announcement Title"
-				sx={{ mb: 2, paddingRight: '40px' }}
-				fullWidth
-			/>
-			{data.text.map((announcement, index) => (
-				<div className="flex relative" key={index}>
-					<TextareaAutosize
-						name={`${data.title} ${index}`}
-						value={announcement}
-						onChange={(e) => handleChange(e, index)}
-						minRows={3}
-						maxRows={20}
-						style={{
-							width: '100%',
-							marginBottom: '12px',
-							border: '1px solid #ccc',
-							borderRadius: '4px',
-						}}
-					/>
-					<Tooltip title="Delete Announcement">
-						<IconButton
-							onClick={() => handleDeleteAnnouncementIndex(index)}
-							sx={{
-								height: '40px',
-								alignSelf: 'center',
+				</AccordionSummary>
+				<Textfield
+					value={data.title}
+					onChange={handleTitleChange}
+					label="Announcement Title"
+					sx={{ mb: 2, paddingRight: '40px' }}
+					fullWidth
+				/>
+				{data.text.map((announcement, index) => (
+					<div className="flex relative" key={index}>
+						<TextareaAutosize
+							name={`${data.title} ${index}`}
+							value={announcement}
+							onChange={(e) => handleChange(e, index)}
+							minRows={3}
+							maxRows={20}
+							style={{
+								width: '100%',
 								marginBottom: '12px',
+								border: '1px solid #ccc',
+								borderRadius: '4px',
 							}}
+						/>
+						<Tooltip title="Delete Announcement">
+							<IconButton
+								onClick={() => handleDeleteAnnouncementIndex(index)}
+								sx={{
+									height: '40px',
+									alignSelf: 'center',
+									marginBottom: '12px',
+								}}
+							>
+								<ClearIcon color="error" />
+							</IconButton>
+						</Tooltip>
+					</div>
+				))}
+				<div className="flex justify-center">
+					<Tooltip title="Add Announcement">
+						<IconButton
+							onClick={() => handleAddAnnouncementIndex()}
+							sx={{ width: '40px', marginBottom: '12px' }}
 						>
-							<ClearIcon color="error" />
+							<AddIcon />
 						</IconButton>
 					</Tooltip>
 				</div>
-			))}
-			<div className="flex justify-center">
-				<Tooltip title="Add Announcement">
-					<IconButton
-						onClick={() => handleAddAnnouncementIndex()}
-						sx={{ width: '40px', marginBottom: '12px' }}
-					>
-						<AddIcon />
-					</IconButton>
-				</Tooltip>
-			</div>
-		</Accordion>
+			</Accordion>
+		</>
 	);
 };
 

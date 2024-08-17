@@ -1,7 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useRef } from 'react';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { EditorContent, useEditor } from '@tiptap/react';
@@ -16,12 +15,19 @@ import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 
 import { useAppContext } from '@/context/AppContext';
-import Button from '@mui/material/Button';
 
 const tiptapStyles = css`
 	.ProseMirror {
 		border: 1px solid black;
 		border-radius: 4px;
+		height: calc(100vh - 130px);
+		overflow-y: auto;
+	}
+
+	.menu-bar {
+		display: flex;
+		justify-content: center;
+		margin: 12px 0;
 	}
 
 	button {
@@ -54,7 +60,7 @@ const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 	}
 
 	return (
-		<div>
+		<div className="menu-bar">
 			<button
 				onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
 				className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
@@ -161,18 +167,10 @@ export default () => {
 		content: editorContentRef.current,
 	});
 
-	// const handleSave = () => {
-	// 	setContent({
-	// 		...content,
-	// 		announcements: editorContentRef.current,
-	// 	});
-	// };
-
 	return (
 		<div css={tiptapStyles}>
 			<MenuBar editor={editor} />
 			<EditorContent editor={editor} />
-			{/* <Button onClick={handleSave}>Save</Button> */}
 		</div>
 	);
 };

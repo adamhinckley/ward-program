@@ -1,7 +1,15 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
-import { Divider } from '@mui/material';
-import type { Announcement, Lesson } from '@/utils/defaultContent';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
+
+const announcementStyles = css`
+	hr {
+		border: 0;
+		border-top: 1px solid #ccc;
+		margin: 12px 0;
+	}
+`;
 
 const Announcements = () => {
 	const { content } = useAppContext();
@@ -31,7 +39,7 @@ const Announcements = () => {
 
 	console.log('content.announcements', content);
 
-	return <div className="mx-4" id="announcement"></div>;
+	return <div className="mx-4" id="announcement" css={announcementStyles}></div>;
 };
 
 export default Announcements;

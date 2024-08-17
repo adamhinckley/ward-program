@@ -1,7 +1,7 @@
 'use client';
 import { Announcement, defaultContent } from '@/utils/defaultContent';
 import { createClient } from '@/utils/supabase/client';
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
 import type { Lesson, AnnouncementsAndLessons } from '@/utils/defaultContent';
@@ -15,6 +15,7 @@ type AppContextState = {
 	setContent: (content: typeof defaultContent) => void;
 	handleAddAnnouncementOrLesson: (type: 'announcement' | 'lesson') => void;
 	handleDeleteBlock: (e: React.MouseEvent<HTMLButtonElement>, index: number) => void;
+	editorContentRef: React.MutableRefObject<string>;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -42,8 +43,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	// const { ward, stake } = urlParams;
 
 	const getData = async () => {
-		const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
-		// const { data, error } = await supabase.from('ward-bulletin').select().eq('id', 6);
+		// const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
+		const { data, error } = await supabase.from('ward-bulletin').select().eq('id', 6);
 		// .eq('stake', stake)
 		// .eq('ward', ward);
 
@@ -52,6 +53,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 			return;
 		}
 		setContent(data[0].bulletin);
+		editorContentRef.current = data[0].bulletin.announcements as string;
 	};
 
 	useEffect(() => {
@@ -90,7 +92,15 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		setContent(newContent);
 	};
 
-	const value = { content, setContent, handleAddAnnouncementOrLesson, handleDeleteBlock };
+	const editorContentRef = useRef((content.announcements as string) || '');
+
+	const value = {
+		content,
+		setContent,
+		handleAddAnnouncementOrLesson,
+		handleDeleteBlock,
+		editorContentRef,
+	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

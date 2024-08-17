@@ -1,23 +1,29 @@
 'use client';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import Button from '@mui/material/Button';
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 
-const TopBar = () => {
+const styles = css``;
+
+const SaveButton = () => {
 	const supabase = createClient();
-	const { content } = useAppContext();
+	const { content, setContent, editorContentRef } = useAppContext();
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState(false);
 
 	const handleSave = async () => {
-		setSaving(true);
 		try {
+			// save the announcement content before saving the entire content
+			const contentToSave = { ...content, announcements: editorContentRef.current };
+			SVGTextContentElement;
 			const { data, error } = await supabase
 				.from('ward-bulletin')
-				.update({ bulletin: content }) // Assuming 'bulletin' is the column you want to update.
-				.eq('id', 2)
-				// .eq('id', 6)
+				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
+				// .eq('id', 2)
+				.eq('id', 6)
 				.select();
 
 			if (error) {
@@ -44,23 +50,15 @@ const TopBar = () => {
 	// };
 
 	return (
-		<div className="sticky z-50 bg-gray-300 top-0 flex ">
-			<div className="max-w-4xl flex justify-end flex-col m-auto p-4">
-				<Button
-					variant="contained"
-					className="bg-blue-800"
-					disabled={saving}
-					onClick={handleSave}
-				>
-					{saving ? 'Saving...' : 'Save'}
-				</Button>
-				{/* <Button variant="contained" className="bg-blue-800" onClick={insertData}>
-					Insert Data
-				</Button> */}
-				{error && <div className="text-red-500">Error saving data</div>}
-			</div>
-		</div>
+		<Button
+			variant="contained"
+			disabled={saving}
+			onClick={handleSave}
+			sx={{ margin: '12px 0' }}
+		>
+			{saving ? 'Saving...' : 'Save'}
+		</Button>
 	);
 };
 
-export default TopBar;
+export default SaveButton;

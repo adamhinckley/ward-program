@@ -1,21 +1,25 @@
 'use client';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { useState } from 'react';
 import Textfield from '@mui/material/TextField';
-import { Button, Divider, IconButton, TextareaAutosize, Typography } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import AddIcon from '@mui/icons-material/Add';
+import { Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { useAppContext } from '../../context/AppContext';
 import Leaders from '@/components/editor/leaders';
 import Music from '@/components/editor/music';
 import Prayers from '@/components/editor/prayers';
 import Block from '@/components/editor/block';
-import AnnouncementEditor from '@/components/editor/announcement';
-import LessonEditor from '@/components/editor/lesson';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Tiptap from '@/components/editor/Tiptap';
+import SaveButton from '@/components/editor/SaveButton';
+
+const styles = css`
+	.MuiTabs-flexContainer {
+		justify-content: space-between;
+	}
+`;
 
 const blankLessonBlock = {
 	type: 'lesson',
@@ -147,7 +151,7 @@ const Editor = () => {
 	};
 
 	return (
-		<div className="max-w-4xl flex justify-center flex-col m-auto p-4">
+		<div className="max-w-4xl flex justify-center flex-col m-auto p-4" css={styles}>
 			<Tabs
 				value={currentTab}
 				onChange={handleTabChange}
@@ -159,6 +163,7 @@ const Editor = () => {
 				<Tab label="Prayers" {...a11yProps(3)} />
 				<Tab label="Blocks" {...a11yProps(4)} />
 				<Tab label="Announcements" {...a11yProps(5)} />
+				<SaveButton />
 			</Tabs>
 			<TabPanel value={currentTab} index={0}>
 				<div className="bg-white p-4 mb-4">
@@ -223,41 +228,7 @@ const Editor = () => {
 				/>
 			</TabPanel>
 			<TabPanel value={currentTab} index={5}>
-				<Typography variant="h6" sx={{ margin: '12px 0' }}>
-					Announcements and Lessons:
-				</Typography>
-				{content.announcementsAndLessons.map((data, index) => {
-					// return <div key={index}>{data.type}</div>;
-					return data.type === 'announcement' ? (
-						<AnnouncementEditor data={data} index={index} key={index} />
-					) : (
-						<LessonEditor data={data} index={index} key={index} />
-					);
-				})}
-				<div className="flex justify-around py-4">
-					<Button
-						variant="contained"
-						className="bg-gray-400 hover:bg-gray-500 flex items-center"
-						onClick={() => addNewAnnouncementOrLessonBlock('announcement')}
-						disableRipple
-					>
-						<CampaignIcon
-							sx={{ fontSize: '1.5rem', color: '#FFA500', margin: '-4px 12px 0px 0' }}
-						/>
-						Add Announcement
-					</Button>
-					<Button
-						variant="contained"
-						className="bg-gray-400 hover:bg-gray-600"
-						onClick={() => addNewAnnouncementOrLessonBlock('lesson')}
-						disableRipple
-					>
-						<AutoStoriesIcon
-							sx={{ fontSize: '1.5rem', color: '#035efc', margin: '-4px 12px 0px 0' }}
-						/>
-						Add Lesson
-					</Button>
-				</div>
+				<Tiptap />
 			</TabPanel>
 		</div>
 	);

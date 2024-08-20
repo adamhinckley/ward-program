@@ -1,12 +1,9 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import Button from '@mui/material/Button';
+
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
-
-const styles = css``;
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const SaveButton = () => {
 	const supabase = createClient();
@@ -16,24 +13,26 @@ const SaveButton = () => {
 
 	const handleSave = async () => {
 		try {
+			setSaving(true);
 			// save the announcement content before saving the entire content
 			const contentToSave = { ...content, announcements: editorContentRef.current };
 			SVGTextContentElement;
-			const { data, error } = await supabase
+			const { data: bulletinData, error: bulletinError } = await supabase
 				.from('ward-bulletin')
 				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
 				// .eq('id', 2)
 				.eq('id', 6)
 				.select();
 
-			if (error) {
-				console.error('Error updating data:', error);
+			if (bulletinError) {
+				console.error('Error updating bulletin:', error);
 				setError(true);
 				return;
 			}
 		} catch (error) {
 			console.error('Error caught:', error);
 		}
+
 		setSaving(false);
 	};
 
@@ -50,14 +49,15 @@ const SaveButton = () => {
 	// };
 
 	return (
-		<Button
+		<LoadingButton
 			variant="contained"
 			disabled={saving}
 			onClick={handleSave}
-			sx={{ margin: '12px 0' }}
+			sx={{ margin: '12px 0', maxWidth: '80px', alignSelf: 'center' }}
+			loading={saving}
 		>
-			{saving ? 'Saving...' : 'Save'}
-		</Button>
+			Save
+		</LoadingButton>
 	);
 };
 

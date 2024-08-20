@@ -9,6 +9,11 @@ const announcementStyles = css`
 		border-top: 1px solid #ccc;
 		margin: 12px 0;
 	}
+
+	a {
+		color: #007bff;
+		text-decoration: underline;
+	}
 `;
 
 const Announcements = () => {

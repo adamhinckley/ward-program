@@ -16,6 +16,8 @@ type AppContextState = {
 	handleAddAnnouncementOrLesson: (type: 'announcement' | 'lesson') => void;
 	handleDeleteBlock: (e: React.MouseEvent<HTMLButtonElement>, index: number) => void;
 	editorContentRef: React.MutableRefObject<string>;
+	currentTab: number;
+	setCurrentTab: (tab: number) => void;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -26,6 +28,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	const supabase = createClient();
 
 	const [content, setContent] = useState({} as typeof defaultContent);
+	const [currentTab, setCurrentTab] = useState(0);
+	const [userId, setUserId] = useState('');
 
 	// const [urlParams, setUrlParams] = useState<{ [key: string]: string }>({});
 
@@ -41,6 +45,35 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	// }, []);
 
 	// const { ward, stake } = urlParams;
+
+	// const getUserSettings = async () => {
+	// 	const { data, error } = await supabase.from('user-settings').select().eq('id', userId);
+	// 	console.log('data', data);
+	// 	console.log('error', error);
+
+	// 	if (error) {
+	// 		if (error.code === '42P01') {
+	// 			const { data, error } = await supabase
+	// 				.from('user-settings')
+	// 				.insert([{ id: userId, editorColumn: 0 }]);
+	// 			if (error) {
+	// 				console.error('Error inserting data:', error);
+	// 				return;
+	// 			}
+	// 			console.log('data', data);
+	// 			return;
+	// 		}
+	// 		console.error('Error fetching data:', error);
+	// 		return;
+	// 	}
+	// 	console.log('user data', data);
+	// };
+
+	// useEffect(() => {
+	// 	if (userId) {
+	// 		getUserSettings();
+	// 	}
+	// }, [userId]);
 
 	const getData = async () => {
 		// const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
@@ -100,6 +133,10 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		handleAddAnnouncementOrLesson,
 		handleDeleteBlock,
 		editorContentRef,
+		currentTab,
+		setCurrentTab,
+		userId,
+		setUserId,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -1,7 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useState } from 'react';
 import Textfield from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import Switch from '@mui/material/Switch';
@@ -39,8 +38,7 @@ const blankAnnouncementBlock = {
 };
 
 const Editor = () => {
-	const { content, setContent } = useAppContext();
-	const [currentTab, setCurrentTab] = useState(0);
+	const { content, setContent, currentTab, setCurrentTab } = useAppContext();
 
 	// return loading if content is not available
 	// check if content is an empty object
@@ -152,6 +150,7 @@ const Editor = () => {
 
 	return (
 		<div className="max-w-4xl flex justify-center flex-col m-auto p-4" css={styles}>
+			<SaveButton />
 			<Tabs
 				value={currentTab}
 				onChange={handleTabChange}
@@ -163,7 +162,6 @@ const Editor = () => {
 				<Tab label="Prayers" {...a11yProps(3)} />
 				<Tab label="Blocks" {...a11yProps(4)} />
 				<Tab label="Announcements" {...a11yProps(5)} />
-				<SaveButton />
 			</Tabs>
 			<TabPanel value={currentTab} index={0}>
 				<div className="bg-white p-4 mb-4">

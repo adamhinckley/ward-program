@@ -160,7 +160,6 @@ export default () => {
 			BulletList,
 		],
 		onUpdate: ({ editor }) => {
-			console.log('updated');
 			editorContentRef.current = editor.getHTML();
 		},
 

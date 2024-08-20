@@ -1,24 +1,16 @@
-import { useState } from 'react';
 import Textfield from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useAppContext } from '@/context/AppContext';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { hymnsArray } from '@/utils/hymns';
 import Switch from '@mui/material/Switch';
-import TabPanel from '@mui/lab/TabPanel';
-import { cloneDeep } from 'lodash';
 
 import type { EditorChildren } from '@/utils/types';
-import { Box, ButtonGroup, Divider, Tab, Tabs } from '@mui/material';
-import { TabContext, TabList } from '@mui/lab';
-import { clone } from 'lodash';
+import { ButtonGroup, Divider } from '@mui/material';
 
 const MusicEditor = ({
 	handleChange,

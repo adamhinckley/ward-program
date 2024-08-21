@@ -1,5 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import Textfield from '@mui/material/TextField';
 import { Typography } from '@mui/material';
@@ -14,32 +15,48 @@ import Tab from '@mui/material/Tab';
 import Tiptap from '@/components/editor/Tiptap';
 import SaveButton from '@/components/editor/SaveButton';
 import TabPanel from '@/components/editor/TabPanel';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
 
 const styles = css`
 	.MuiTabs-flexContainer {
 		justify-content: space-between;
 	}
+
+	.tabs {
+		// display none below 750 px
+		@media (max-width: 750px) {
+			display: none;
+		}
+	}
+
+	.mobile-menu-container {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+
+		@media (min-width: 751px) {
+			display: none;
+		}
+		.hamburger {
+			width: 40px;
+			height: 40px;
+		}
+	}
+
+	.drawer {
+		button {
+			font-size: 1.5rem;
+		}
+	}
 `;
-
-const blankLessonBlock = {
-	type: 'lesson',
-	title: 'lesson placeholder',
-	lessons: [
-		{
-			link: '',
-			text: '',
-		},
-	],
-};
-
-const blankAnnouncementBlock = {
-	type: 'announcement',
-	title: 'announcement placeholder',
-	text: [''],
-};
 
 const Editor = () => {
 	const { content, setContent, currentTab, setCurrentTab } = useAppContext();
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
 	// return loading if content is not available
 	// check if content is an empty object
@@ -94,24 +111,6 @@ const Editor = () => {
 		setContent({ ...content, [block]: [...content[block], { left: '', right: '' }] });
 	};
 
-	const addNewAnnouncementOrLessonBlock = (block) => {
-		// push the new block to content.announcementsAndLessons
-		if (block === 'announcement') {
-			setContent({
-				...content,
-				announcementsAndLessons: [
-					...content.announcementsAndLessons,
-					blankAnnouncementBlock,
-				],
-			});
-		} else {
-			setContent({
-				...content,
-				announcementsAndLessons: [...content.announcementsAndLessons, blankLessonBlock],
-			});
-		}
-	};
-
 	const handleDeleteBlockIndex = (block, index) => {
 		if (block === 'intermediateMusicPerformers') {
 			const newPerformers = content.intermediateMusicPerformers.filter((_, i) => i !== index);
@@ -133,13 +132,24 @@ const Editor = () => {
 		setCurrentTab(newValue);
 	};
 
+	const handleDrawerButtonClick = (tabNumber) => {
+		setIsDrawerOpen(false);
+		setCurrentTab(tabNumber);
+	};
+
 	return (
 		<div className="max-w-4xl flex justify-center flex-col m-auto p-4" css={styles}>
-			<SaveButton />
+			<div className="mobile-menu-container">
+				<IconButton className="hamburger" onClick={() => setIsDrawerOpen((prev) => !prev)}>
+					<MenuIcon />
+				</IconButton>
+				<SaveButton />
+			</div>
 			<Tabs
 				value={currentTab}
 				onChange={handleTabChange}
 				aria-label="order customizer module tabs"
+				className="tabs"
 			>
 				<Tab label="Settings" {...a11yProps(0)} />
 				<Tab label="Leaders" {...a11yProps(1)} />
@@ -147,7 +157,72 @@ const Editor = () => {
 				<Tab label="Prayers" {...a11yProps(3)} />
 				<Tab label="Blocks" {...a11yProps(4)} />
 				<Tab label="Announcements" {...a11yProps(5)} />
+				<SaveButton />
 			</Tabs>
+			<Drawer
+				anchor="left"
+				open={isDrawerOpen}
+				onClose={() => setIsDrawerOpen(false)}
+				className="drawer"
+				// add styles to drawer
+				sx={{
+					'& .MuiDrawer-paper': {},
+					button: {
+						fontSize: '1.125rem',
+						borderRadius: '0',
+						margin: '12px 20px',
+					},
+				}}
+			>
+				<Button
+					variant="text"
+					color="primary"
+					onClick={() => handleDrawerButtonClick(0)}
+					sx={{ borderBottom: currentTab === 0 ? '2px solid #1976d2' : '' }}
+				>
+					Settings
+				</Button>
+				<Button
+					variant="text"
+					color="primary"
+					onClick={() => handleDrawerButtonClick(1)}
+					sx={{ borderBottom: currentTab === 1 ? '2px solid #1976d2' : '' }}
+				>
+					Leaders
+				</Button>
+				<Button
+					variant="text"
+					color="primary"
+					onClick={() => handleDrawerButtonClick(2)}
+					sx={{ borderBottom: currentTab === 2 ? '2px solid #1976d2' : '' }}
+				>
+					Music
+				</Button>
+				<Button
+					variant="text"
+					color="primary"
+					onClick={() => handleDrawerButtonClick(3)}
+					sx={{ borderBottom: currentTab === 3 ? '2px solid #1976d2' : '' }}
+				>
+					Prayers
+				</Button>
+				<Button
+					variant="text"
+					color="primary"
+					onClick={() => handleDrawerButtonClick(4)}
+					sx={{ borderBottom: currentTab === 4 ? '2px solid #1976d2' : '' }}
+				>
+					Blocks
+				</Button>
+				<Button
+					variant="text"
+					color="primary"
+					onClick={() => handleDrawerButtonClick(5)}
+					sx={{ borderBottom: currentTab === 5 ? '2px solid #1976d2' : '' }}
+				>
+					Announcements
+				</Button>
+			</Drawer>
 			<TabPanel value={currentTab} index={0}>
 				<div className="bg-white p-4 mb-4">
 					<div className="flex">

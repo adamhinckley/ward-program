@@ -10,7 +10,7 @@ import { hymnsArray } from '@/utils/hymns';
 import Switch from '@mui/material/Switch';
 
 import type { EditorChildren } from '@/utils/types';
-import { ButtonGroup, Divider } from '@mui/material';
+import { Box, ButtonGroup, Divider } from '@mui/material';
 
 const MusicEditor = ({
 	handleChange,
@@ -68,11 +68,8 @@ const MusicEditor = ({
 	const isHymn = intermediateMusicType === 'hymn';
 
 	return (
-		<>
-			<Typography variant="h6">Music</Typography>
-
+		<Box sx={{ marginTop: '16px' }}>
 			{/* OPENING HYMN */}
-			<Typography sx={{ mb: 1 }}>Opening Hymn</Typography>
 			<Autocomplete
 				options={hymnsArray}
 				getOptionLabel={(option) => `${option.number} - ${option.title}`}
@@ -370,7 +367,7 @@ const MusicEditor = ({
 					/>
 				</>
 			)}
-		</>
+		</Box>
 	);
 };
 

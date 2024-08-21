@@ -13,6 +13,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Tiptap from '@/components/editor/Tiptap';
 import SaveButton from '@/components/editor/SaveButton';
+import TabPanel from '@/components/editor/TabPanel';
 
 const styles = css`
 	.MuiTabs-flexContainer {
@@ -119,22 +120,6 @@ const Editor = () => {
 			const newBlock = content[block].filter((_, i) => i !== index);
 			setContent({ ...content, [block]: newBlock });
 		}
-	};
-
-	const TabPanel = (props) => {
-		const { children, value, index, ...other } = props;
-
-		return (
-			<div
-				role="tabpanel"
-				hidden={value !== index}
-				id={`sidebar-tabpanel-${index}`}
-				aria-labelledby={`sidebar-tab-${index}`}
-				{...other}
-			>
-				{value === index && <div>{children}</div>}
-			</div>
-		);
 	};
 
 	const a11yProps = (index) => {

@@ -9,6 +9,11 @@ import { Divider } from '@mui/material';
 import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
 
+const styles = css`
+	max-width: 550px;
+	margin: 0 auto;
+`;
+
 export default function Home() {
 	const { content } = useAppContext();
 	const [isLoadingReady, setIsLoadingReady] = useState(false);
@@ -25,7 +30,7 @@ export default function Home() {
 	}, [hasContent]);
 
 	return (
-		<main>
+		<main css={styles}>
 			{(!hasContent || !isLoadingReady) && <Loading />}
 			<FrontPage />
 			<Agenda />

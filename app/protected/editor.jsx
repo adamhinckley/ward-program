@@ -19,6 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const styles = css`
 	.MuiTabs-flexContainer {
@@ -54,6 +55,13 @@ const styles = css`
 	}
 `;
 
+const loadingStyles = css`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+`;
+
 const Editor = () => {
 	const { content, setContent, currentTab, setCurrentTab } = useAppContext();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -61,7 +69,11 @@ const Editor = () => {
 	// return loading if content is not available
 	// check if content is an empty object
 	if (Object.keys(content).length === 0) {
-		return <div>Loading...</div>;
+		return (
+			<div css={loadingStyles}>
+				<CircularProgress />
+			</div>
+		);
 	}
 	/**
 	 *

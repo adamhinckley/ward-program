@@ -1,27 +1,36 @@
 'use client';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import Agenda from './agenda';
 import Announcements from './announcements';
 import FrontPage from './frontPage';
-import PageThree from './pageThree';
 import { useAppContext } from '../context/AppContext';
 import { Divider } from '@mui/material';
-import { AppContextProvider } from '@/context/AppContext';
+import Loading from '@/components/Loading';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
 	const { content } = useAppContext();
+	const [isLoadingReady, setIsLoadingReady] = useState(false);
 
-	if (!content) {
-		return <div>Loading...</div>;
-	}
+	const hasContent = Object.keys(content).length > 0;
+
+	useEffect(() => {
+		if (hasContent) {
+			const timer = setTimeout(() => {
+				setIsLoadingReady(true);
+			}, 200);
+			return () => clearTimeout(timer);
+		}
+	}, [hasContent]);
 
 	return (
-		<main className="max-w-lg m-auto w-full ">
-			<AppContextProvider>
-				<FrontPage />
-				<Agenda />
-				<Divider sx={{ margin: '12px 0', borderColor: 'black' }} />
-				<Announcements />
-			</AppContextProvider>
+		<main>
+			{(!hasContent || !isLoadingReady) && <Loading />}
+			<FrontPage />
+			<Agenda />
+			<Divider sx={{ margin: '12px 0', borderColor: 'black' }} />
+			<Announcements />
 		</main>
 	);
 }

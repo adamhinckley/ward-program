@@ -1,3 +1,4 @@
+'use client';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
@@ -19,14 +20,15 @@ const announcementStyles = css`
 const Announcements = () => {
 	const { content } = useAppContext();
 
-	const announcementEl = document.getElementById('announcement') as HTMLElement;
-
 	useEffect(() => {
-		// add the html from content.announcements to the announcement element
-		if (announcementEl) {
-			announcementEl.innerHTML = content.announcements as string;
+		if (typeof document !== 'undefined') {
+			const announcementEl = document.getElementById('announcement') as HTMLElement;
+			// add the html from content.announcements to the announcement element
+			if (announcementEl) {
+				announcementEl.innerHTML = content.announcements as string;
+			}
 		}
-	}, [content.announcements, announcementEl]);
+	}, [content.announcements]);
 
 	if (Object.keys(content).length === 0) {
 		return null;

@@ -46,7 +46,6 @@ const MusicEditor = ({
 			setContent(newContent);
 		}
 	};
-	// console.log('content', content);
 
 	const linkHelperText = 'Optional';
 

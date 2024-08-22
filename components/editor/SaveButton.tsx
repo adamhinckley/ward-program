@@ -1,9 +1,19 @@
 'use client';
-
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
+
+const styles = css`
+	.save-button {
+		margin: 12px 0;
+		max-width: 80px;
+		background-color: #1976d2;
+		box-shadow: none;
+	}
+`;
 
 const SaveButton = () => {
 	const supabase = createClient();
@@ -49,15 +59,18 @@ const SaveButton = () => {
 	// };
 
 	return (
-		<LoadingButton
-			variant="contained"
-			disabled={saving}
-			onClick={handleSave}
-			sx={{ margin: '12px 0', maxWidth: '80px', alignSelf: 'center' }}
-			loading={saving}
-		>
-			Save
-		</LoadingButton>
+		<div css={styles}>
+			<LoadingButton
+				variant="contained"
+				disabled={saving}
+				onClick={handleSave}
+				sx={{ margin: '12px 0', maxWidth: '80px', backgroundColor: '#4caf50' }}
+				loading={saving}
+				className="save-button"
+			>
+				Save
+			</LoadingButton>
+		</div>
 	);
 };
 

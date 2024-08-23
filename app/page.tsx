@@ -8,6 +8,7 @@ import { useAppContext } from '../context/AppContext';
 import { Divider } from '@mui/material';
 import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
+import MissingWardData from '@/components/MissingWardData';
 
 const styles = css`
 	max-width: 550px;
@@ -15,7 +16,7 @@ const styles = css`
 `;
 
 export default function Home() {
-	const { content } = useAppContext();
+	const { content, missingWardData } = useAppContext();
 	const [isLoadingReady, setIsLoadingReady] = useState(false);
 
 	const hasContent = Object.keys(content).length > 0;
@@ -28,6 +29,10 @@ export default function Home() {
 			return () => clearTimeout(timer);
 		}
 	}, [hasContent]);
+
+	if (missingWardData) {
+		return <MissingWardData />;
+	}
 
 	return (
 		<main css={styles}>

@@ -18,11 +18,12 @@ type AppContextState = {
 	editorContentRef: React.MutableRefObject<string>;
 	currentTab: number;
 	setCurrentTab: (tab: number) => void;
+	userId: string;
+	setUserId: (userId: string) => void;
+	missingWardData: boolean;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
-
-// Create a provider component
 
 export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children }) => {
 	const supabase = createClient();
@@ -31,18 +32,19 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 	const [currentTab, setCurrentTab] = useState(0);
 	const [userId, setUserId] = useState('');
 
-	// const [urlParams, setUrlParams] = useState<{ [key: string]: string }>({});
+	const [urlParams, setUrlParams] = useState<{ [key: string]: string }>({});
+	const [missingWardData, setMissingWardData] = useState(false);
 
 	// grab params from the url
-	// useEffect(() => {
-	// 	const queryString = window.location.search;
-	// 	const params = new URLSearchParams(queryString);
-	// 	const paramsObj: { [key: string]: string } = {};
-	// 	params.forEach((value, key) => {
-	// 		paramsObj[key] = value;
-	// 	});
-	// 	setUrlParams(paramsObj);
-	// }, []);
+	useEffect(() => {
+		const queryString = window.location.search;
+		const params = new URLSearchParams(queryString);
+		const paramsObj: { [key: string]: string } = {};
+		params.forEach((value, key) => {
+			paramsObj[key] = value;
+		});
+		setUrlParams(paramsObj);
+	}, []);
 
 	// const { ward, stake } = urlParams;
 
@@ -77,7 +79,11 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 
 	const getData = async () => {
 		// const { data, error } = await supabase.from('ward-bulletin').select().eq('id', '2');
-		const { data, error } = await supabase.from('ward-bulletin').select().eq('id', 6);
+		const { data, error } = await supabase
+			.from('ward-bulletin')
+			.select()
+			.eq('ward', urlParams.ward)
+			.eq('stake', urlParams.stake);
 		// .eq('stake', stake)
 		// .eq('ward', ward);
 
@@ -85,13 +91,23 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 			console.error('Error fetching data:', error);
 			return;
 		}
+
+		// this is what happens when there is no data in the database.  Maybe figure out how to make this be an error instead?
+		if (!data.length) {
+			console.error('No data found');
+			setMissingWardData(true);
+			return;
+		}
+
 		setContent(data[0].bulletin);
 		editorContentRef.current = data[0].bulletin.announcements as string;
 	};
 
 	useEffect(() => {
-		getData();
-	}, []);
+		if (urlParams.ward) {
+			getData();
+		}
+	}, [urlParams]);
 
 	const handleAddAnnouncementOrLesson = (type: string) => {
 		const blankAnnouncement: Announcement = {
@@ -137,6 +153,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		setCurrentTab,
 		userId,
 		setUserId,
+		missingWardData,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

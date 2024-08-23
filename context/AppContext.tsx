@@ -21,6 +21,7 @@ type AppContextState = {
 	userId: string;
 	setUserId: (userId: string) => void;
 	missingWardData: boolean;
+	urlParams: { [key: string]: string };
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -154,6 +155,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({ children
 		userId,
 		setUserId,
 		missingWardData,
+		urlParams,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

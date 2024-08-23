@@ -16,7 +16,7 @@ const styles = css`
 `;
 
 export default function Home() {
-	const { content, missingWardData } = useAppContext();
+	const { content, missingWardData, urlParams } = useAppContext();
 	const [isLoadingReady, setIsLoadingReady] = useState(false);
 
 	const hasContent = Object.keys(content).length > 0;
@@ -30,7 +30,7 @@ export default function Home() {
 		}
 	}, [hasContent]);
 
-	if (missingWardData) {
+	if (missingWardData || Object.keys(urlParams).length === 0) {
 		return <MissingWardData />;
 	}
 

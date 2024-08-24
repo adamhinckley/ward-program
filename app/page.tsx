@@ -15,8 +15,12 @@ const styles = css`
 	margin: 0 auto;
 `;
 
-export default function Home() {
-	const { content, missingWardData, urlParams } = useAppContext();
+export default function Home({
+	searchParams,
+}: {
+	searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+	const { content } = useAppContext();
 	const [isLoadingReady, setIsLoadingReady] = useState(false);
 
 	const hasContent = Object.keys(content).length > 0;
@@ -30,7 +34,7 @@ export default function Home() {
 		}
 	}, [hasContent]);
 
-	if (missingWardData || Object.keys(urlParams).length === 0) {
+	if (!searchParams || (searchParams && !Object.keys(searchParams).length)) {
 		return <MissingWardData />;
 	}
 

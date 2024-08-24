@@ -17,7 +17,7 @@ const styles = css`
 
 const SaveButton = () => {
 	const supabase = createClient();
-	const { content, setContent, editorContentRef, userData } = useAppContext();
+	const { content, editorContentRef, userData } = useAppContext();
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState(false);
 

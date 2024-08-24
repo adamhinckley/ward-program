@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Head from 'next/head';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
 	title: 'Ward Program',
@@ -12,6 +13,7 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const isLocal = process.env.NODE_ENV === 'development';
 	return (
 		<html lang="en">
 			<Head>
@@ -24,6 +26,9 @@ export default function RootLayout({
 				{/* Add more meta tags as needed */}
 			</Head>
 			<body className="bg-white">{children}</body>
+			{!isLocal && process.env.REACT_APP_GA_ID && (
+				<GoogleAnalytics gaId={process.env.REACT_APP_GA_ID} />
+			)}
 		</html>
 	);
 }

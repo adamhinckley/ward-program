@@ -21,6 +21,7 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { createClient } from '@/utils/supabase/client';
+import Settings from '@/components/editor/Settings';
 
 const styles = css`
 	.MuiTabs-flexContainer {
@@ -142,18 +143,23 @@ const Editor = () => {
 		};
 	};
 
-	const handleTabChange = async (_, newValue) => {
-		setCurrentTab(newValue);
+	const handleTabChange = async (_, tabNumber) => {
+		setCurrentTab(tabNumber);
 		await supabase
 			.from('user-settings')
-			.update({ currentTab: newValue }) // Assuming 'bulletin' is the column you want to update.
+			.update({ currentTab: tabNumber })
 			.eq('id', userData.id)
 			.select();
 	};
 
-	const handleDrawerButtonClick = (tabNumber) => {
+	const handleDrawerButtonClick = async (tabNumber) => {
 		setIsDrawerOpen(false);
 		setCurrentTab(tabNumber);
+		await supabase
+			.from('user-settings')
+			.update({ currentTab: tabNumber })
+			.eq('id', userData.id)
+			.select();
 	};
 
 	return (
@@ -243,7 +249,8 @@ const Editor = () => {
 				</Button>
 			</Drawer>
 			<TabPanel value={currentTab} index={0}>
-				<div className="bg-white p-4 mb-4">
+				<Settings content={content} handleChange={handleChange} />
+				{/* <div className="bg-white p-4 mb-4">
 					<div className="flex">
 						<Typography variant="h6">Testimony Meeting</Typography>
 						<Switch
@@ -269,7 +276,7 @@ const Editor = () => {
 						label="Image URL"
 						sx={{ mb: 2 }}
 					/>
-				</div>
+				</div> */}
 			</TabPanel>
 			<TabPanel value={currentTab} index={1}>
 				<Leaders handleChange={handleChange} />

@@ -11,10 +11,11 @@ export type EditorChildren = {
 
 export type BlockName = 'blockOne' | 'blockTwo' | 'blockThree';
 
-interface UserSettings {
+export interface UserSettings {
 	id: string;
 	ward: string;
 	stake: string;
+	currentTab: number;
 }
 
 interface IntermediateMusic {

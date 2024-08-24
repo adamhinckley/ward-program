@@ -2,18 +2,13 @@
 import { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { AppState, Bulletin } from '@/utils/types';
+import { AppState, Bulletin, UserSettings } from '@/utils/types';
 
 type AppContextProviderProps = {
 	initialState: AppState;
 	children: ReactNode;
 };
 
-type userData = {
-	id: string;
-	stake: string;
-	ward: string;
-};
 // Define the shape of the context state
 type AppContextState = {
 	content: Bulletin;
@@ -22,8 +17,8 @@ type AppContextState = {
 	editorContentRef: React.MutableRefObject<string>;
 	currentTab: number;
 	setCurrentTab: (tab: number) => void;
-	userData: userData;
-	setUserData: (userData: userData) => void;
+	userData: UserSettings;
+	setUserData: (userData: UserSettings) => void;
 	missingWardData: boolean;
 };
 
@@ -34,8 +29,10 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	children,
 }) => {
 	const [content, setContent] = useState(initialState.bulletinData[0].bulletin);
-	const [currentTab, setCurrentTab] = useState(0);
+	const [currentTab, setCurrentTab] = useState(Number(initialState.userSettings.currentTab));
 	const [userData, setUserData] = useState(initialState.userSettings);
+
+	console.log('currentTab', currentTab);
 
 	const [missingWardData, setMissingWardData] = useState(false);
 

@@ -11,6 +11,7 @@
 		"@mui/icons-material": "^5.15.21",
 		"@mui/lab": "^5.0.0-alpha.173",
 		"@mui/material": "^5.15.21",
+		"@next/third-parties": "^14.2.6",
 		"@supabase/ssr": "latest",
 		"@supabase/supabase-js": "latest",
 		"@tiptap/extension-highlight": "^2.5.8",

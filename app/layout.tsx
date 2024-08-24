@@ -12,7 +12,6 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	console.log('hello from the server');
 	return (
 		<html lang="en">
 			<Head>

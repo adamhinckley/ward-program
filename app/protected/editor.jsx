@@ -1,6 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import Textfield from '@mui/material/TextField';
 import { Typography } from '@mui/material';

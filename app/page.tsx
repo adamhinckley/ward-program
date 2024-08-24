@@ -19,8 +19,6 @@ export default async function Home({
 			.eq('ward', ward)
 			.eq('stake', stake);
 
-		console.log('bulletin', data);
-
 		if (error) {
 			console.error('error getting bulletin:', error);
 		}

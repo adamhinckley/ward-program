@@ -17,8 +17,6 @@ export default async function ProtectedPage() {
 
 	let initialState: Partial<AppState> = {};
 
-	// fetch user data using user id
-	// Fetch user data from the user-settings table using user id
 	const { data: userSettings, error } = await supabase
 		.from('user-settings')
 		.select('*')

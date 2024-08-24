@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AppContextProvider } from '@/context/AppContext';
 import Head from 'next/head';
 
 export const metadata: Metadata = {
@@ -13,6 +12,7 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	console.log('hello from the server');
 	return (
 		<html lang="en">
 			<Head>
@@ -24,9 +24,7 @@ export default function RootLayout({
 				{/* Step 3: Add og:image meta tag */}
 				{/* Add more meta tags as needed */}
 			</Head>
-			<AppContextProvider>
-				<body className="bg-white">{children}</body>
-			</AppContextProvider>
+			<body className="bg-white">{children}</body>
 		</html>
 	);
 }

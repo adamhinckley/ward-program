@@ -33,8 +33,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	initialState,
 	children,
 }) => {
-	console.log(initialState);
-
 	const [content, setContent] = useState(initialState.bulletinData[0].bulletin);
 	const [currentTab, setCurrentTab] = useState(0);
 	const [userData, setUserData] = useState(initialState.userSettings);

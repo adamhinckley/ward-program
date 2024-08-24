@@ -20,6 +20,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import { createClient } from '@/utils/supabase/client';
 
 const styles = css`
 	.MuiTabs-flexContainer {
@@ -63,8 +64,9 @@ const loadingStyles = css`
 `;
 
 const Editor = () => {
-	const { content, setContent, currentTab, setCurrentTab } = useAppContext();
+	const { content, setContent, currentTab, setCurrentTab, userData } = useAppContext();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const supabase = createClient();
 
 	// return loading if content is not available
 	// check if content is an empty object
@@ -140,8 +142,13 @@ const Editor = () => {
 		};
 	};
 
-	const handleTabChange = (_, newValue) => {
+	const handleTabChange = async (_, newValue) => {
 		setCurrentTab(newValue);
+		await supabase
+			.from('user-settings')
+			.update({ currentTab: newValue }) // Assuming 'bulletin' is the column you want to update.
+			.eq('id', userData.id)
+			.select();
 	};
 
 	const handleDrawerButtonClick = (tabNumber) => {

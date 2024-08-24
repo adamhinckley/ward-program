@@ -4,6 +4,8 @@ import { css } from '@emotion/react';
 import { Button } from '@mui/material';
 import Textfield from '@mui/material/TextField';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 
 const styles = css`
 	margin: 0 auto;
@@ -31,8 +33,10 @@ const styles = css`
 `;
 
 const MissingWardData = () => {
+	const router = useRouter();
 	const [ward, setWard] = useState('');
 	const [stake, setStake] = useState('');
+	const [isRoutingToLogin, setIsRoutingToLogin] = useState(false);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -52,6 +56,11 @@ const MissingWardData = () => {
 		window.location.href = newUrl;
 	};
 
+	const handleRouteToLoginPage = () => {
+		setIsRoutingToLogin(true);
+		router.push('/protected');
+	};
+
 	return (
 		<div css={styles}>
 			<h1>Missing or Invalid Ward Data</h1>
@@ -61,6 +70,14 @@ const MissingWardData = () => {
 				<Button variant="contained" color="primary" onClick={handleRedirect}>
 					Submit
 				</Button>
+				<LoadingButton
+					loading={isRoutingToLogin}
+					variant="contained"
+					color="primary"
+					onClick={handleRouteToLoginPage}
+				>
+					Admin Login
+				</LoadingButton>
 			</div>
 		</div>
 	);

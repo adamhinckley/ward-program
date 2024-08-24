@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { AppContextProvider } from '@/context/AppContext';
 import Head from 'next/head';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -26,9 +25,7 @@ export default function RootLayout({
 				{/* Step 3: Add og:image meta tag */}
 				{/* Add more meta tags as needed */}
 			</Head>
-			<AppContextProvider>
-				<body className="bg-white">{children}</body>
-			</AppContextProvider>
+			<body className="bg-white">{children}</body>
 			{!isLocal && process.env.REACT_APP_GA_ID && (
 				<GoogleAnalytics gaId={process.env.REACT_APP_GA_ID} />
 			)}

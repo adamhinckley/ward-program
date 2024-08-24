@@ -1,50 +1,33 @@
-'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import Agenda from './agenda';
-import Announcements from './announcements';
-import FrontPage from './frontPage';
-import { useAppContext } from '../context/AppContext';
-import { Divider } from '@mui/material';
-import Loading from '@/components/Loading';
-import { useEffect, useState } from 'react';
+'use server';
 import MissingWardData from '@/components/MissingWardData';
+import { ClientProvider } from './ClientProvider';
+import { createClient } from '@/utils/supabase/server';
 
-const styles = css`
-	max-width: 550px;
-	margin: 0 auto;
-`;
-
-export default function Home({
+export default async function Home({
 	searchParams,
 }: {
 	searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-	const { content } = useAppContext();
-	const [isLoadingReady, setIsLoadingReady] = useState(false);
+	const supabase = createClient();
+	let initialState;
+	const { ward, stake } = searchParams || {};
 
-	const hasContent = Object.keys(content).length > 0;
+	if (ward && stake) {
+		const { data, error } = await supabase
+			.from('ward-bulletin')
+			.select()
+			.eq('ward', ward)
+			.eq('stake', stake);
 
-	useEffect(() => {
-		if (hasContent) {
-			const timer = setTimeout(() => {
-				setIsLoadingReady(true);
-			}, 200);
-			return () => clearTimeout(timer);
+		if (error) {
+			console.error('error getting bulletin:', error);
 		}
-	}, [hasContent]);
 
-	if (!searchParams || (searchParams && !Object.keys(searchParams).length)) {
-		return <MissingWardData />;
+		if (data) {
+			initialState = !data.length ? 'no data' : { bulletinData: data };
+		}
+		return <ClientProvider initialState={initialState} />;
 	}
 
-	return (
-		<main css={styles}>
-			{(!hasContent || !isLoadingReady) && <Loading />}
-			<FrontPage />
-			<Agenda />
-			<Divider sx={{ margin: '12px 0', borderColor: 'black' }} />
-			<Announcements />
-		</main>
-	);
+	return <MissingWardData />;
 }

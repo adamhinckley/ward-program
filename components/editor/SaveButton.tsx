@@ -17,7 +17,7 @@ const styles = css`
 
 const SaveButton = () => {
 	const supabase = createClient();
-	const { content, setContent, editorContentRef } = useAppContext();
+	const { content, setContent, editorContentRef, userData } = useAppContext();
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState(false);
 
@@ -30,8 +30,8 @@ const SaveButton = () => {
 			const { data: bulletinData, error: bulletinError } = await supabase
 				.from('ward-bulletin')
 				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
-				// .eq('id', 2)
-				.eq('id', 6)
+				.eq('ward', userData.ward)
+				.eq('stake', userData.stake)
 				.select();
 
 			if (bulletinError) {

@@ -54,7 +54,7 @@ const MissingWardData = () => {
 
 	return (
 		<div css={styles}>
-			<h1>Missing Ward Data</h1>
+			<h1>Missing or Invalid Ward Data</h1>
 			<div className="input-container">
 				<Textfield name="ward" label="Ward" value={ward} onChange={handleChange} />
 				<Textfield name="stake" label="Stake" value={stake} onChange={handleChange} />

@@ -20,7 +20,7 @@ type AppContextState = {
 	userData: UserSettings;
 	setUserData: (userData: UserSettings) => void;
 	missingWardData: boolean;
-	bulletinId: string;
+	bulletinId: number;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);

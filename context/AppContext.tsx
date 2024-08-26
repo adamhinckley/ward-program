@@ -20,6 +20,7 @@ type AppContextState = {
 	userData: UserSettings;
 	setUserData: (userData: UserSettings) => void;
 	missingWardData: boolean;
+	bulletinId: string;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -29,12 +30,12 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	children,
 }) => {
 	const [content, setContent] = useState(initialState.bulletinData[0].bulletin);
+	const bulletinId = initialState.bulletinData[0].id;
+
 	const [currentTab, setCurrentTab] = useState(
 		initialState.userSettings ? Number(initialState.userSettings.currentTab) : 0,
 	);
 	const [userData, setUserData] = useState(initialState.userSettings);
-
-	console.log('currentTab', currentTab);
 
 	const [missingWardData, setMissingWardData] = useState(false);
 
@@ -59,6 +60,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 		userData,
 		setUserData,
 		missingWardData,
+		bulletinId,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

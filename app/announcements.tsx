@@ -34,14 +34,6 @@ const Announcements = () => {
 		return null;
 	}
 
-	const { announcementsAndLessons } = content;
-	if (!Array.isArray(announcementsAndLessons)) {
-		return null;
-	}
-	if (!announcementsAndLessons.length) {
-		return null;
-	}
-
 	return <div className="mx-4" id="announcement" css={announcementStyles}></div>;
 };
 

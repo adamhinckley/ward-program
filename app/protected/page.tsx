@@ -30,16 +30,20 @@ export default async function ProtectedPage() {
 
 	if (userSettings) {
 		initialState.userSettings = userSettings;
-		const { data: bulletinData, error: bulletinError } = await supabase
-			.from('ward-bulletin')
-			.select()
-			.eq('ward', userSettings.ward)
-			.eq('stake', userSettings.stake);
+		try {
+			const { data: bulletinData, error: bulletinError } = await supabase
+				.from('ward-bulletin')
+				.select()
+				.eq('ward', userSettings.ward)
+				.eq('stake', userSettings.stake);
 
-		if (bulletinError) {
-			console.error('Error fetching bulletin:', bulletinError.message);
-		} else {
-			initialState.bulletinData = bulletinData;
+			if (bulletinError) {
+				console.error('Error fetching bulletin:', bulletinError.message);
+			} else {
+				initialState.bulletinData = bulletinData;
+			}
+		} catch (error) {
+			console.error('Error fetching bulletin:', (error as Error)?.message);
 		}
 	}
 	if (!initialState.bulletinData || !initialState?.userSettings) {

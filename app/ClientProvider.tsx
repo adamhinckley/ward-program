@@ -14,8 +14,6 @@ const styles = css`
 `;
 
 export function ClientProvider({ initialState }: { initialState: any }) {
-	console.log('initialState', initialState);
-
 	if (initialState === 'no data') {
 		return (
 			<div css={styles}>

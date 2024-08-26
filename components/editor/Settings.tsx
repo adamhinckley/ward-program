@@ -29,15 +29,13 @@ const styles = css`
 `;
 
 const Settings = ({ content, handleChange }: SettingsProps) => {
-	const { setContent, userData } = useAppContext();
+	const { setContent, userData, bulletinId } = useAppContext();
 
 	const handleCheckboxChange = (e: { target: { name: any; checked: any } }) => {
 		setContent({ ...content, [e.target.name]: e.target.checked });
 	};
 
-	console.log(userData);
-
-	const qrCodeValue = `https://app.wardprogram.com/?ward=${userData.ward}&stake=${userData.stake}`;
+	const qrCodeValue = `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
 		<div className="bg-white p-4 mb-4" css={styles}>
 			<div className="flex">
@@ -64,6 +62,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 				fullWidth
 				label="Image URL"
 				sx={{ mb: 2 }}
+				helperText="Only images from churchofjesuschrist.org will work"
 			/>
 			<div className="qr-code-container">
 				<QRCode
@@ -98,6 +97,9 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 				>
 					Download qr code
 				</Button>
+				<a href={qrCodeValue} target="_blank" rel="noreferrer">
+					{qrCodeValue}
+				</a>
 			</div>
 		</div>
 	);

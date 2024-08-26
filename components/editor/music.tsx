@@ -113,7 +113,6 @@ const MusicEditor = ({
 			<Divider sx={{ my: 2 }} />
 
 			{/* SACRAMENT HYMN */}
-			<Typography sx={{ mb: 1 }}>Sacrament Hymn</Typography>
 			<Autocomplete
 				options={hymnsArray}
 				getOptionLabel={(option) => `${option.number} - ${option.title}`}
@@ -324,8 +323,6 @@ const MusicEditor = ({
 			<Divider sx={{ my: 2 }} />
 
 			{/* CLOSING HYMN */}
-			<Typography sx={{ mb: 1 }}>Closing Hymn</Typography>
-
 			<Autocomplete
 				options={hymnsArray}
 				getOptionLabel={(option) => `${option.number} - ${option.title}`}

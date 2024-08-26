@@ -10,24 +10,22 @@ export default async function Home({
 }) {
 	const supabase = createClient();
 	let initialState;
-	const { ward, stake } = searchParams || {};
+	const { id } = searchParams || {};
 
-	if (ward && stake) {
-		const { data, error } = await supabase
-			.from('ward-bulletin')
-			.select()
-			.eq('ward', ward)
-			.eq('stake', stake);
+	if (id) {
+		try {
+			const { data, error } = await supabase.from('ward-bulletin').select().eq('id', id);
 
-		if (error) {
+			if (error) {
+				console.error('error getting bulletin:', error);
+			}
+
+			if (data) {
+				initialState = !data.length ? 'no data' : { bulletinData: data };
+			}
+		} catch (error) {
 			console.error('error getting bulletin:', error);
-		}
-
-		if (data) {
-			initialState = !data.length ? 'no data' : { bulletinData: data };
 		}
 		return <ClientProvider initialState={initialState} />;
 	}
-
-	return <MissingWardData />;
 }

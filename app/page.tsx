@@ -28,4 +28,6 @@ export default async function Home({
 		}
 		return <ClientProvider initialState={initialState} />;
 	}
+
+	return <MissingWardData />;
 }

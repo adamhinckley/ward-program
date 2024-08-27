@@ -63,13 +63,11 @@ const MissingWardData = () => {
 
 	return (
 		<div css={styles}>
-			<h1>Missing or Invalid Ward Data</h1>
+			<h1>
+				Missing or Invalid Ward Data. Check with your ward leadership to get a link for your
+				program
+			</h1>
 			<div className="input-container">
-				<Textfield name="ward" label="Ward" value={ward} onChange={handleChange} />
-				<Textfield name="stake" label="Stake" value={stake} onChange={handleChange} />
-				<Button variant="contained" color="primary" onClick={handleRedirect}>
-					Submit
-				</Button>
 				<LoadingButton
 					loading={isRoutingToLogin}
 					variant="contained"

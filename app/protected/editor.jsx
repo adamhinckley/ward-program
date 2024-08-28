@@ -22,6 +22,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { createClient } from '@/utils/supabase/client';
 import Settings from '@/components/editor/Settings';
+import UpdateInfoDialog from '@/components/UpdateInfoDialog';
 
 const styles = css`
 	.MuiTabs-flexContainer {
@@ -314,6 +315,7 @@ const Editor = () => {
 			<TabPanel value={currentTab} index={5}>
 				<Tiptap />
 			</TabPanel>
+			<UpdateInfoDialog />
 		</div>
 	);
 };

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 			const { data: insertUserData, error: insertUserError } = await supabase
 				.from('user-settings')
 				.insert({
-					user_id: data.user.id,
+					id: data.user.id,
 				});
 
 			console.log('add user to user settings data', insertUserData);
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 		const { data: insertWardData, error: insertWardError } = await supabase
 			.from('ward-bulletin')
 			.insert({
-				ward_id: data?.user?.id,
+				id: data?.user?.id,
 			});
 
 		console.log('add ward data to ward bulletin data', insertWardData);

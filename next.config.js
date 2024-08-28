@@ -3,7 +3,12 @@ const path = require('path');
 
 const nextConfig = {
 	images: {
-		domains: ['content.churchofjesuschrist.org', 'www.churchofjesuschrist.org'],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: '**',
+			},
+		],
 	},
 	compiler: {
 		emotion: true,

@@ -30,8 +30,7 @@ const SaveButton = () => {
 			const { data: bulletinData, error: bulletinError } = await supabase
 				.from('ward-bulletin')
 				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
-				.eq('ward', userData.ward)
-				.eq('stake', userData.stake)
+				.eq('id', userData.id)
 				.select();
 
 			if (bulletinError) {

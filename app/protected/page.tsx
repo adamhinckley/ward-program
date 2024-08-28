@@ -34,8 +34,7 @@ export default async function ProtectedPage() {
 			const { data: bulletinData, error: bulletinError } = await supabase
 				.from('ward-bulletin')
 				.select()
-				.eq('ward', userSettings.ward)
-				.eq('stake', userSettings.stake);
+				.eq('id', userSettings.id);
 
 			if (bulletinError) {
 				console.error('Error fetching bulletin:', bulletinError.message);

@@ -20,6 +20,29 @@ export async function GET(request: NextRequest) {
 
 		console.log('confirm user data', data);
 		console.log('confirm user error', error);
+
+		if (data?.user?.id) {
+			// add user to the user settings table
+			const { data: insertUserData, error: insertUserError } = await supabase
+				.from('user-settings')
+				.insert({
+					user_id: data.user.id,
+				});
+
+			console.log('add user to user settings data', insertUserData);
+			console.log('add user to user settings error', insertUserError);
+		}
+
+		// add ward data to the ward-bulletin table
+		const { data: insertWardData, error: insertWardError } = await supabase
+			.from('ward-bulletin')
+			.insert({
+				ward_id: data?.user?.id,
+			});
+
+		console.log('add ward data to ward bulletin data', insertWardData);
+		console.log('add ward data to ward bulletin error', insertWardError);
+
 		if (!error) {
 			// redirect user to specified redirect URL or root of app
 			redirect(next);

@@ -72,15 +72,9 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 			</Link>
 
 			<form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-				<Textfield name="email" placeholder="you@example.com" required label="Email" />
+				<Textfield name="email" required label="Email" />
 
-				<Textfield
-					type="password"
-					name="password"
-					placeholder="••••••••"
-					required
-					label="Password"
-				/>
+				<Textfield type="password" name="password" required label="Password" />
 				<SubmitButton
 					formAction={signIn}
 					className="bg-blue-500 rounded-md px-4 py-2 text-foreground mb-2"

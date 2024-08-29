@@ -18,37 +18,44 @@ export async function GET(request: NextRequest) {
 			token_hash,
 		});
 
-		console.log('confirm user data', data);
-		console.log('confirm user error', error);
+		if (error) {
+			console.error('Error verifying OTP:', error);
+			return redirect('/error');
+		}
 
 		if (data?.user?.id) {
-			// add user to the user settings table
-			const { data: insertUserData, error: insertUserError } = await supabase
-				.from('user-settings')
-				.insert({
-					id: data.user.id,
-				});
+			try {
+				// add user to the user settings table
+				const { data: insertUserData, error: insertUserError } = await supabase
+					.from('user-settings')
+					.upsert({
+						id: data.user.id,
+					});
 
-			console.log('add user to user settings data', insertUserData);
-			console.log('add user to user settings error', insertUserError);
+				if (insertUserError) {
+					console.error('Error inserting user data:', insertUserError);
+					return redirect('/error');
+				}
+
+				// add ward data to the ward-bulletin table
+				const { data: insertWardData, error: insertWardError } = await supabase
+					.from('ward-bulletin')
+					.upsert({
+						id: data?.user?.id,
+					});
+
+				if (insertWardError) {
+					console.error('Error inserting ward data:', insertWardError);
+					return redirect('/error');
+				}
+
+				// redirect user to specified redirect URL or root of app
+				return redirect(next);
+			} catch (error) {
+				console.error('Error caught:', error);
+			}
 		}
-
-		// add ward data to the ward-bulletin table
-		const { data: insertWardData, error: insertWardError } = await supabase
-			.from('ward-bulletin')
-			.insert({
-				id: data?.user?.id,
-			});
-
-		console.log('add ward data to ward bulletin data', insertWardData);
-		console.log('add ward data to ward bulletin error', insertWardError);
-
-		if (!error) {
-			// redirect user to specified redirect URL or root of app
-			redirect(next);
-		}
+		// redirect the user to an error page with some instructions
+		redirect('/error');
 	}
-
-	// redirect the user to an error page with some instructions
-	redirect('/error');
 }

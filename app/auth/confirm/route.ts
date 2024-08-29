@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 		if (data?.user?.id) {
 			// add user to the user settings table
 			const { error: insertUserError } = await supabase.from('user-settings').upsert({
-				user_id: data.user.id,
+				id: data.user.id,
 			});
 
 			if (insertUserError) {
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
 			// add ward data to the ward-bulletin table
 			const { error: insertWardError } = await supabase.from('ward-bulletin').upsert({
-				ward_id: data?.user?.id,
+				id: data?.user?.id,
 			});
 
 			if (insertWardError) {

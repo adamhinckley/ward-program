@@ -18,8 +18,9 @@ export async function GET(request: NextRequest) {
 			token_hash,
 		});
 
-		console.log('confirm user data', data);
-		console.log('confirm user error', error);
+		if (error) {
+			console.error('error verifying OTP', error);
+		}
 
 		if (data?.user?.id) {
 			// add user to the user settings table

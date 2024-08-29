@@ -29,7 +29,6 @@ const SignUpForm = () => {
 		password: '',
 		password2: '',
 	});
-	const [captchaToken, setCaptchaToken] = useState<string | undefined>();
 	const [successMessage, setSuccessMessage] = useState('');
 
 	const { email, password, password2 } = inputValues;
@@ -49,15 +48,9 @@ const SignUpForm = () => {
 			return;
 		}
 
-		if (!captchaToken && !isDevEnv) {
-			alert('Please complete the captcha');
-			return;
-		}
-
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
-			...(isDevEnv ? {} : { options: { captchaToken } }),
 		});
 
 		if (error) {
@@ -113,17 +106,7 @@ const SignUpForm = () => {
 			<Button type="submit" variant="contained" color="primary" onClick={handleSignUp}>
 				Sign Up
 			</Button>
-			{!isDevEnv ? (
-				<Turnstile
-					siteKey="0x4AAAAAAAiOM8bbMsmvNPK6"
-					onSuccess={(token) => {
-						setCaptchaToken(token);
-					}}
-					options={{
-						theme: 'light',
-					}}
-				/>
-			) : null}
+
 			{successMessage ? <Typography>{successMessage}</Typography> : null}
 		</form>
 	);

@@ -11,7 +11,7 @@ const styles = css`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-	max-width: 300px;
+	width: 300px;
 	margin: 0 auto;
 	//center in the screen
 	position: absolute;
@@ -19,7 +19,7 @@ const styles = css`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	button {
-		background-color: #1976d2; /* Green */
+		background-color: #1976d2;
 	}
 `;
 
@@ -30,11 +30,14 @@ const SignUpForm = () => {
 		password2: '',
 	});
 	const [captchaToken, setCaptchaToken] = useState<string | undefined>();
+	const [successMessage, setSuccessMessage] = useState('');
 
 	const { email, password, password2 } = inputValues;
 	const supabase = createClient();
 
-	const handleSignUp = async () => {
+	const handleSignUp = async (e: { preventDefault: () => void; stopPropagation: () => void }) => {
+		e.preventDefault();
+		e.stopPropagation();
 		if (password !== password2) {
 			alert('Passwords do not match');
 			return;
@@ -57,8 +60,14 @@ const SignUpForm = () => {
 			...(isDevEnv ? {} : { options: { captchaToken } }),
 		});
 
-		console.log('data', data);
-		console.log('error', error);
+		if (error) {
+			alert('There was an error, please try again');
+			console.error('error on sign up:', error);
+		}
+
+		if (data) {
+			setSuccessMessage('Please check your email to verify your account');
+		}
 	};
 
 	const handleChange = (e: { target: { name: string; value: SetStateAction<string> } }) => {
@@ -81,6 +90,7 @@ const SignUpForm = () => {
 				value={email}
 				onChange={handleChange}
 				required
+				fullWidth
 			/>
 			<TextField
 				type="password"
@@ -89,6 +99,7 @@ const SignUpForm = () => {
 				value={password}
 				onChange={handleChange}
 				required
+				fullWidth
 			/>
 			<TextField
 				type="password"
@@ -97,6 +108,7 @@ const SignUpForm = () => {
 				value={password2}
 				onChange={handleChange}
 				required
+				fullWidth
 			/>
 			<Button type="submit" variant="contained" color="primary" onClick={handleSignUp}>
 				Sign Up
@@ -112,6 +124,7 @@ const SignUpForm = () => {
 					}}
 				/>
 			) : null}
+			{successMessage ? <Typography>{successMessage}</Typography> : null}
 		</form>
 	);
 };

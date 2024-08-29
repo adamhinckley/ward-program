@@ -18,44 +18,35 @@ export async function GET(request: NextRequest) {
 			token_hash,
 		});
 
-		if (error) {
-			console.error('Error verifying OTP:', error);
-			return redirect('/error');
-		}
+		console.log('confirm user data', data);
+		console.log('confirm user error', error);
 
 		if (data?.user?.id) {
-			try {
-				// add user to the user settings table
-				const { data: insertUserData, error: insertUserError } = await supabase
-					.from('user-settings')
-					.upsert({
-						id: data.user.id,
-					});
+			// add user to the user settings table
+			const { error: insertUserError } = await supabase.from('user-settings').upsert({
+				user_id: data.user.id,
+			});
 
-				if (insertUserError) {
-					console.error('Error inserting user data:', insertUserError);
-					return redirect('/error');
-				}
+			if (insertUserError) {
+				console.error('insert user data to user settings error', insertUserError);
+			}
 
-				// add ward data to the ward-bulletin table
-				const { data: insertWardData, error: insertWardError } = await supabase
-					.from('ward-bulletin')
-					.upsert({
-						id: data?.user?.id,
-					});
+			// add ward data to the ward-bulletin table
+			const { error: insertWardError } = await supabase.from('ward-bulletin').upsert({
+				ward_id: data?.user?.id,
+			});
 
-				if (insertWardError) {
-					console.error('Error inserting ward data:', insertWardError);
-					return redirect('/error');
-				}
-
-				// redirect user to specified redirect URL or root of app
-				return redirect(next);
-			} catch (error) {
-				console.error('Error caught:', error);
+			if (insertWardError) {
+				console.error('insert ward data to ward-bulletin error', insertWardError);
 			}
 		}
-		// redirect the user to an error page with some instructions
-		redirect('/error');
+
+		if (!error) {
+			// redirect user to specified redirect URL or root of app
+			return redirect(next);
+		}
 	}
+
+	// redirect the user to an error page with some instructions
+	redirect('/error');
 }

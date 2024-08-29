@@ -40,14 +40,13 @@ export async function GET(request: NextRequest) {
 			if (insertWardError) {
 				console.error('insert ward data to ward-bulletin error', insertWardError);
 			}
-		}
-
-		if (!error) {
 			// redirect user to specified redirect URL or root of app
-			return redirect(next);
+			if (!error && !insertUserError && !insertWardError) {
+				return redirect(next);
+			}
 		}
-	}
 
-	// redirect the user to an error page with some instructions
-	redirect('/error');
+		// redirect the user to an error page with some instructions
+		redirect('/error');
+	}
 }

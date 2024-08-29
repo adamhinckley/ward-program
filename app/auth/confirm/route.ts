@@ -35,7 +35,8 @@ export async function GET(request: NextRequest) {
 					});
 
 				if (insertUserError) {
-					throw insertUserError;
+					console.error('Error inserting user data on auth verify:', insertUserError);
+					redirect('/error');
 				}
 
 				console.log('add user to user settings data', insertUserData);
@@ -48,7 +49,8 @@ export async function GET(request: NextRequest) {
 					});
 
 				if (insertWardError) {
-					throw insertWardError;
+					console.error('Error inserting ward data on auth verify:', insertWardError);
+					redirect('/error');
 				}
 
 				console.log('add ward data to ward bulletin data', insertWardData);

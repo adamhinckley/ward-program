@@ -15,6 +15,8 @@ const announcementStyles = css`
 		color: #1e40af;
 		text-decoration: underline;
 	}
+
+	padding: 0 0.75rem 0.75rem;
 `;
 
 const Announcements = () => {
@@ -34,7 +36,7 @@ const Announcements = () => {
 		return null;
 	}
 
-	return <div className="mx-4" id="announcement" css={announcementStyles}></div>;
+	return <div id="announcement" css={announcementStyles}></div>;
 };
 
 export default Announcements;

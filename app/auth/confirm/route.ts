@@ -18,55 +18,37 @@ export async function GET(request: NextRequest) {
 			token_hash,
 		});
 
-		if (error) {
-			console.error('Error verifying OTP:', error);
-			// Redirect the user to an error page with some instructions
-			redirect('/error');
-		}
+		console.log('confirm user data', data);
+		console.log('confirm user error', error);
 
 		if (data?.user?.id) {
-			const { id } = data.user;
-			try {
-				// Add user to the user settings table
-				const { data: insertUserData, error: insertUserError } = await supabase
-					.from('user-settings')
-					.upsert({
-						id,
-					});
+			// add user to the user settings table
+			const { data: insertUserData, error: insertUserError } = await supabase
+				.from('user-settings')
+				.insert({
+					id: data.user.id,
+				});
 
-				if (insertUserError) {
-					console.error('Error inserting user data on auth verify:', insertUserError);
-					redirect('/error');
-				}
+			console.log('add user to user settings data', insertUserData);
+			console.log('add user to user settings error', insertUserError);
+		}
 
-				console.log('add user to user settings data', insertUserData);
+		// add ward data to the ward-bulletin table
+		const { data: insertWardData, error: insertWardError } = await supabase
+			.from('ward-bulletin')
+			.insert({
+				id: data?.user?.id,
+			});
 
-				// Add ward data to the ward-bulletin table
-				const { data: insertWardData, error: insertWardError } = await supabase
-					.from('ward-bulletin')
-					.upsert({
-						id,
-					});
+		console.log('add ward data to ward bulletin data', insertWardData);
+		console.log('add ward data to ward bulletin error', insertWardError);
 
-				if (insertWardError) {
-					console.error('Error inserting ward data on auth verify:', insertWardError);
-					redirect('/error');
-				}
-
-				console.log('add ward data to ward bulletin data', insertWardData);
-
-				// Redirect user to specified redirect URL or root of app
-				redirect(next);
-			} catch (error) {
-				console.error('Error inserting data:', error);
-				// Redirect the user to an error page with some instructions
-				redirect('/error');
-			}
-		} else {
-			// Redirect the user to an error page with some instructions
-			redirect('/error');
+		if (!error) {
+			// redirect user to specified redirect URL or root of app
+			redirect(next);
 		}
 	}
+
 	// redirect the user to an error page with some instructions
 	redirect('/error');
 }

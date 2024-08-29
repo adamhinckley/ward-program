@@ -107,6 +107,9 @@ const SignUpForm = () => {
 					onSuccess={(token) => {
 						setCaptchaToken(token);
 					}}
+					options={{
+						theme: 'light',
+					}}
 				/>
 			) : null}
 		</form>

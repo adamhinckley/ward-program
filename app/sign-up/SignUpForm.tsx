@@ -5,6 +5,7 @@ import { SetStateAction, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Button, TextField, Typography } from '@mui/material';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { isDevEnv } from '@/utils/helpers';
 
 const styles = css`
 	display: flex;
@@ -34,10 +35,26 @@ const SignUpForm = () => {
 	const supabase = createClient();
 
 	const handleSignUp = async () => {
+		if (password !== password2) {
+			alert('Passwords do not match');
+			return;
+		}
+		// validate email with regex
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (!emailRegex.test(email)) {
+			alert('Invalid email');
+			return;
+		}
+
+		if (!captchaToken && !isDevEnv) {
+			alert('Please complete the captcha');
+			return;
+		}
+
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
-			options: { captchaToken },
+			...(isDevEnv ? {} : { options: { captchaToken } }),
 		});
 
 		console.log('data', data);
@@ -84,12 +101,14 @@ const SignUpForm = () => {
 			<Button type="submit" variant="contained" color="primary" onClick={handleSignUp}>
 				Sign Up
 			</Button>
-			<Turnstile
-				siteKey="0x4AAAAAAAiOM8bbMsmvNPK6"
-				onSuccess={(token) => {
-					setCaptchaToken(token);
-				}}
-			/>
+			{!isDevEnv ? (
+				<Turnstile
+					siteKey="0x4AAAAAAAiOM8bbMsmvNPK6"
+					onSuccess={(token) => {
+						setCaptchaToken(token);
+					}}
+				/>
+			) : null}
 		</form>
 	);
 };

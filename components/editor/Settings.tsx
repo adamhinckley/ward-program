@@ -79,7 +79,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 					inputProps={{ 'aria-label': 'controlled' }}
 				/>
 				<Typography>
-					Turn this on to temporarily remove the speakers and intermediate music
+					Turn this on to show "Bearing of Testimonies" instead of speakers and music.
 				</Typography>
 			</div>
 			<Textfield
@@ -97,7 +97,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 				fullWidth
 				label="Image URL"
 				sx={{ mb: 2 }}
-				helperText="Only images from churchofjesuschrist.org will work"
+				helperText="Ensure the link points directly to the image file, not to a webpage containing the image."
 			/>
 			<div className="qr-code-container">
 				<QRCode

@@ -12,7 +12,7 @@ import WardContacts from '@/components/WardContacts';
 const styles = css`
 	max-width: 550px;
 	margin: 0 auto;
-	padding: 0 12px;
+	padding: 0 12px 12px;
 `;
 
 export function ClientProvider({ initialState }: { initialState: any }) {

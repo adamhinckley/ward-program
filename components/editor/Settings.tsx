@@ -64,6 +64,17 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 	const qrCodeValue = `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
 		<div className="bg-white p-4 mb-4" css={styles}>
+			<Typography>
+				Have questions or ideas to share? Join our exclusive community on{' '}
+				<a
+					href="https://www.facebook.com/share/g/mTLYxUWuD1ci6b66/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					facebook
+				</a>{' '}
+				and dive right in!
+			</Typography>
 			<div className="link-container">
 				<Typography>Your custom program link: </Typography>
 				<a href={qrCodeValue} target="_blank" rel="noreferrer">

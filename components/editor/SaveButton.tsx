@@ -10,8 +10,16 @@ const styles = css`
 	.save-button {
 		margin: 12px 0;
 		max-width: 80px;
-		background-color: #1976d2;
+		background-color: #000000;
 		box-shadow: none;
+
+		&:hover {
+			background-color: #000000;
+		}
+
+		.MuiLoadingButton-loadingIndicator {
+			color: #ffffff;
+		}
 	}
 `;
 

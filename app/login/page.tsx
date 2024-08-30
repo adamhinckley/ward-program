@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from './submit-button';
 import Textfield from '@mui/material/TextField';
+import Logo from '@/components/Logo';
 
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
 	const signIn = async (formData: FormData) => {
@@ -19,7 +20,6 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 		});
 
 		if (error) {
-			console.error('error signing in', error);
 			return redirect('/login?message=Could not authenticate user');
 		}
 
@@ -51,13 +51,12 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 
 	return (
 		<div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 m-auto mt-40">
-			<h1 className="text-4xl  text-foreground text-gray-900">Sign In</h1>
 			<form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
 				<Textfield name="email" required label="Email" />
 				<Textfield type="password" name="password" required label="Password" />
 				<SubmitButton
 					formAction={signIn}
-					className="bg-blue-500 rounded-md px-4 py-2 text-foreground mb-2"
+					className="bg-gray-900 rounded-md px-4 py-2 text-foreground mb-2"
 					pendingText="Signing In..."
 				>
 					Sign In

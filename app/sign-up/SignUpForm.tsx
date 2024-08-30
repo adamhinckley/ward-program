@@ -4,8 +4,7 @@ import { css } from '@emotion/react';
 import { SetStateAction, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Button, TextField, Typography } from '@mui/material';
-import { Turnstile } from '@marsidev/react-turnstile';
-import { isDevEnv } from '@/utils/helpers';
+import Logo from '@/components/Logo';
 
 const styles = css`
 	display: flex;
@@ -19,7 +18,11 @@ const styles = css`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	button {
-		background-color: #1976d2;
+		background-color: #000000;
+
+		&:hover {
+			background-color: #000000;
+		}
 	}
 `;
 
@@ -75,6 +78,7 @@ const SignUpForm = () => {
 
 	return (
 		<form css={styles}>
+			<Logo />
 			<Typography variant="h5">Sign Up</Typography>
 			<TextField
 				type="email"

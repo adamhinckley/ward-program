@@ -18,6 +18,7 @@ export default async function Home({
 
 			if (error) {
 				console.error('error getting bulletin:', error);
+				return <MissingWardData />;
 			}
 
 			if (data) {

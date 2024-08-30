@@ -163,16 +163,19 @@ const MusicEditor = ({
 					<ButtonGroup
 						variant="contained"
 						aria-label="Basic button group"
-						sx={{ margin: '12px 0' }}
+						sx={{
+							margin: '12px 0',
+						}}
 					>
 						<Button
 							sx={{
-								backgroundColor: isHymn ? '#1E40AF !important' : 'gray !important',
+								backgroundColor: isHymn ? '#000000 !important' : 'gray !important',
 								'&:hover': {
 									backgroundColor: isHymn
-										? '#1565c0 !important'
+										? '#4c4d4d important'
 										: '#999797 !important',
 								},
+								borderColor: 'transparent !important',
 							}}
 							onClick={handleToggle}
 						>
@@ -180,12 +183,15 @@ const MusicEditor = ({
 						</Button>
 						<Button
 							sx={{
-								backgroundColor: !isHymn ? '#1E40AF !important' : 'gray !important',
+								backgroundColor: !isHymn
+									? '#000000  !important'
+									: 'gray !important',
 								'&:hover': {
 									backgroundColor: !isHymn
-										? '#1565c0 !important'
+										? '#4c4d4d!important'
 										: '#999797 !important',
 								},
+								borderColor: 'transparent',
 							}}
 							onClick={handleToggle}
 						>
@@ -310,7 +316,7 @@ const MusicEditor = ({
 									handleAddBlockIndex &&
 									handleAddBlockIndex('intermediateMusicPerformers')
 								}
-								sx={{ margin: '12px' }}
+								sx={{ margin: '12px', color: '#000000' }}
 							>
 								<AddIcon />
 								Add Performer

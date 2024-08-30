@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Textfield from '@mui/material/TextField';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import { useAppContext } from '@/context/AppContext';
 import QRCode from 'react-qr-code';
@@ -13,6 +13,21 @@ type SettingsProps = {
 };
 
 const styles = css`
+	.switch-container {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin: 12px 0;
+
+		.Mui-checked {
+			color: #000000;
+		}
+
+		.MuiSwitch-track.MuiSwitch-track {
+			background-color: #000;
+		}
+	}
+
 	.qr-code-container {
 		max-width: 400px;
 		margin: 0 auto;
@@ -23,8 +38,19 @@ const styles = css`
 		gap: 16px;
 
 		button {
-			background-color: #1976d2;
+			background-color: #000000;
 		}
+	}
+
+	.link-container {
+		background-color: #b6b8b8;
+		padding: 8px;
+		border-radius: 4px;
+	}
+
+	a {
+		color: #000000;
+		text-decoration: underline;
 	}
 `;
 
@@ -38,7 +64,13 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 	const qrCodeValue = `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
 		<div className="bg-white p-4 mb-4" css={styles}>
-			<div className="flex">
+			<div className="link-container">
+				<Typography>Your custom program link: </Typography>
+				<a href={qrCodeValue} target="_blank" rel="noreferrer">
+					{qrCodeValue}
+				</a>
+			</div>
+			<div className="switch-container">
 				<Typography variant="h6">Testimony Meeting</Typography>
 				<Switch
 					checked={content.isTestimonyMeeting}
@@ -46,6 +78,9 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 					name="isTestimonyMeeting"
 					inputProps={{ 'aria-label': 'controlled' }}
 				/>
+				<Typography>
+					Turn this on to temporarily remove the speakers and intermediate music
+				</Typography>
 			</div>
 			<Textfield
 				name="title"
@@ -97,9 +132,6 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 				>
 					Download qr code
 				</Button>
-				<a href={qrCodeValue} target="_blank" rel="noreferrer">
-					{qrCodeValue}
-				</a>
 			</div>
 		</div>
 	);

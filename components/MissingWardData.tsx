@@ -1,25 +1,33 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Button } from '@mui/material';
-import Textfield from '@mui/material/TextField';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
+import Logo from './Logo';
+import { Typography } from '@mui/material';
 
 const styles = css`
+	max-width: 800px;
 	margin: 0 auto;
-	max-width: 550px;
-	padding: 20px 12px;
-	// align vertically
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 24px;
-	// center horizontally
-	align-items: center;
-	// full height
-	height: 100vh;
+
+	.top-bar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 12px;
+	}
+
+	main {
+		margin: 0 auto;
+		padding: 20px 12px;
+		// center in the viewport
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+	}
 
 	.input-container {
 		display: flex;
@@ -27,34 +35,23 @@ const styles = css`
 		gap: 16px;
 
 		button {
-			background-color: #1976d2;
+			background-color: #000000;
 		}
+
+		.MuiLoadingButton-loadingIndicator {
+			color: #ffffff;
+		}
+	}
+
+	h1 {
+		font-family: 'Roboto', sans-serif;
+		font-size: 2rem;
 	}
 `;
 
 const MissingWardData = () => {
 	const router = useRouter();
-	const [ward, setWard] = useState('');
-	const [stake, setStake] = useState('');
 	const [isRoutingToLogin, setIsRoutingToLogin] = useState(false);
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		if (name === 'ward') {
-			setWard(value);
-		} else {
-			setStake(value);
-		}
-	};
-
-	const handleRedirect = () => {
-		// redirect to the current url but add query params for stake and ward
-		const url = new URL(window.location.href);
-		url.searchParams.set('stake', stake.toLowerCase());
-		url.searchParams.set('ward', ward.toLowerCase());
-		const newUrl = `${url.protocol}//${url.host}${url.pathname}${url.search}`;
-		window.location.href = newUrl;
-	};
 
 	const handleRouteToLoginPage = () => {
 		setIsRoutingToLogin(true);
@@ -63,20 +60,25 @@ const MissingWardData = () => {
 
 	return (
 		<div css={styles}>
-			<h1>
-				Missing or Invalid Ward Data. Check with your ward leadership to get a link for your
-				program
-			</h1>
-			<div className="input-container">
-				<LoadingButton
-					loading={isRoutingToLogin}
-					variant="contained"
-					color="primary"
-					onClick={handleRouteToLoginPage}
-				>
-					Admin Login
-				</LoadingButton>
+			<div className="top-bar">
+				<Logo />
+				<div className="input-container">
+					<LoadingButton
+						loading={isRoutingToLogin}
+						variant="contained"
+						color="primary"
+						onClick={handleRouteToLoginPage}
+					>
+						Admin Login
+					</LoadingButton>
+				</div>
 			</div>
+			<main>
+				<Typography variant="h1">
+					If you need access to your program, please contact the responsible member in
+					your ward or branch for a direct link.
+				</Typography>
+			</main>
 		</div>
 	);
 };

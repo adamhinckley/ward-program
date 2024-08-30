@@ -47,6 +47,11 @@ const styles = css`
 		.hamburger {
 			width: 40px;
 			height: 40px;
+			background-color: transparent;
+
+			.MuiSvgIcon-root {
+				fill: #000000;
+			}
 		}
 	}
 
@@ -54,6 +59,14 @@ const styles = css`
 		button {
 			font-size: 1.5rem;
 		}
+	}
+
+	.Mui-selected.Mui-selected {
+		color: #000000;
+	}
+
+	.MuiTabs-indicator {
+		background-color: #000000;
 	}
 `;
 
@@ -201,9 +214,11 @@ const Editor = () => {
 			>
 				<Button
 					variant="text"
-					color="primary"
 					onClick={() => handleDrawerButtonClick(0)}
-					sx={{ borderBottom: currentTab === 0 ? '2px solid #1976d2' : '' }}
+					sx={{
+						borderBottom: currentTab === 0 ? '2px solid #000' : '',
+						color: '#000000',
+					}}
 				>
 					Settings
 				</Button>
@@ -211,7 +226,10 @@ const Editor = () => {
 					variant="text"
 					color="primary"
 					onClick={() => handleDrawerButtonClick(1)}
-					sx={{ borderBottom: currentTab === 1 ? '2px solid #1976d2' : '' }}
+					sx={{
+						borderBottom: currentTab === 1 ? '2px solid #000' : '',
+						color: '#000000',
+					}}
 				>
 					Leaders
 				</Button>
@@ -219,7 +237,10 @@ const Editor = () => {
 					variant="text"
 					color="primary"
 					onClick={() => handleDrawerButtonClick(2)}
-					sx={{ borderBottom: currentTab === 2 ? '2px solid #1976d2' : '' }}
+					sx={{
+						borderBottom: currentTab === 2 ? '2px solid #000' : '',
+						color: '#000000',
+					}}
 				>
 					Music
 				</Button>
@@ -227,7 +248,10 @@ const Editor = () => {
 					variant="text"
 					color="primary"
 					onClick={() => handleDrawerButtonClick(3)}
-					sx={{ borderBottom: currentTab === 3 ? '2px solid #1976d2' : '' }}
+					sx={{
+						borderBottom: currentTab === 3 ? '2px solid #000' : '',
+						color: '#000000',
+					}}
 				>
 					Prayers
 				</Button>
@@ -235,7 +259,10 @@ const Editor = () => {
 					variant="text"
 					color="primary"
 					onClick={() => handleDrawerButtonClick(4)}
-					sx={{ borderBottom: currentTab === 4 ? '2px solid #1976d2' : '' }}
+					sx={{
+						borderBottom: currentTab === 4 ? '2px solid #000' : '',
+						color: '#000000',
+					}}
 				>
 					Blocks
 				</Button>
@@ -243,40 +270,16 @@ const Editor = () => {
 					variant="text"
 					color="primary"
 					onClick={() => handleDrawerButtonClick(5)}
-					sx={{ borderBottom: currentTab === 5 ? '2px solid #1976d2' : '' }}
+					sx={{
+						borderBottom: currentTab === 5 ? '2px solid #000' : '',
+						color: '#000000',
+					}}
 				>
 					Announcements
 				</Button>
 			</Drawer>
 			<TabPanel value={currentTab} index={0}>
 				<Settings content={content} handleChange={handleChange} />
-				{/* <div className="bg-white p-4 mb-4">
-					<div className="flex">
-						<Typography variant="h6">Testimony Meeting</Typography>
-						<Switch
-							checked={content.isTestimonyMeeting}
-							onChange={handleCheckboxChange}
-							name="isTestimonyMeeting"
-							inputProps={{ 'aria-label': 'controlled' }}
-						/>
-					</div>
-					<Textfield
-						name="title"
-						value={content.title}
-						onChange={handleChange}
-						fullWidth
-						label="title"
-						sx={{ mb: 2 }}
-					/>
-					<Textfield
-						name="imageUrl"
-						value={content.imageUrl}
-						onChange={handleChange}
-						fullWidth
-						label="Image URL"
-						sx={{ mb: 2 }}
-					/>
-				</div> */}
 			</TabPanel>
 			<TabPanel value={currentTab} index={1}>
 				<Leaders handleChange={handleChange} />

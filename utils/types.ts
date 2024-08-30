@@ -9,7 +9,7 @@ export type EditorChildren = {
 	handleCheckboxChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export type BlockName = 'blockOne' | 'blockTwo' | 'blockThree';
+export type BlockName = 'blockOne' | 'blockTwo' | 'blockThree' | 'wardContacts';
 
 export interface UserSettings {
 	id: string;
@@ -67,6 +67,7 @@ export interface Bulletin {
 	intermediateMusicPerformers: string[];
 	blockTwo: Block[];
 	blockThree: Block[];
+	wardContacts: Block[];
 	announcementsAndLessons: AnnouncementOrLesson[];
 	closingHymn: string;
 	closingHymnTitle: string;

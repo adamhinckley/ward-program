@@ -159,6 +159,9 @@ const MusicEditor = ({
 			{/* INTERMEDIATE MUSIC */}
 			<div className="flex flex-col">
 				<Typography sx={{ alignSelf: 'center' }}>Intermediate Music</Typography>
+				<Typography sx={{ alignSelf: 'center', fontSize: `${12 / 16}rem` }}>
+					To remove from the program, select "Musical Number" and clear the inputs.
+				</Typography>
 				<div className="flex items-center justify-center">
 					<ButtonGroup
 						variant="contained"

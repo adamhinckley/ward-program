@@ -136,6 +136,12 @@ const Editor = () => {
 			return;
 		}
 
+		// add block array to content if it doesn't exist
+		if (!content[block]) {
+			setContent({ ...content, [block]: [{ left: '', right: '' }] });
+			return;
+		}
+
 		setContent({ ...content, [block]: [...content[block], { left: '', right: '' }] });
 	};
 
@@ -312,6 +318,12 @@ const Editor = () => {
 					handleDeleteBlockIndex={handleDeleteBlockIndex}
 					handleAddBlockIndex={handleAddBlockIndex}
 					blockName="blockThree"
+				/>
+				<Block
+					handleChange={handleChange}
+					handleDeleteBlockIndex={handleDeleteBlockIndex}
+					handleAddBlockIndex={handleAddBlockIndex}
+					blockName="wardContacts"
 				/>
 			</TabPanel>
 			<TabPanel value={currentTab} index={5}>

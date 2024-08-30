@@ -16,11 +16,12 @@ const announcementStyles = css`
 		text-decoration: underline;
 	}
 
-	padding: 0 0.75rem 0.75rem;
+	padding-bottom: 0.75rem;
 `;
 
 const Announcements = () => {
 	const { content } = useAppContext();
+	const { wardContacts } = content;
 
 	useEffect(() => {
 		if (typeof document !== 'undefined') {
@@ -35,6 +36,8 @@ const Announcements = () => {
 	if (Object.keys(content).length === 0) {
 		return null;
 	}
+
+	console.log('wardContacts', wardContacts);
 
 	return <div id="announcement" css={announcementStyles}></div>;
 };

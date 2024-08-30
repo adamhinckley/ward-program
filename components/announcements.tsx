@@ -16,7 +16,7 @@ const announcementStyles = css`
 		text-decoration: underline;
 	}
 
-	padding-bottom: 0.75rem;
+	padding-bottom: 12px;
 `;
 
 const Announcements = () => {

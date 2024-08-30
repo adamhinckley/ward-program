@@ -30,7 +30,9 @@ const WardContacts = () => {
 							<div className="title-container">
 								<p className="agenda-title">{block.left}</p>
 								<p className="agenda-content">
-									<a href={`tel:${block.right}`}>{block.right}</a>
+									<a href={`tel:+1-${block.right}`} rel="noopener noreferrer">
+										{block.right}
+									</a>
 								</p>
 							</div>
 						</div>

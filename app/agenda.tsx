@@ -1,12 +1,11 @@
 'use client';
-import ClosingHymnAndPrayer from './closingHymnAndPrayer';
-import PreSacramentAgenda from './preSacramentAgenda';
-import { settings } from './settings';
-import StandardSecondHalf from './standardSecondHalf';
+import ClosingHymnAndPrayer from '../components/closingHymnAndPrayer';
+import PreSacramentAgenda from '../components/preSacramentAgenda';
+import StandardSecondHalf from '../components/standardSecondHalf';
 
 const Agenda = () => {
 	return (
-		<div className="px-3">
+		<div>
 			<PreSacramentAgenda />
 			<StandardSecondHalf />
 			<ClosingHymnAndPrayer />

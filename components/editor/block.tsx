@@ -35,7 +35,14 @@ const Block = ({
 			header: 'Block Three',
 			content: 'After intermediate music.',
 		},
+		wardContacts: {
+			header: 'Ward Contacts',
+			content: 'After Announcements',
+		},
 	};
+
+	const leftLabel = blockName === 'wardContacts' ? 'Name' : 'Left side';
+	const rightLabel = blockName === 'wardContacts' ? 'Phone' : 'Right side';
 
 	return (
 		<>
@@ -56,14 +63,14 @@ const Block = ({
 							name="left"
 							value={block.left || ''}
 							onChange={(e) => handleChange(e, blockName, index)}
-							label="left side"
+							label={leftLabel}
 							sx={{ mb: 2, width: '46%' }}
 						/>
 						<Textfield
 							name="right"
 							value={block.right || ''}
 							onChange={(e) => handleChange(e, blockName, index)}
-							label="right side"
+							label={rightLabel}
 							sx={{ mb: 2, width: '46%' }}
 						/>
 						<IconButton

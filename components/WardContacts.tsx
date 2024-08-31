@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
-import { Typography } from '@mui/material';
+import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const styles = css`
 	h1 {
@@ -25,16 +26,18 @@ const WardContacts = () => {
 			{wardContacts.map((blockToNarrow, index) => {
 				const block = blockToNarrow as { left: string; right: string };
 				return (
-					<div className="agenda-block" key={index}>
-						<div className="title-container">
-							<p className="agenda-title">{block.left}</p>
-							<p className="agenda-content">
+					<Accordion key={index}>
+						<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<Typography>{block.left}</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<Typography sx={{ textAlign: 'center', color: '#1e40af' }}>
 								<a href={`tel:+1-${block.right}`} rel="noopener noreferrer">
 									{block.right}
 								</a>
-							</p>
-						</div>
-					</div>
+							</Typography>
+						</AccordionDetails>
+					</Accordion>
 				);
 			})}
 		</div>

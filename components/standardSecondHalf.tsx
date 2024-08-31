@@ -10,7 +10,6 @@ const StandardSecondHalf = () => {
 
 	const {
 		isTestimonyMeeting,
-		intermediateMusic: intermediateMusicToNarrow,
 		blockTwo,
 		blockThree,
 		intermediateMusicPerformers,
@@ -18,14 +17,8 @@ const StandardSecondHalf = () => {
 		intermediateHymnNumber,
 		intermediateMusicLeftSide,
 		intermediateMusicRightSide,
-		intermediateHymnLink: savedIntermediateMusicLink,
+		intermediateHymnLink,
 	} = content;
-
-	const intermediateMusicLink = getHymnLink(
-		intermediateHymnNumber as string,
-		intermediateHymnTitle as string,
-		savedIntermediateMusicLink as string,
-	);
 
 	const isIntermediateMusicHymn = content.intermediateMusicType === 'hymn';
 
@@ -53,18 +46,16 @@ const StandardSecondHalf = () => {
 							<>
 								<div className="agenda-block">
 									<div className="title-container">
-										<p className="agenda-title">
-											{intermediateMusicLeftSide as string}
-										</p>
+										<p className="agenda-title">{intermediateMusicLeftSide}</p>
 										<p className="agenda-content">
-											{intermediateMusicRightSide as string}
+											{intermediateMusicRightSide}
 										</p>
 									</div>
 								</div>
 								{Array.isArray(intermediateMusicPerformers) &&
 									intermediateMusicPerformers.map((performer, index) => (
 										<div className="multiple-performers" key={index}>
-											<p className="agenda-content">{performer as string}</p>
+											<p className="agenda-content">{performer}</p>
 										</div>
 									))}
 							</>
@@ -72,27 +63,23 @@ const StandardSecondHalf = () => {
 							<>
 								<div className="title-container no-margin">
 									<p className="agenda-title">Intermediate Hymn</p>
-									{intermediateMusicLink ? (
+									{intermediateHymnLink ? (
 										<a
-											href={intermediateMusicLink as string}
+											href={intermediateHymnLink}
 											target="_blank"
 											rel="noreferrer"
 											className="underline text-blue-800"
 										>
 											<p className="agenda-content">
-												{intermediateHymnNumber as string}
+												{intermediateHymnNumber}
 											</p>
 										</a>
 									) : (
-										<p className="agenda-content">
-											{intermediateHymnNumber as string}
-										</p>
+										<p className="agenda-content">{intermediateHymnNumber}</p>
 									)}
 								</div>
 								<div className="title-container hymn">
-									<p className="agenda-content">
-										{intermediateHymnTitle as string}
-									</p>
+									<p className="agenda-content">{intermediateHymnTitle}</p>
 								</div>
 							</>
 						)}

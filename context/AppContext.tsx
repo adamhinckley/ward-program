@@ -13,14 +13,12 @@ type AppContextProviderProps = {
 type AppContextState = {
 	content: Bulletin;
 	setContent: (content: Bulletin) => void;
-	handleDeleteBlock: (e: React.MouseEvent<HTMLButtonElement>, index: number) => void;
 	editorContentRef: React.MutableRefObject<string>;
 	currentTab: number;
 	setCurrentTab: (tab: number) => void;
-	userData: UserSettings;
+	userData?: UserSettings;
 	setUserData: (userData: UserSettings) => void;
-	missingWardData: boolean;
-	bulletinId: number;
+	bulletinId: string;
 };
 
 const AppContext = createContext<AppContextState>({} as AppContextState);
@@ -37,29 +35,16 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	);
 	const [userData, setUserData] = useState(initialState.userSettings);
 
-	const [missingWardData, setMissingWardData] = useState(false);
-
-	const handleDeleteBlock = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
-		e.stopPropagation();
-
-		const newContent = cloneDeep(content);
-		Array.isArray(newContent.announcementsAndLessons) &&
-			newContent.announcementsAndLessons.splice(index, 1);
-		setContent(newContent);
-	};
-
 	const editorContentRef = useRef((content.announcements as string) || '');
 
 	const value = {
 		content,
 		setContent,
-		handleDeleteBlock,
 		editorContentRef,
 		currentTab,
 		setCurrentTab,
 		userData,
 		setUserData,
-		missingWardData,
 		bulletinId,
 	};
 

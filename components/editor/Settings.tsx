@@ -61,7 +61,11 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 		setContent({ ...content, [e.target.name]: e.target.checked });
 	};
 
-	const qrCodeValue = `https://app.wardprogram.com/?id=${bulletinId}`;
+	const isDemo = bulletinId === 'demo';
+
+	const qrCodeValue = isDemo
+		? 'https://app.wardprogram.com/demo/editor'
+		: `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
 		<div className="bg-white p-4 mb-4" css={styles}>
 			<Typography>

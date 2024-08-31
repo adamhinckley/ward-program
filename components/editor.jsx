@@ -2,7 +2,7 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import { css } from '@emotion/react';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import Leaders from '@/components/editor/leaders';
 import Music from '@/components/editor/music';
 import Prayers from '@/components/editor/prayers';
@@ -161,11 +161,6 @@ const Editor = () => {
 
 	const handleTabChange = async (_, tabNumber) => {
 		setCurrentTab(tabNumber);
-		await supabase
-			.from('user-settings')
-			.update({ currentTab: tabNumber })
-			.eq('id', userData.id)
-			.select();
 	};
 
 	const handleDrawerButtonClick = async (tabNumber) => {

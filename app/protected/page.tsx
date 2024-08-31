@@ -1,7 +1,7 @@
 'use server';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import Editor from './editor';
+import Editor from '@/components/editor';
 import { AppContextProvider } from '@/context/AppContext';
 import { AppState } from '@/utils/types';
 

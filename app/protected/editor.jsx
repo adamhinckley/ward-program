@@ -2,9 +2,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from 'react';
 import { css } from '@emotion/react';
-import Textfield from '@mui/material/TextField';
-import { Typography } from '@mui/material';
-import Switch from '@mui/material/Switch';
 import { useAppContext } from '../../context/AppContext';
 import Leaders from '@/components/editor/leaders';
 import Music from '@/components/editor/music';

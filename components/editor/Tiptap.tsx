@@ -1,6 +1,7 @@
 'use client';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useEffect, useState } from 'react';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import { EditorContent, useEditor } from '@tiptap/react';
@@ -204,11 +205,29 @@ export default () => {
 		content: editorContentRef.current,
 	});
 
+	const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setViewportWidth(window.innerWidth);
+		};
+
+		window.addEventListener('resize', handleResize);
+
+		// Cleanup event listener on component unmount
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
+
 	return (
 		<div css={tiptapStyles}>
-			<Typography sx={{ textAlign: 'center', fontSize: `${12 / 16}rem` }}>
-				For the best experience, edit announcements on a desktop or laptop.
-			</Typography>
+			{viewportWidth < 500 ? (
+				<Typography sx={{ textAlign: 'center', fontSize: `${12 / 16}rem` }}>
+					For the best experience, turn your phone to landscape mode or use a desktop to
+					edit announcements.
+				</Typography>
+			) : null}
 			<MenuBar editor={editor} />
 			<EditorContent editor={editor} />
 		</div>

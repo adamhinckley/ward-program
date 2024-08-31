@@ -5,6 +5,7 @@ import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const styles = css`
+	margin-bottom: 12px;
 	.agenda-content {
 		text-decoration: underline;
 		color: #1e40af;

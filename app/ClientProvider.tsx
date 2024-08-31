@@ -18,6 +18,10 @@ const styles = css`
 
 	.MuiTabs-root {
 		margin-bottom: 4px;
+		position: sticky;
+		top: 0;
+		background-color: white;
+		z-index: 1;
 	}
 
 	.MuiTabs-flexContainer {

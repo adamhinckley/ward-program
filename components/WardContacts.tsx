@@ -5,12 +5,6 @@ import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const styles = css`
-	h1 {
-		font-size: 1.3rem;
-		font-weight: bold;
-		text-align: center;
-	}
-
 	.agenda-content {
 		text-decoration: underline;
 		color: #1e40af;
@@ -22,7 +16,6 @@ const WardContacts = () => {
 
 	return Array.isArray(wardContacts) && wardContacts.length ? (
 		<div css={styles}>
-			<Typography variant="h1">Ward Contacts</Typography>
 			{wardContacts.map((blockToNarrow, index) => {
 				const block = blockToNarrow as { left: string; right: string };
 				return (

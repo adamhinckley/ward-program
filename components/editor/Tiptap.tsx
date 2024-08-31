@@ -9,12 +9,22 @@ import Link from '@tiptap/extension-link';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Underline from '@tiptap/extension-underline';
 import BulletList from '@tiptap/extension-bullet-list';
+import Tooltip from '@mui/material/Tooltip';
 
 //icons
+import HighlightIcon from '@mui/icons-material/Highlight';
+import AlignHorizontalLeftIcon from '@mui/icons-material/AlignHorizontalLeft';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
+import AlignHorizontalRightIcon from '@mui/icons-material/AlignHorizontalRight';
+import AddLinkIcon from '@mui/icons-material/AddLink';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 
 import { useAppContext } from '@/context/AppContext';
+import { Typography } from '@mui/material';
 
 const tiptapStyles = css`
 	.ProseMirror {
@@ -34,7 +44,7 @@ const tiptapStyles = css`
 		margin: 0 4px;
 		border-radius: 4px;
 		padding: 4px 8px;
-		border: 1px solid #ccc;
+		// border: 1px solid #ccc;
 	}
 
 	hr {
@@ -61,81 +71,109 @@ const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 
 	return (
 		<div className="menu-bar">
-			<button
-				onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-				className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
-			>
-				H1
-			</button>
-			<button
-				onClick={() => editor.chain().focus().setParagraph().run()}
-				className={editor.isActive('paragraph') ? 'is-active' : ''}
-			>
-				Paragraph
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleBold().run()}
-				className={editor.isActive('bold') ? 'is-active' : ''}
-			>
-				<FormatBoldIcon />
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleItalic().run()}
-				className={editor.isActive('italic') ? 'is-active' : ''}
-			>
-				<FormatItalicIcon />
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleHighlight().run()}
-				className={editor.isActive('highlight') ? 'is-active' : ''}
-			>
-				Highlight
-			</button>
-			<button
-				onClick={() => editor.chain().focus().setTextAlign('left').run()}
-				className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
-			>
-				Left
-			</button>
-			<button
-				onClick={() => editor.chain().focus().setTextAlign('center').run()}
-				className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
-			>
-				Center
-			</button>
-			<button
-				onClick={() => editor.chain().focus().setTextAlign('right').run()}
-				className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
-			>
-				Right
-			</button>
-
-			<button
-				onClick={() => {
-					const url = window.prompt('Enter the URL');
-					if (url) {
-						editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-					}
-				}}
-				className={editor.isActive('link') ? 'is-active' : ''}
-			>
-				Link
-			</button>
-			<button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-				Divider
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleUnderline().run()}
-				className={editor.isActive('underline') ? 'is-active' : ''}
-			>
-				Underline
-			</button>
-			<button
-				onClick={() => editor.chain().focus().toggleBulletList().run()}
-				className={editor.isActive('bulletList') ? 'is-active' : ''}
-			>
-				List
-			</button>
+			<Tooltip title="Heading 1" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+					className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+				>
+					H1
+				</button>
+			</Tooltip>
+			<Tooltip title="Paragraph" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().setParagraph().run()}
+					className={editor.isActive('paragraph') ? 'is-active' : ''}
+				>
+					P
+				</button>
+			</Tooltip>
+			<Tooltip title="Bold" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().toggleBold().run()}
+					className={editor.isActive('bold') ? 'is-active' : ''}
+				>
+					<FormatBoldIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Italic" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().toggleItalic().run()}
+					className={editor.isActive('italic') ? 'is-active' : ''}
+				>
+					<FormatItalicIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Highlight" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().toggleHighlight().run()}
+					className={editor.isActive('highlight') ? 'is-active' : ''}
+				>
+					<HighlightIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Align Left" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().setTextAlign('left').run()}
+					className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
+				>
+					<AlignHorizontalLeftIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Align Center" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().setTextAlign('center').run()}
+					className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
+				>
+					<FormatAlignCenterIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Align Right" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().setTextAlign('right').run()}
+					className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+				>
+					<AlignHorizontalRightIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Add Link" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => {
+						const url = window.prompt('Enter the URL');
+						if (url) {
+							editor
+								.chain()
+								.focus()
+								.extendMarkRange('link')
+								.setLink({ href: url })
+								.run();
+						}
+					}}
+					className={editor.isActive('link') ? 'is-active' : ''}
+				>
+					<AddLinkIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Horizontal Rule" enterDelay={500} placement="bottom">
+				<button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+					<HorizontalRuleIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Underline" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().toggleUnderline().run()}
+					className={editor.isActive('underline') ? 'is-active' : ''}
+				>
+					<FormatUnderlinedIcon />
+				</button>
+			</Tooltip>
+			<Tooltip title="Bullet List" enterDelay={500} placement="bottom">
+				<button
+					onClick={() => editor.chain().focus().toggleBulletList().run()}
+					className={editor.isActive('bulletList') ? 'is-active' : ''}
+				>
+					<FormatListBulletedIcon />
+				</button>
+			</Tooltip>
 		</div>
 	);
 };
@@ -168,6 +206,9 @@ export default () => {
 
 	return (
 		<div css={tiptapStyles}>
+			<Typography sx={{ textAlign: 'center', fontSize: `${12 / 16}rem` }}>
+				For the best experience, edit announcements on a desktop or laptop.
+			</Typography>
 			<MenuBar editor={editor} />
 			<EditorContent editor={editor} />
 		</div>

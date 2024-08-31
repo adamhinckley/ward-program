@@ -30,6 +30,9 @@ const SaveButton = () => {
 	const [error, setError] = useState(false);
 
 	const handleSave = async () => {
+		if (!userData) {
+			return;
+		}
 		try {
 			setSaving(true);
 			// save the announcement content before saving the entire content

@@ -13,8 +13,6 @@ export type BlockName = 'blockOne' | 'blockTwo' | 'blockThree' | 'wardContacts';
 
 export interface UserSettings {
 	id: string;
-	ward: string;
-	stake: string;
 	currentTab: number;
 }
 
@@ -62,13 +60,11 @@ export interface Bulletin {
 	babyBlessing: string;
 	sacramentHymn: string;
 	sacramentHymnTitle: string;
-	blockOne: Block[];
-	intermediateMusic: IntermediateMusic;
-	intermediateMusicPerformers: string[];
-	blockTwo: Block[];
-	blockThree: Block[];
-	wardContacts: Block[];
-	announcementsAndLessons: AnnouncementOrLesson[];
+	blockOne: any[];
+	intermediateMusic: any;
+	intermediateMusicPerformers: any[];
+	blockTwo: { left: string; right: string }[];
+	blockThree: { left: string; right: string }[];
 	closingHymn: string;
 	closingHymnTitle: string;
 	closingPrayer: string;
@@ -87,16 +83,18 @@ export interface Bulletin {
 	intermediateMusicRightSide: string;
 	intermediateHymnLink: string;
 	announcements: string;
+	blockFour: { left: string; right: string }[];
+	wardContacts: { left: string; right: string }[];
 }
 
 export interface BulletinData {
-	id: number;
+	id: string;
 	bulletin: Bulletin;
-	stake: string;
-	ward: string;
+	stake?: string;
+	ward?: string;
 }
 
 export interface AppState {
-	userSettings: UserSettings;
+	userSettings?: UserSettings;
 	bulletinData: BulletinData[];
 }

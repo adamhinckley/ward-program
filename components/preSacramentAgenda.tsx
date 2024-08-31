@@ -1,6 +1,5 @@
 'use client';
 import { useAppContext } from '@/context/AppContext';
-import { getHymnLink } from '@/utils/helpers';
 
 const currentOrNextSundayDate = (() => {
 	const date = new Date();

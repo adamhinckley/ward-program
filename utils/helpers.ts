@@ -14,7 +14,7 @@ export const getHymnLink = (hymnNumber: string, hymnTitle: string, closingHymnLi
 		: '';
 };
 
-const defailtJson = {
+const defaultJson = {
 	title: 'Your Ward Name Here',
 	imageUrl: '',
 	isTestimonyMeeting: false,

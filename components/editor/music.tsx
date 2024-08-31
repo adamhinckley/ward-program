@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { hymnsArray } from '@/utils/hymns';
+import { newHymnsArray } from '@/utils/hymns';
 import Switch from '@mui/material/Switch';
 
 import type { EditorChildren } from '@/utils/types';
@@ -20,15 +20,13 @@ const MusicEditor = ({
 	const { content, setContent } = useAppContext();
 	const { intermediateMusicType } = content;
 
-	const linkWarning =
-		'Links are automatically added to the hymn titles except for hymn numbers 1,000 and up.  If you are using one of those hymns, add the link here.  Make sure to test the links and make sure they are working as expected.';
-
-	type HymnValue = { number: number; title: string };
+	type HymnValue = { number: number; title: string; link: string };
 	const handleHymnChange = (selectedOption: HymnValue | null, key: string) => {
 		if (selectedOption) {
 			const hymnNumber = { [`${key}Number`]: selectedOption.number.toString() };
 			const hymnTitle = { [`${key}Title`]: selectedOption.title };
-			setContent({ ...content, ...hymnNumber, ...hymnTitle });
+			const hymnLink = { [`${key}Link`]: selectedOption.link };
+			setContent({ ...content, ...hymnNumber, ...hymnTitle, ...hymnLink });
 		} else {
 			const hymnNumber = { [`${key}Number`]: '' };
 			const hymnTitle = { [`${key}Title`]: '' };
@@ -49,15 +47,6 @@ const MusicEditor = ({
 
 	const linkHelperText = 'Optional';
 
-	const LinkWarning = () => (
-		<Typography
-			className="z-0 relative"
-			sx={{ mb: 1, mt: 1, fontSize: `${14 / 16}rem`, color: 'blue' }}
-		>
-			{linkWarning}
-		</Typography>
-	);
-
 	const handleToggle = () => {
 		intermediateMusicType === 'hymn'
 			? setContent({ ...content, intermediateMusicType: 'musicalNumber' })
@@ -70,7 +59,7 @@ const MusicEditor = ({
 		<Box sx={{ marginTop: '16px' }}>
 			{/* OPENING HYMN */}
 			<Autocomplete
-				options={hymnsArray}
+				options={newHymnsArray}
 				getOptionLabel={(option) => `${option.number} - ${option.title}`}
 				renderInput={(params) => <Textfield {...params} label="Opening Hymn" />}
 				onChange={(e, value) => handleHymnChange(value, 'openingHymn')}
@@ -78,43 +67,19 @@ const MusicEditor = ({
 					content.openingHymnNumber
 						? {
 								number: Number(content.openingHymnNumber),
-								title: content.openingHymnTitle as string,
+								title: content.openingHymnTitle,
+								link: content.openingHymnLink,
 						  }
 						: null
 				}
 				isOptionEqualToValue={(option, value) => option.number === value.number}
 			/>
-			<div className="flex items-center">
-				<Typography sx={{ fontSize: `${12 / 16}rem`, pt: 0.5 }}>
-					Using a new opening hymn?
-				</Typography>
-				<Switch
-					checked={Boolean(content.openingHymnLink)}
-					onChange={() =>
-						handleLinkToggle('openingHymnLink', content.openingHymnLink as string)
-					}
-				/>
-			</div>
-			{content.openingHymnLink && (
-				<div className="z-10 relative">
-					<LinkWarning />
-					<Textfield
-						name="openingHymnLink"
-						value={content.openingHymnLink}
-						onChange={handleChange}
-						fullWidth
-						label="Opening Hymn Link"
-						sx={{ mb: 2 }}
-						helperText={linkHelperText}
-					/>
-				</div>
-			)}
 
 			<Divider sx={{ my: 2 }} />
 
 			{/* SACRAMENT HYMN */}
 			<Autocomplete
-				options={hymnsArray}
+				options={newHymnsArray}
 				getOptionLabel={(option) => `${option.number} - ${option.title}`}
 				renderInput={(params) => <Textfield {...params} label="Sacrament Hymn" />}
 				onChange={(e, value) => handleHymnChange(value, 'sacramentHymn')}
@@ -122,37 +87,13 @@ const MusicEditor = ({
 					content.sacramentHymnNumber
 						? {
 								number: Number(content.sacramentHymnNumber),
-								title: content.sacramentHymnTitle as string,
+								title: content.sacramentHymnTitle,
+								link: content.sacramentHymnLink,
 						  }
 						: null
 				}
 				isOptionEqualToValue={(option, value) => option.number === value.number}
 			/>
-			<div className="flex items-center">
-				<Typography sx={{ fontSize: `${12 / 16}rem`, pt: 0.5 }}>
-					Using a new sacrament hymn?
-				</Typography>
-				<Switch
-					checked={Boolean(content.sacramentHymnLink)}
-					onChange={() =>
-						handleLinkToggle('sacramentHymnLink', content.sacramentHymnLink as string)
-					}
-				/>
-			</div>
-			{content.sacramentHymnLink && (
-				<>
-					<LinkWarning />
-					<Textfield
-						name="sacramentHymnLink"
-						value={content.sacramentHymnLink}
-						onChange={handleChange}
-						fullWidth
-						label="Sacrament Hymn Link"
-						sx={{ mb: 2 }}
-						helperText={linkHelperText}
-					/>
-				</>
-			)}
 
 			<Divider sx={{ my: 2 }} />
 
@@ -205,7 +146,7 @@ const MusicEditor = ({
 				{intermediateMusicType === 'hymn' ? (
 					<>
 						<Autocomplete
-							options={hymnsArray}
+							options={newHymnsArray}
 							getOptionLabel={(option) => `${option.number} - ${option.title}`}
 							renderInput={(params) => (
 								<Textfield {...params} label="Intermediate Hymn" />
@@ -215,40 +156,13 @@ const MusicEditor = ({
 								content.intermediateHymnNumber
 									? {
 											number: Number(content.intermediateHymnNumber),
-											title: content.intermediateHymnTitle as string,
+											title: content.intermediateHymnTitle,
+											link: content.intermediateHymnLink,
 									  }
 									: null
 							}
 							isOptionEqualToValue={(option, value) => option.number === value.number}
 						/>
-						<div className="flex items-center">
-							<Typography sx={{ fontSize: `${12 / 16}rem`, pt: 0.5 }}>
-								Using a new intermediate hymn?
-							</Typography>
-							<Switch
-								checked={Boolean(content.intermediateHymnLink)}
-								onChange={() =>
-									handleLinkToggle(
-										'intermediateHymnLink',
-										content.intermediateHymnLink as string,
-									)
-								}
-							/>
-						</div>
-						{content.intermediateHymnLink && (
-							<div className="z-10 relative">
-								<LinkWarning />
-								<Textfield
-									name="intermediateHymnLink"
-									value={content.intermediateHymnLink}
-									onChange={handleChange}
-									fullWidth
-									label="Intermediate Hymn Link"
-									sx={{ mb: 2 }}
-									helperText={linkHelperText}
-								/>
-							</div>
-						)}
 					</>
 				) : (
 					<>
@@ -333,7 +247,7 @@ const MusicEditor = ({
 
 			{/* CLOSING HYMN */}
 			<Autocomplete
-				options={hymnsArray}
+				options={newHymnsArray}
 				getOptionLabel={(option) => `${option.number} - ${option.title}`}
 				renderInput={(params) => <Textfield {...params} label="Closing Hymn" />}
 				onChange={(e, value) => handleHymnChange(value, 'closingHymn')}
@@ -341,37 +255,13 @@ const MusicEditor = ({
 					content.closingHymnNumber
 						? {
 								number: Number(content.closingHymnNumber),
-								title: content.closingHymnTitle as string,
+								title: content.closingHymnTitle,
+								link: content.closingHymnLink,
 						  }
 						: null
 				}
 				isOptionEqualToValue={(option, value) => option.number === value.number}
 			/>
-			<div className="flex items-center">
-				<Typography sx={{ fontSize: `${12 / 16}rem`, pt: 0.5 }}>
-					Using a new closing hymn?
-				</Typography>
-				<Switch
-					checked={Boolean(content.closingHymnLink)}
-					onChange={() =>
-						handleLinkToggle('closingHymnLink', content.closingHymnLink as string)
-					}
-				/>
-			</div>
-			{content.closingHymnLink && (
-				<>
-					<LinkWarning />
-					<Textfield
-						name="closingHymnLink"
-						value={content.closingHymnLink}
-						onChange={handleChange}
-						fullWidth
-						label="Closing Hymn Link"
-						sx={{ mb: 2 }}
-						helperText={linkHelperText}
-					/>
-				</>
-			)}
 		</Box>
 	);
 };

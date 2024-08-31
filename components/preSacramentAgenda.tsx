@@ -34,20 +34,9 @@ const PreSacramentAgenda = () => {
 		sacramentHymnNumber,
 		sacramentHymnTitle,
 		blockOne,
-		openingHymnLink: savedOpeningHymnLink,
-		sacramentHymnLink: savedSacramentHymnLink,
+		openingHymnLink,
+		sacramentHymnLink,
 	} = content;
-
-	const openingHymnLink = getHymnLink(
-		openingHymnNumber as string,
-		openingHymnTitle as string,
-		savedOpeningHymnLink as string,
-	);
-	const sacramentHymnLink = getHymnLink(
-		sacramentHymnNumber as string,
-		sacramentHymnTitle as string,
-		savedSacramentHymnLink as string,
-	);
 
 	return (
 		<>

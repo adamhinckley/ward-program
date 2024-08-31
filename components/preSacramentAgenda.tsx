@@ -40,7 +40,7 @@ const PreSacramentAgenda = () => {
 
 	return (
 		<>
-			<h1 className="text-base font-semibold text-center mt-2">{title as string}</h1>
+			<h1 className="text-base font-semibold text-center mt-2">{title}</h1>
 			<p className="date">{currentOrNextSundayDate}</p>
 			<div className="leader-container">
 				<div>
@@ -50,10 +50,10 @@ const PreSacramentAgenda = () => {
 					<h2>Organist</h2>
 				</div>
 				<div className="names">
-					<h2>{presiding as string}</h2>
-					<h2>{conducting as string}</h2>
-					<h2>{musicLeader as string}</h2>
-					<h2>{accompanist as string}</h2>
+					<h2>{presiding}</h2>
+					<h2>{conducting}</h2>
+					<h2>{musicLeader}</h2>
+					<h2>{accompanist}</h2>
 				</div>
 			</div>
 			<p className="block">Ward Announcements</p>
@@ -62,29 +62,29 @@ const PreSacramentAgenda = () => {
 					<p className="agenda-title">Opening Hymn</p>
 					{openingHymnLink ? (
 						<a
-							href={openingHymnLink as string}
+							href={openingHymnLink}
 							target="_blank"
 							rel="noreferrer"
 							className="underline text-blue-800"
 						>
-							<p className="agenda-content">{openingHymnNumber as string}</p>
+							<p className="agenda-content">{openingHymnNumber}</p>
 						</a>
 					) : (
-						<p className="agenda-content">{openingHymnNumber as string}</p>
+						<p className="agenda-content">{openingHymnNumber}</p>
 					)}
 				</div>
 				<div className="title-container  hymn">
-					<p className="agenda-content title">{openingHymnTitle as string}</p>
+					<p className="agenda-content title">{openingHymnTitle}</p>
 				</div>
 				<div className="title-container">
 					<p className="agenda-title">Opening Prayer</p>
-					<p className="agenda-content">{openingPrayer as string}</p>
+					<p className="agenda-content">{openingPrayer}</p>
 				</div>
 			</div>
 			<p className="block">Stake and Ward Business</p>
 			{Array.isArray(blockOne) &&
 				blockOne.map((block, index) => {
-					const { left, right } = block as { left: string; right: string };
+					const { left, right } = block;
 					return (
 						<div className="agenda-block" key={index}>
 							<div className="title-container">
@@ -99,19 +99,19 @@ const PreSacramentAgenda = () => {
 					<p className="agenda-title no-margin">Sacrament Hymn</p>
 					{sacramentHymnLink ? (
 						<a
-							href={sacramentHymnLink as string}
+							href={sacramentHymnLink}
 							target="_blank"
 							rel="noreferrer"
 							className="underline text-blue-800"
 						>
-							<p className="agenda-content">{sacramentHymnNumber as string}</p>
+							<p className="agenda-content">{sacramentHymnNumber}</p>
 						</a>
 					) : (
-						<p className="agenda-content ">{sacramentHymnNumber as string}</p>
+						<p className="agenda-content ">{sacramentHymnNumber}</p>
 					)}
 				</div>
 				<div className="title-container hymn">
-					<p className="agenda-content">{sacramentHymnTitle as string}</p>
+					<p className="agenda-content">{sacramentHymnTitle}</p>
 				</div>
 			</div>
 			<p className="block">Sacrament Administered by the Aaronic Priesthood</p>

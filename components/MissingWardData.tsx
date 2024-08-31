@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import Logo from './Logo';
-import { Typography } from '@mui/material';
+import { Button, Link, Typography } from '@mui/material';
 
 const styles = css`
 	max-width: 800px;
@@ -45,7 +45,20 @@ const styles = css`
 
 	h1 {
 		font-family: 'Roboto', sans-serif;
-		font-size: 2rem;
+		font-size: 1.5rem;
+	}
+
+	.button-container {
+		display: flex;
+		gap: 16px;
+		margin-top: 16px;
+		justify-content: space-around;
+		width: 100%;
+		button {
+			background-color: #000000;
+			color: #ffffff;
+			padding: 8px 16px;
+		}
 	}
 `;
 
@@ -78,6 +91,15 @@ const MissingWardData = () => {
 					If you need access to your program, please contact the responsible member in
 					your ward or branch for a direct link.
 				</Typography>
+
+				<div className="button-container">
+					<Link href="/demo/program">
+						<Button>Demo Program</Button>
+					</Link>
+					<Link href="demo/editor">
+						<Button>Demo Editor</Button>
+					</Link>
+				</div>
 			</main>
 		</div>
 	);

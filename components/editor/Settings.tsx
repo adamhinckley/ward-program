@@ -64,7 +64,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 	const isDemo = bulletinId === 'demo';
 
 	const qrCodeValue = isDemo
-		? 'https://app.wardprogram.com/demo/editor'
+		? 'https://app.wardprogram.com/demo/demo'
 		: `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
 		<div className="bg-white p-4 mb-4" css={styles}>

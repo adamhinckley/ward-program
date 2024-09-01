@@ -13,6 +13,7 @@ const styles = (hideComponent: Boolean) => css`
 	justify-content: center;
 	width: 100%;
 	margin: 0 auto;
+	padding: 12px;
 
 	// make this fill the screen
 	position: absolute;

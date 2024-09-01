@@ -41,20 +41,31 @@ const PreSacramentAgenda = () => {
 		<>
 			<h1 className="text-base font-semibold text-center mt-2">{title}</h1>
 			<p className="date">{currentOrNextSundayDate}</p>
-			<div className="leader-container">
-				<div>
+
+			{presiding && (
+				<div className="leader-container">
 					<h2>Presiding</h2>
-					<h2>Conducting</h2>
-					<h2>Chorister</h2>
-					<h2>Organist</h2>
-				</div>
-				<div className="names">
 					<h2>{presiding}</h2>
+				</div>
+			)}
+			{conducting && (
+				<div className="leader-container">
+					<h2>Conducting</h2>
 					<h2>{conducting}</h2>
+				</div>
+			)}
+			{musicLeader && (
+				<div className="leader-container">
+					<h2>Chorister</h2>
 					<h2>{musicLeader}</h2>
+				</div>
+			)}
+			{accompanist && (
+				<div className="leader-container">
+					<h2>Organist</h2>
 					<h2>{accompanist}</h2>
 				</div>
-			</div>
+			)}
 			<p className="block">Ward Announcements</p>
 			<div className="agenda-block">
 				<div className="title-container no-margin">

@@ -8,9 +8,9 @@ const StandardSecondHalf = () => {
 	}
 
 	const {
-		isTestimonyMeeting,
 		blockTwo,
 		blockThree,
+		customHeading,
 		intermediateMusicPerformers,
 		intermediateHymnTitle,
 		intermediateHymnNumber,
@@ -21,26 +21,28 @@ const StandardSecondHalf = () => {
 
 	const isIntermediateMusicHymn = content.intermediateMusicType === 'hymn';
 
+	const showIntermediateMusic =
+		content.showIntermediateMusic === undefined || content.showIntermediateMusic;
+
 	return (
 		<>
-			{isTestimonyMeeting ? (
-				<p className="block">Bearing of Testimonies</p>
-			) : (
-				<>
-					{Array.isArray(blockTwo) &&
-						blockTwo.map((blockToNarrow, index) => {
-							const block = blockToNarrow as { left: string; right: string };
-							return (
-								<div className="agenda-block" key={index}>
-									<div className="title-container">
-										<p className="agenda-title">{block.left}</p>
-										<p className="agenda-content">{block.right}</p>
-									</div>
-								</div>
-							);
-						})}
+			<p className="block">{customHeading}</p>
+			{Array.isArray(blockTwo) &&
+				blockTwo.map((blockToNarrow, index) => {
+					const block = blockToNarrow as { left: string; right: string };
+					return (
+						<div className="agenda-block" key={index}>
+							<div className="title-container">
+								<p className="agenda-title">{block.left}</p>
+								<p className="agenda-content">{block.right}</p>
+							</div>
+						</div>
+					);
+				})}
 
-					<div className="agenda-block">
+			<div className="agenda-block">
+				{showIntermediateMusic && (
+					<>
 						{!isIntermediateMusicHymn ? (
 							<>
 								<div className="agenda-block">
@@ -82,21 +84,21 @@ const StandardSecondHalf = () => {
 								</div>
 							</>
 						)}
-						{Array.isArray(blockThree) &&
-							blockThree.map((blockToNarrow, index) => {
-								const block = blockToNarrow as { left: string; right: string };
-								return (
-									<div className="agenda-block" key={index}>
-										<div className="title-container">
-											<p className="agenda-title">{block.left}</p>
-											<p className="agenda-content">{block.right}</p>
-										</div>
-									</div>
-								);
-							})}
-					</div>
-				</>
-			)}
+					</>
+				)}
+				{Array.isArray(blockThree) &&
+					blockThree.map((blockToNarrow, index) => {
+						const block = blockToNarrow as { left: string; right: string };
+						return (
+							<div className="agenda-block" key={index}>
+								<div className="title-container">
+									<p className="agenda-title">{block.left}</p>
+									<p className="agenda-content">{block.right}</p>
+								</div>
+							</div>
+						);
+					})}
+			</div>
 		</>
 	);
 };

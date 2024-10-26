@@ -42,6 +42,10 @@ interface AnnouncementOrLesson {
 }
 
 export interface Bulletin {
+	showClosingHymn: boolean | undefined;
+	showSacramentHymn: boolean | undefined;
+	showOpeningHymn: boolean | undefined;
+	customHeading: string | undefined;
 	title: string;
 	imageUrl: string;
 	isTestimonyMeeting: boolean;

@@ -161,6 +161,11 @@ const Editor = () => {
 
 	const handleTabChange = async (_, tabNumber) => {
 		setCurrentTab(tabNumber);
+		await supabase
+			.from('user-settings')
+			.update({ currentTab: tabNumber })
+			.eq('id', userData.id)
+			.select();
 	};
 
 	const handleDrawerButtonClick = async (tabNumber) => {

@@ -67,7 +67,7 @@ const PreSacramentAgenda = () => {
 			)}
 			{accompanist && (
 				<div className="leader-container">
-					<h2>Organist</h2>
+					<h2>Accompanist</h2>
 					<h2>{accompanist}</h2>
 				</div>
 			)}

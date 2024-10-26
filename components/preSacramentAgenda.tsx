@@ -135,7 +135,6 @@ const PreSacramentAgenda = () => {
 					</div>
 				</div>
 			)}
-			<p className="block">Sacrament Administered by the Aaronic Priesthood</p>
 		</>
 	);
 };

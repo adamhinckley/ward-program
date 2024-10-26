@@ -1769,4 +1769,9 @@ export const newHymnsArray = [
 		title: 'Star Bright',
 		link: 'https://assets.churchofjesuschrist.org/6f/fb/6ffbe0d8ebb511eeb958eeeeac1e769f17b3574f/star_bright.pdf',
 	},
+	{
+		number: 95,
+		title: 'I Love to See the Temple',
+		link: 'https://www.churchofjesuschrist.org/media/music/songs/i-love-to-see-the-temple?crumbs=childrens-songbook&lang=eng',
+	},
 ];

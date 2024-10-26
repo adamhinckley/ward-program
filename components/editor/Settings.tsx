@@ -85,25 +85,23 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 					{qrCodeValue}
 				</a>
 			</div>
-			<div className="switch-container">
-				<Typography variant="h6">Testimony Meeting</Typography>
-				<Switch
-					checked={content.isTestimonyMeeting}
-					onChange={handleCheckboxChange}
-					name="isTestimonyMeeting"
-					inputProps={{ 'aria-label': 'controlled' }}
-				/>
-				<Typography>
-					Turn this on to show "Bearing of Testimonies" instead of speakers and music.
-				</Typography>
-			</div>
+
 			<Textfield
 				name="title"
 				value={content.title}
 				onChange={handleChange}
 				fullWidth
 				label="title"
+				sx={{ mb: 2, mt: 2 }}
+			/>
+			<Textfield
+				name="customHeading"
+				value={content.customHeading}
+				onChange={handleChange}
+				fullWidth
+				label="Custom Post Sacrament Heading"
 				sx={{ mb: 2 }}
+				helperText="Shows up after the sacrament - Testimony Meeting, Primary Program, etc.  Leave blank when not needed."
 			/>
 			<Textfield
 				name="imageUrl"

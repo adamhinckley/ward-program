@@ -73,29 +73,28 @@ const PreSacramentAgenda = () => {
 			)}
 			<p className="block">Ward Announcements</p>
 			<div className="agenda-block">
-				{content.showOpeningHymn === undefined ||
-					(shouldShowOpeningHymn && (
-						<>
-							<div className="title-container no-margin">
-								<p className="agenda-title">Opening Hymn</p>
-								{openingHymnLink ? (
-									<a
-										href={openingHymnLink}
-										target="_blank"
-										rel="noreferrer"
-										className="underline text-blue-800"
-									>
-										<p className="agenda-content">{openingHymnNumber}</p>
-									</a>
-								) : (
+				{shouldShowOpeningHymn && (
+					<>
+						<div className="title-container no-margin">
+							<p className="agenda-title">Opening Hymn</p>
+							{openingHymnLink ? (
+								<a
+									href={openingHymnLink}
+									target="_blank"
+									rel="noreferrer"
+									className="underline text-blue-800"
+								>
 									<p className="agenda-content">{openingHymnNumber}</p>
-								)}
-							</div>
-							<div className="title-container  hymn">
-								<p className="agenda-content title">{openingHymnTitle}</p>
-							</div>
-						</>
-					))}
+								</a>
+							) : (
+								<p className="agenda-content">{openingHymnNumber}</p>
+							)}
+						</div>
+						<div className="title-container  hymn">
+							<p className="agenda-content title">{openingHymnTitle}</p>
+						</div>
+					</>
+				)}
 				<div className="title-container">
 					<p className="agenda-title">Opening Prayer</p>
 					<p className="agenda-content">{openingPrayer}</p>

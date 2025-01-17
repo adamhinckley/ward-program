@@ -1750,6 +1750,51 @@ export const newHymnsArray = [
 		link: 'https://assets.churchofjesuschrist.org/6e/79/6e795f87ebb511eebd27eeeeac1ef760eeedab62/gethsemane.pdf',
 	},
 	{
+		number: 1010,
+		title: 'Amazing Grace',
+		link: 'https://assets.churchofjesuschrist.org/oh/5v/oh5v0ejqfx70w7i6aq4bvhl1e9plpoyld9mk331x/amazing_grace.pdf',
+	},
+	{
+		number: 1011,
+		title: 'Holding Hands Around the World',
+		link: 'https://assets.churchofjesuschrist.org/6f/37/6f37cd82ebb511eebbd6eeeeac1e993e0630c9ee/holding_hands_around_the_world.pdf',
+	},
+	{
+		number: 1012,
+		title: 'Anytime, Anywhere',
+		link: 'https://assets.churchofjesuschrist.org/kn/rv/knrvba9apal6ivg0fo1u332xpvv9jhvdl4lg7yik/anytime_anywhere.pdf',
+	},
+	{
+		number: 1013,
+		title: 'God’s Gracious Love',
+		link: 'https://assets.churchofjesuschrist.org/md/4f/md4f9a3ntjzegeiqu52w4x3g2yt733eydjv63ep5/gods_gracious_love.pdf',
+	},
+	{
+		number: 1014,
+		title: 'My Shepherd Will Supply My Need',
+		link: 'https://assets.churchofjesuschrist.org/8d/vf/8dvfxy75bz6w764yerum41314ynuwg7dqn6wkxa0/my_shepherd_will_supply_my_need.pdf',
+	},
+	{
+		number: 1015,
+		title: 'Oh, the Deep, Deep Love of Jesus',
+		link: 'https://assets.churchofjesuschrist.org/nk/kl/nkklkoxo47tg4g8ev5sifeha39r6eipa55evuupy/oh_the_deep_deep_love_of_jesus.pdf',
+	},
+	{
+		number: 1016,
+		title: ' Behold the Wounds in Jesus’ Hands',
+		link: 'https://assets.churchofjesuschrist.org/ou/qn/ouqn58wbc3ieqcnvdi38gbym6co5tejigxinfaw2/behold_the_wounds_in_jesus_hands.pdf',
+	},
+	{
+		number: 1017,
+		title: 'This Is the Christ',
+		link: 'https://assets.churchofjesuschrist.org/z5/bf/z5bf1f2266jq08sp0l13nbbijbwl6kad9ze836sd/this_is_the_christ.pdf',
+	},
+	{
+		number: 1018,
+		title: 'Come, Lord Jesus',
+		link: 'https://assets.churchofjesuschrist.org/ib/hy/ibhyon46m2ibnt1synq1yaeciqqft4ef1h17xb44/come_lord_jesus.pdf',
+	},
+	{
 		number: 1201,
 		title: 'Hail the Day that Sees Him Rise',
 		link: 'https://assets.churchofjesuschrist.org/6e/9f/6e9fac3debb511eea036eeeeac1ec84f90cdba38/hail_the_day_that_sees_him_rise.pdf',

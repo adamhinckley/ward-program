@@ -5,6 +5,13 @@ import { useAppContext } from '@/context/AppContext';
 import { useEffect } from 'react';
 
 const announcementStyles = css`
+	display: flex;
+	flex-direction: column;
+
+	img {
+		align-self: center;
+	}
+
 	hr {
 		border: 0;
 		border-top: 1px solid #ccc;

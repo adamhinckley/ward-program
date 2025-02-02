@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
+import Image from '@tiptap/extension-image';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -23,6 +24,7 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import ImageIcon from '@mui/icons-material/Image';
 
 import { useAppContext } from '@/context/AppContext';
 import { Typography } from '@mui/material';
@@ -33,6 +35,8 @@ const tiptapStyles = css`
 		border-radius: 4px;
 		height: calc(100vh - 130px);
 		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.menu-bar {
@@ -65,10 +69,37 @@ const tiptapStyles = css`
 	}
 `;
 
+const CustomImage = Image.extend({
+	addAttributes() {
+		return {
+			...this.parent?.(),
+			alignment: {
+				default: 'center',
+				parseHTML: (element) => element.style.alignSelf || 'center',
+				renderHTML: (attributes) => {
+					return {
+						style: `
+						align-self: ${attributes.alignment};
+						display: flex;
+						`,
+					};
+				},
+			},
+		};
+	},
+});
+
 const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 	if (!editor) {
 		return null;
 	}
+
+	const addImage = () => {
+		const url = window.prompt('Enter the URL of the image:');
+		if (url) {
+			editor.chain().focus().setImage({ src: url }).run();
+		}
+	};
 
 	return (
 		<div className="menu-bar">
@@ -175,6 +206,11 @@ const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 					<FormatListBulletedIcon />
 				</button>
 			</Tooltip>
+			<Tooltip title="Add Image" enterDelay={500} placement="bottom">
+				<button onClick={addImage}>
+					<ImageIcon />
+				</button>
+			</Tooltip>
 		</div>
 	);
 };
@@ -197,6 +233,7 @@ export default () => {
 			HorizontalRule,
 			Underline,
 			BulletList,
+			CustomImage,
 		],
 		onUpdate: ({ editor }) => {
 			editorContentRef.current = editor.getHTML();

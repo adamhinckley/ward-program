@@ -68,7 +68,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 					Sign Up
 				</SubmitButton> */}
 				{searchParams?.message && (
-					<p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+					<p className="mt-4 p-4 text-black text-foreground text-center">
 						{searchParams.message}
 					</p>
 				)}

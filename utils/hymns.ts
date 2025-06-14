@@ -1795,6 +1795,126 @@ export const newHymnsArray = [
 		link: 'https://assets.churchofjesuschrist.org/ib/hy/ibhyon46m2ibnt1synq1yaeciqqft4ef1h17xb44/come_lord_jesus.pdf',
 	},
 	{
+		number: 1019,
+		title: 'To Love like Thee',
+		link: 'https://assets.churchofjesuschrist.org/jb/ni/jbniwxerq9gpvsubg55yk2ym1mczb3jt0xzohzry/to_love_like_thee.pdf',
+	},
+	{
+		number: 1020,
+		title: 'Softly and Tenderly Jesus Is Calling',
+		link: 'https://assets.churchofjesuschrist.org/6a/5o/6a5oag5khmdh2ssecgqgqrd3vnwsta9jqo1z0z9n/softly_and_tenderly_jesus_is_calling.pdf',
+	},
+	{
+		number: 1021,
+		title: 'To Love like Thee',
+		link: 'https://assets.churchofjesuschrist.org/fn/bv/fnbvm8jbmrn47ug6qbu0eu6dwunucay4ljkqk1e2/i_know_that_my_savior_loves_me.pdf',
+	},
+	{
+		number: 1022,
+		title: 'To Love like Thee',
+		link: 'https://assets.churchofjesuschrist.org/3j/s4/3js483x1nxmpouv32y3awvi77x108p44c6a9907s/faith_in_every_footstep.pdf',
+	},
+	{
+		number: 1023,
+		title: 'Faith in Every Footstep',
+		link: 'https://assets.churchofjesuschrist.org/3j/s4/3js483x1nxmpouv32y3awvi77x108p44c6a9907s/faith_in_every_footstep.pdf',
+	},
+	{
+		number: 1023,
+		title: 'Standing on the Promises',
+		link: 'https://assets.churchofjesuschrist.org/79/ta/79tasqd6cffgga673rdaffgqe050d5dexf8z101i/standing_on_the_promises.pdf',
+	},
+	{
+		number: 1024,
+		title: 'I Have Faith in the Lord Jesus Christ',
+		link: 'https://assets.churchofjesuschrist.org/rz/hd/rzhd1yskdtpndjchivbyr2b9mf7gmlerlik6dgtu/i_have_faith_in_the_lord_jesus_christ.pdf',
+	},
+	{
+		number: 1025,
+		title: 'Take My Heart and Let It Be Consecrated',
+		link: 'https://assets.churchofjesuschrist.org/ii/ox/iioxw8p3civdmchb71pw21v5zu5cozmyy7lx6ueq/take_my_heart_and_let_it_be_consecrated.pdf',
+	},
+	{
+		number: 1026,
+		title: 'Holy Places',
+		link: 'https://assets.churchofjesuschrist.org/fq/wd/fqwdqbzjmdbivv679bzezgr47h28xb8qz0yg32l0/holy_places.pdf',
+	},
+	{
+		number: 1027,
+		title: 'Welcome Home',
+		link: 'https://assets.churchofjesuschrist.org/eq/uh/equhtieoxfdjgdldggamp4nw74jz8ub6pvrpbb3q/welcome_home.pdf',
+	},
+	{
+		number: 1028,
+		title: 'This Little Light of Mine',
+		link: 'https://assets.churchofjesuschrist.org/c9/6u/c96ux9no50moe9a1s57oy4gm1kcr2dk1cu0drci2/this_little_light_of_mine.pdf',
+	},
+	{
+		number: 1029,
+		title: 'I Can’t Count Them All',
+		link: 'https://assets.churchofjesuschrist.org/fl/gz/flgzaf0vovtww2p97xbsqsmmxtlyuzamowaz980b/i_cant_count_them_all.pdf',
+	},
+	{
+		number: 1030,
+		title: 'Close as a Quiet Prayer',
+		link: 'https://assets.churchofjesuschrist.org/95/6c/956cqf7l7rwugkycu2sp6s47vcxd0l8sil0bqb7d/close_as_a_quiet_prayer.pdf',
+	},
+	{
+		number: 1031,
+		title: 'Come, Hear the Word the Lord Has Spoken',
+		link: 'https://assets.churchofjesuschrist.org/o8/wi/o8wigqygh5dll0mxq6qvegfy9gbcu8815uxpbic1/come_hear_the_word_the_lord_has_spoken.pdf',
+	},
+	{
+		number: 1032,
+		title: 'Look Unto Christ',
+		link: 'https://assets.churchofjesuschrist.org/ks/iq/ksiqaqmbw5d73vtpbvjl9i1hwp1991hezj80z10t/look_unto_christ.pdf',
+	},
+	{
+		number: 1033,
+		title: 'Oh, How Great Is Our Joy',
+		link: 'https://assets.churchofjesuschrist.org/1j/kg/1jkgot13zdk5ij9ir1gvw785bvi5jkafom5knwov/oh_how_great_is_our_joy.pdf',
+	},
+	{
+		number: 1034,
+		title: 'I Am a Child of God',
+		link: 'https://assets.churchofjesuschrist.org/fk/hv/fkhv4f39s3sgbrkzjj891iak4st1fagrycdge7m9/im_a_pioneer_too.pdf',
+	},
+	{
+		number: 1035,
+		title: 'As I Keep the Sabbath Day',
+		link: 'https://assets.churchofjesuschrist.org/87/af/87aferimm4bh9h1asmajpvlnx902w98ehjpfv577/as_i_keep_the_sabbath_day.pdf',
+	},
+	{
+		number: 1036,
+		title: 'Read the Book of Mormon and Pray',
+		link: 'https://assets.churchofjesuschrist.org/vj/vq/vjvqnfv5f0180jmyzm8oewrmiu61hl2vykalwm56/read_the_book_of_mormon_and_pray.pdf',
+	},
+	{
+		number: 1037,
+		title: 'I’m Gonna Live So God Can Use Me',
+		link: 'https://assets.churchofjesuschrist.org/af/ny/afny05n5s6xkznyrhv4vqdjnh76qs1576vjahmwo/im_gonna_live_so_god_can_use_me.pdf',
+	},
+	{
+		number: 1038,
+		title: 'The Lord’s My Shepherd',
+		link: 'https://assets.churchofjesuschrist.org/wg/rf/wgrfga1tcvxx56agz3lh62apy67aofyu6yhhgf2b/the_lords_my_shepherd.pdf',
+	},
+	{
+		number: 1039,
+		title: 'Because I Have Been Given Much',
+		link: 'https://assets.churchofjesuschrist.org/l8/aa/l8aa8iq55nwm4ppvfm3qcr34oi81as8jwngih6kp/because.pdf',
+	},
+	{
+		number: 1040,
+		title: 'His Voice as the Sound of the Dulcimer',
+		link: 'https://assets.churchofjesuschrist.org/r6/rl/r6rli8pz3gawtj2f9bf9144ubs1zjlt4j6bxbcwl/his_voice_as_the_sound.pdf',
+	},
+	{
+		number: 1041,
+		title: 'O Lord, Who Gave Thy Life for Me',
+		link: 'https://assets.churchofjesuschrist.org/cj/oh/cjohf082cbp6pbodqau3zm9i9gmi4i3yk8hzdtsy/o_lord_who_gave_thy_life_for_me.pdf',
+	},
+	{
 		number: 1201,
 		title: 'Hail the Day that Sees Him Rise',
 		link: 'https://assets.churchofjesuschrist.org/6e/9f/6e9fac3debb511eea036eeeeac1ec84f90cdba38/hail_the_day_that_sees_him_rise.pdf',
@@ -1813,6 +1933,21 @@ export const newHymnsArray = [
 		number: 1204,
 		title: 'Star Bright',
 		link: 'https://assets.churchofjesuschrist.org/6f/fb/6ffbe0d8ebb511eeb958eeeeac1e769f17b3574f/star_bright.pdf',
+	},
+	{
+		number: 1205,
+		title: 'Let Easter Anthems Ring',
+		link: 'https://assets.churchofjesuschrist.org/8z/nn/8znn69tb6fr1h2ctl0nkswt7ma8lc80jlklepyd6/let_easter_anthems_ring.pdf',
+	},
+	{
+		number: 1206,
+		title: 'Were You There?',
+		link: 'https://assets.churchofjesuschrist.org/35/d0/35d0uc1i13madxx6wzlecpu3347lv09uebqrs75o/were_you_there.pdf',
+	},
+	{
+		number: 1207,
+		title: 'Still, Still, Still',
+		link: 'https://assets.churchofjesuschrist.org/2z/gf/2zgfzovjzxpf440zhrjzixmxrmvih0r8b9h7sdnf/still_still_still.pdf',
 	},
 	{
 		number: 95,

@@ -1537,7 +1537,7 @@ export const newHymnsArray = [
 	{
 		number: 308,
 		title: 'Love One Another',
-		link: 'https://www.churchofjesuschrist.org/study/manual/hymns/as-sisters-in-zion-women?lang=eng',
+		link: 'https://www.churchofjesuschrist.org/study/manual/hymns/love-one-another?lang=eng',
 	},
 	{
 		number: 309,

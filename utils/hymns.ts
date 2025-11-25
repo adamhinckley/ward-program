@@ -1914,6 +1914,57 @@ export const newHymnsArray = [
 		title: 'O Lord, Who Gave Thy Life for Me',
 		link: 'https://assets.churchofjesuschrist.org/cj/oh/cjohf082cbp6pbodqau3zm9i9gmi4i3yk8hzdtsy/o_lord_who_gave_thy_life_for_me.pdf',
 	},
+		{
+		number: 1042,
+		title: 'Thou Gracious God, Whose Mercy Lends',
+		link: 'https://assets.churchofjesuschrist.org/he/86/he86n6sqvar4ysrork5belj8fh33pbo914om83a9/thou_gracious_god_whose_mercy_lends.pdf',
+	},
+		{
+		number: 1043,
+		title: 'Help Us Remember',
+		link: 'https://assets.churchofjesuschrist.org/mr/ii/mrii3sw2leivfi17lixh2v43i9pk1q73whpo9szo/help_us_remember.pdf',
+	},
+		{
+		number: 1044,
+		title: 'How Did the Savior Minister?',
+		link: 'https://assets.churchofjesuschrist.org/28/35/28358y5wthp49fr4l0y3igtij3fnm2m0crxitxjd/how_did_the_savior_minister.pdf',
+	},
+		{
+		number: 1045,
+		title: 'Jesus Is the Way',
+		link: 'https://assets.churchofjesuschrist.org/wg/82/wg82l7rydm9uzmnhw73gb77kdc6rny669trfwd6h/jesus_is_the_way.pdf',
+	},
+		{
+		number: 1046,
+		title: 'Can You Count the Stars in Heaven?',
+		link: 'https://assets.churchofjesuschrist.org/ai/ln/ailn1tipdgc7out8odgcag8447od5u017ug3y7ou/can_you_count_the_stars_in_heaven.pdf',
+	},
+		{
+		number: 1047,
+		title: 'He Cares for Me',
+		link: 'https://assets.churchofjesuschrist.org/x5/pa/x5pa1fa3sc3rkd6h679gaoprntum2j3ixl56ukpy/he_cares_for_me.pdf',
+	},
+		{
+		number: 1048,
+		title: 'Our Prayer to Thee',
+		link: 'https://assets.churchofjesuschrist.org/k4/hg/k4hg4muphm8mhqj8sb9eypt6yxv0edbb7w0upnlx/our_prayer_to_thee.pdf',
+	},
+		{
+		number: 1049,
+		title: 'Joseph Prayed in Faith',
+		link: 'https://assets.churchofjesuschrist.org/em/a0/ema0yxz439lqcgqevi4hy75cn9p55vxq9rb8wt4n/joseph_prayed_in_faith.pdf',
+	},
+		{
+		number: 1050,
+		title: 'Stand by Me',
+		link: 'https://assets.churchofjesuschrist.org/9x/3j/9x3jwrluybs3w8irtxo9e4mxdz39tqayhm7cmbm5/stand_by_me.pdf',
+	},
+		{
+		number: 1051,
+		title: 'This Day Is a Good Day, Lord',
+		link: 'https://assets.churchofjesuschrist.org/9v/mm/9vmmfbdua2bpgmhufmx51o29itb8soq7bwowhf73/this_day_is_a_good_day_lord.pdf',
+	},
+
 	{
 		number: 1201,
 		title: 'Hail the Day that Sees Him Rise',
@@ -1949,6 +2000,18 @@ export const newHymnsArray = [
 		title: 'Still, Still, Still',
 		link: 'https://assets.churchofjesuschrist.org/2z/gf/2zgfzovjzxpf440zhrjzixmxrmvih0r8b9h7sdnf/still_still_still.pdf',
 	},
+	{
+		number: 1208,
+		title: 'Go Tell It on the Mountain',
+		link: 'https://assets.churchofjesuschrist.org/cz/23/cz23g18i6a1kufdab9szptg26rq3j0kxhy2nfiod/go_tell_it_on_the_mountain.pdf',
+	},
+	{
+		number: 1209,
+		title: 'Little Baby in a Manger',
+		link: 'https://www.churchofjesuschrist.org/study/music/hymns-for-home-and-church/little-baby-in-a-manger?lang=eng',
+	},
+
+
 	{
 		number: 95,
 		title: 'I Love to See the Temple',

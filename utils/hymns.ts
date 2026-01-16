@@ -1901,7 +1901,7 @@ export const newHymnsArray = [
 	},
 	{
 		number: 1039,
-		title: 'Because I Have Been Given Much',
+		title: 'Because',
 		link: 'https://assets.churchofjesuschrist.org/l8/aa/l8aa8iq55nwm4ppvfm3qcr34oi81as8jwngih6kp/because.pdf',
 	},
 	{

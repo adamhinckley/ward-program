@@ -111,11 +111,14 @@ const defaultTheme: ProgramTheme =
 		: preferredDarkScheme
 			? 'dark'
 			: 'light';
+
+const defaultLayout: ProgramLayout =
+	storedLayout === 'legacy' || storedLayout === 'updated' ? storedLayout : 'updated';
 const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [themeMode, setThemeMode] = useState<ProgramTheme>(defaultTheme);
-	const [layoutMode, setLayoutMode] = useState<ProgramLayout>('legacy');
+	const [layoutMode, setLayoutMode] = useState<ProgramLayout>(defaultLayout);
 	const [fontSize, setFontSize] = useState<ProgramFontSize>('medium');
 
 	console.log('themeMode', themeMode);
@@ -341,7 +344,9 @@ const WardFacingProgram = () => {
 										fontWeight: 600,
 										color: drawerForeground,
 										backgroundColor:
-											themeMode === 'light' ? drawerThemeToggleActiveBackground : 'transparent',
+											themeMode === 'light'
+												? drawerThemeToggleActiveBackground
+												: 'transparent',
 									}}
 								>
 									<LightModeOutlinedIcon fontSize="small" />
@@ -363,7 +368,9 @@ const WardFacingProgram = () => {
 										fontWeight: 600,
 										color: drawerForeground,
 										backgroundColor:
-											themeMode === 'dark' ? drawerThemeToggleActiveBackground : 'transparent',
+											themeMode === 'dark'
+												? drawerThemeToggleActiveBackground
+												: 'transparent',
 									}}
 								>
 									<DarkModeOutlinedIcon fontSize="small" />

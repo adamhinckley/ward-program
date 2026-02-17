@@ -1811,18 +1811,13 @@ export const newHymnsArray = [
 	},
 	{
 		number: 1022,
-		title: 'To Love like Thee',
+		title: 'Faith in Every Footstep',
 		link: 'https://assets.churchofjesuschrist.org/3j/s4/3js483x1nxmpouv32y3awvi77x108p44c6a9907s/faith_in_every_footstep.pdf',
 	},
 	{
 		number: 1023,
 		title: 'Faith in Every Footstep',
 		link: 'https://assets.churchofjesuschrist.org/3j/s4/3js483x1nxmpouv32y3awvi77x108p44c6a9907s/faith_in_every_footstep.pdf',
-	},
-	{
-		number: 1023,
-		title: 'Standing on the Promises',
-		link: 'https://assets.churchofjesuschrist.org/79/ta/79tasqd6cffgga673rdaffgqe050d5dexf8z101i/standing_on_the_promises.pdf',
 	},
 	{
 		number: 1024,

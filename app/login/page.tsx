@@ -50,25 +50,31 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 
 	return (
 		<div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 m-auto mt-40">
-			<form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+			<form className="flex-1 flex flex-col w-full justify-center gap-2 ">
 				<Textfield name="email" required label="Email" />
 				<Textfield type="password" name="password" required label="Password" />
 				<SubmitButton
 					formAction={signIn}
-					className="bg-gray-900 rounded-md px-4 py-2 text-foreground mb-2"
+					className="bg-gray-900 rounded-md px-4 py-2  mb-2 text-white"
 					pendingText="Signing In..."
 				>
 					Sign In
 				</SubmitButton>
+				<Link
+					href="/forgot-password"
+					className="text-sm  text-center hover:underline"
+				>
+					Forgot your password?
+				</Link>
 				{/* <SubmitButton
 					formAction={signUp}
-					className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2 text-gray-800 bg-green-400 "
+					className="border border-foreground/20 rounded-md px-4 py-2  mb-2 text-gray-800 bg-green-400 "
 					pendingText="Signing Up..."
 				>
 					Sign Up
 				</SubmitButton> */}
 				{searchParams?.message && (
-					<p className="mt-4 p-4 text-black text-foreground text-center">
+					<p className="mt-4 p-4 text-black text-center">
 						{searchParams.message}
 					</p>
 				)}

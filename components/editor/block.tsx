@@ -1,13 +1,9 @@
 import Textfield from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useAppContext } from '../../context/AppContext';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Divider from '@mui/material/Divider';
 
 import type { EditorChildren, BlockName } from '@/utils/types';
 import type { BlockOneItem } from '@/utils/defaultContent';
@@ -37,7 +33,7 @@ const Block = ({
 		},
 		wardContacts: {
 			header: 'Ward Contacts',
-			content: 'After Announcements',
+			content: 'Shows up in contacts tab',
 		},
 	};
 

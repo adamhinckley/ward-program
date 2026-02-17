@@ -65,16 +65,6 @@ const MusicEditor = ({
 		}
 	};
 
-	const handleLinkToggle = (key: string, link: string) => {
-		if (link) {
-			const newContent = { ...content, [key]: '' };
-			setContent(newContent);
-		} else {
-			const newContent = { ...content, [key]: 'https://' };
-			setContent(newContent);
-		}
-	};
-
 	const handleToggle = () => {
 		intermediateMusicType === 'hymn'
 			? setContent({ ...content, intermediateMusicType: 'musicalNumber' })
@@ -144,10 +134,10 @@ const MusicEditor = ({
 					value={
 						content.openingHymnNumber
 							? {
-									number: Number(content.openingHymnNumber),
-									title: content.openingHymnTitle,
-									link: content.openingHymnLink,
-							  }
+								number: Number(content.openingHymnNumber),
+								title: content.openingHymnTitle,
+								link: content.openingHymnLink,
+							}
 							: null
 					}
 					isOptionEqualToValue={(option, value) => option.number === value.number}
@@ -166,10 +156,10 @@ const MusicEditor = ({
 						value={
 							content.sacramentHymnNumber
 								? {
-										number: Number(content.sacramentHymnNumber),
-										title: content.sacramentHymnTitle,
-										link: content.sacramentHymnLink,
-								  }
+									number: Number(content.sacramentHymnNumber),
+									title: content.sacramentHymnTitle,
+									link: content.sacramentHymnLink,
+								}
 								: null
 						}
 						isOptionEqualToValue={(option, value) => option.number === value.number}
@@ -245,10 +235,10 @@ const MusicEditor = ({
 									value={
 										content.intermediateHymnNumber
 											? {
-													number: Number(content.intermediateHymnNumber),
-													title: content.intermediateHymnTitle,
-													link: content.intermediateHymnLink,
-											  }
+												number: Number(content.intermediateHymnNumber),
+												title: content.intermediateHymnTitle,
+												link: content.intermediateHymnLink,
+											}
 											: null
 									}
 									isOptionEqualToValue={(option, value) =>
@@ -350,10 +340,10 @@ const MusicEditor = ({
 						value={
 							content.closingHymnNumber
 								? {
-										number: Number(content.closingHymnNumber),
-										title: content.closingHymnTitle,
-										link: content.closingHymnLink,
-								  }
+									number: Number(content.closingHymnNumber),
+									title: content.closingHymnTitle,
+									link: content.closingHymnLink,
+								}
 								: null
 						}
 						isOptionEqualToValue={(option, value) => option.number === value.number}

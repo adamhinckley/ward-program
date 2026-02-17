@@ -8,6 +8,7 @@ import {
 	Drawer,
 	FormControl,
 	IconButton,
+	ButtonBase,
 	InputLabel,
 	List,
 	ListItemButton,
@@ -18,6 +19,8 @@ import {
 	Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useEffect, useMemo, useState } from 'react';
 import Agenda from '@/components/agenda';
 import AgendaV2 from '@/components/agendaV2';
@@ -100,6 +103,7 @@ const storageKeys = {
 } as const;
 
 const storedTheme = window.localStorage.getItem(storageKeys.theme) as ProgramTheme | 'light';
+const storedLayout = window.localStorage.getItem(storageKeys.layout) as ProgramLayout | '';
 const preferredDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 const defaultTheme: ProgramTheme =
 	storedTheme === 'light' || storedTheme === 'dark'
@@ -193,10 +197,6 @@ const WardFacingProgram = () => {
 		setIsMenuOpen(false);
 	};
 
-	const handleThemeChange = (event: SelectChangeEvent) => {
-		setThemeMode(event.target.value as ProgramTheme);
-	};
-
 	const handleLayoutChange = (event: SelectChangeEvent) => {
 		setLayoutMode(event.target.value as ProgramLayout);
 	};
@@ -215,6 +215,12 @@ const WardFacingProgram = () => {
 	const drawerHoverBackground = isDarkMode
 		? 'rgba(148, 163, 184, 0.14)'
 		: 'rgba(15, 23, 42, 0.06)';
+	const drawerThemeToggleBackground = isDarkMode
+		? 'rgba(148, 163, 184, 0.12)'
+		: 'rgba(100, 116, 139, 0.12)';
+	const drawerThemeToggleActiveBackground = isDarkMode
+		? 'rgba(147, 197, 253, 0.22)'
+		: 'rgba(30, 64, 175, 0.12)';
 
 	console.log('isMenuOpen', isMenuOpen);
 
@@ -307,18 +313,66 @@ const WardFacingProgram = () => {
 								<MenuItem value="updated">Updated</MenuItem>
 							</Select>
 						</FormControl>
-						<FormControl size="small" fullWidth>
-							<InputLabel id="theme-mode-label">Theme</InputLabel>
-							<Select
-								labelId="theme-mode-label"
-								value={themeMode}
-								label="Theme"
-								onChange={handleThemeChange}
+						<Box>
+							<Typography variant="body2" fontWeight={500} mb={0.75}>
+								Theme
+							</Typography>
+							<Box
+								sx={{
+									display: 'grid',
+									gridTemplateColumns: '1fr 1fr',
+									gap: 0.75,
+									p: 0.75,
+									borderRadius: 999,
+									backgroundColor: drawerThemeToggleBackground,
+								}}
 							>
-								<MenuItem value="light">Light</MenuItem>
-								<MenuItem value="dark">Dark</MenuItem>
-							</Select>
-						</FormControl>
+								<ButtonBase
+									onClick={() => setThemeMode('light')}
+									aria-label="Switch to light mode"
+									sx={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										gap: 0.5,
+										borderRadius: 999,
+										py: 0.75,
+										px: 1,
+										fontWeight: 600,
+										color: drawerForeground,
+										backgroundColor:
+											themeMode === 'light' ? drawerThemeToggleActiveBackground : 'transparent',
+									}}
+								>
+									<LightModeOutlinedIcon fontSize="small" />
+									<Typography variant="caption" fontWeight={600}>
+										Light
+									</Typography>
+								</ButtonBase>
+								<ButtonBase
+									onClick={() => setThemeMode('dark')}
+									aria-label="Switch to dark mode"
+									sx={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										gap: 0.5,
+										borderRadius: 999,
+										py: 0.75,
+										px: 1,
+										fontWeight: 600,
+										color: drawerForeground,
+										backgroundColor:
+											themeMode === 'dark' ? drawerThemeToggleActiveBackground : 'transparent',
+									}}
+								>
+									<DarkModeOutlinedIcon fontSize="small" />
+									<Typography variant="caption" fontWeight={600}>
+										Dark
+									</Typography>
+								</ButtonBase>
+							</Box>
+						</Box>
 						<FormControl size="small" fullWidth>
 							<InputLabel id="font-size-label">Font Size</InputLabel>
 							<Select

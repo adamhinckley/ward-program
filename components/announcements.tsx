@@ -19,7 +19,7 @@ const announcementStyles = css`
 	}
 
 	a {
-		color: #1e40af;
+		color: var(--program-link);
 		text-decoration: underline;
 	}
 

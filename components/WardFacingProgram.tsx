@@ -205,6 +205,17 @@ const WardFacingProgram = () => {
 		setFontSize(event.target.value as ProgramFontSize);
 	};
 
+	const isDarkMode = themeMode === 'dark';
+	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';
+	const drawerForeground = isDarkMode ? '#f1f1f4' : '#141417';
+	const drawerBorder = isDarkMode ? 'rgba(148, 163, 184, 0.28)' : 'rgba(100, 116, 139, 0.25)';
+	const drawerSelectedBackground = isDarkMode
+		? 'rgba(147, 197, 253, 0.18)'
+		: 'rgba(30, 64, 175, 0.1)';
+	const drawerHoverBackground = isDarkMode
+		? 'rgba(148, 163, 184, 0.14)'
+		: 'rgba(15, 23, 42, 0.06)';
+
 	console.log('isMenuOpen', isMenuOpen);
 
 	return (
@@ -222,7 +233,51 @@ const WardFacingProgram = () => {
 				<Box sx={{ width: 32 }} />
 			</header>
 
-			<Drawer anchor="left" open={isMenuOpen} onClose={() => setIsMenuOpen(false)}>
+			<Drawer
+				anchor="left"
+				open={isMenuOpen}
+				onClose={() => setIsMenuOpen(false)}
+				sx={{
+					'& .MuiDrawer-paper': {
+						backgroundColor: drawerBackground,
+						color: drawerForeground,
+						borderRight: `1px solid ${drawerBorder}`,
+					},
+					'& .MuiDivider-root': {
+						borderColor: drawerBorder,
+					},
+					'& .MuiListItemButton-root:hover': {
+						backgroundColor: drawerHoverBackground,
+					},
+					'& .MuiListItemButton-root.Mui-selected': {
+						backgroundColor: drawerSelectedBackground,
+					},
+					'& .MuiListItemButton-root.Mui-selected:hover': {
+						backgroundColor: drawerSelectedBackground,
+					},
+					'& .MuiInputLabel-root': {
+						color: drawerForeground,
+					},
+					'& .MuiInputLabel-root.Mui-focused': {
+						color: drawerForeground,
+					},
+					'& .MuiOutlinedInput-root': {
+						color: drawerForeground,
+					},
+					'& .MuiOutlinedInput-notchedOutline': {
+						borderColor: drawerBorder,
+					},
+					'& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+						borderColor: drawerForeground,
+					},
+					'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+						borderColor: drawerForeground,
+					},
+					'& .MuiSelect-icon': {
+						color: drawerForeground,
+					},
+				}}
+			>
 				<Box sx={{ width: 240 }} role="presentation">
 					<List>
 						{(Object.keys(sectionLabels) as ProgramSection[]).map((section) => (

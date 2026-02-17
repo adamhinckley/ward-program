@@ -21,7 +21,7 @@ const styles = css`
 	margin-top: 8px;
 
 	.panel {
-		margin-bottom: 16px;
+		margin-bottom: 12px;
 	}
 
 	.header {
@@ -71,7 +71,7 @@ const styles = css`
 		background: var(--program-group-bg);
 		border-radius: 16px;
 		padding: 8px 12px;
-		margin: 6px 0;
+		margin-bottom: 12px;
 	}
 
 	.connected-group {

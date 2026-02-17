@@ -33,7 +33,7 @@ const styles = css`
 		background: var(--program-group-bg);
 		border-radius: 16px;
 		padding: 8px 12px;
-		margin: 6px 0;
+		margin-bottom: 12px;
 	}
 
 	.group-card .row {

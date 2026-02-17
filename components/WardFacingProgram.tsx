@@ -1,28 +1,22 @@
 /** @jsxImportSource @emotion/react */
+'use client';
 import { css } from '@emotion/react';
 import TabPanel from '@/components/editor/TabPanel';
 import WardContacts from '@/components/WardContacts';
 import {
 	Box,
-	Divider,
 	Drawer,
-	FormControl,
 	IconButton,
 	ButtonBase,
-	InputLabel,
 	List,
 	ListItemButton,
 	ListItemText,
-	MenuItem,
-	Select,
-	SelectChangeEvent,
 	Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useEffect, useMemo, useState } from 'react';
-import Agenda from '@/components/agenda';
 import AgendaV2 from '@/components/agendaV2';
 import Announcements from '@/components/announcements';
 import FrontPage from '@/components/frontPage';
@@ -81,7 +75,6 @@ const styles = css`
 
 type ProgramSection = 'agenda' | 'announcements' | 'contacts';
 type ProgramTheme = 'light' | 'dark';
-type ProgramLayout = 'legacy' | 'updated';
 type ProgramFontSize = 'small' | 'medium' | 'large';
 
 const sectionLabels: Record<ProgramSection, string> = {
@@ -98,81 +91,39 @@ const fontSizeMap: Record<ProgramFontSize, string> = {
 
 const storageKeys = {
 	theme: 'ward-program-theme',
-	layout: 'ward-program-layout',
-	fontSize: 'ward-program-font-size',
 } as const;
 
-const storedTheme = window.localStorage.getItem(storageKeys.theme) as ProgramTheme | 'light';
-const storedLayout = window.localStorage.getItem(storageKeys.layout) as ProgramLayout | '';
-const preferredDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const defaultTheme: ProgramTheme =
-	storedTheme === 'light' || storedTheme === 'dark'
-		? storedTheme
-		: preferredDarkScheme
-			? 'dark'
-			: 'light';
-
-const defaultLayout: ProgramLayout =
-	storedLayout === 'legacy' || storedLayout === 'updated' ? storedLayout : 'updated';
 const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [themeMode, setThemeMode] = useState<ProgramTheme>(defaultTheme);
-	const [layoutMode, setLayoutMode] = useState<ProgramLayout>(defaultLayout);
-	const [fontSize, setFontSize] = useState<ProgramFontSize>('medium');
-
-	console.log('themeMode', themeMode);
-
-	console.log('layoutMode', layoutMode);
+	const [themeMode, setThemeMode] = useState<ProgramTheme>('light');
+	const [isThemeHydrated, setIsThemeHydrated] = useState(false);
 
 	useEffect(() => {
 		if (typeof window === 'undefined') {
 			return;
 		}
 
-		const storedLayout = window.localStorage.getItem(
-			storageKeys.layout,
-		) as ProgramLayout | null;
-		const storedFontSize = window.localStorage.getItem(
-			storageKeys.fontSize,
-		) as ProgramFontSize | null;
+		const storedTheme = window.localStorage.getItem(storageKeys.theme) as ProgramTheme | null;
+		const preferredDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		const defaultTheme: ProgramTheme =
+			storedTheme === 'light' || storedTheme === 'dark'
+				? storedTheme
+				: preferredDarkScheme
+					? 'dark'
+					: 'light';
 
-		if (storedTheme === 'light' || storedTheme === 'dark') {
-			setThemeMode(storedTheme);
-		} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			setThemeMode('dark');
-		}
-
-		if (storedLayout === 'legacy' || storedLayout === 'updated') {
-			setLayoutMode(storedLayout);
-		}
-
-		if (
-			storedFontSize === 'small' ||
-			storedFontSize === 'medium' ||
-			storedFontSize === 'large'
-		) {
-			setFontSize(storedFontSize);
-		}
+		setThemeMode(defaultTheme);
+		setIsThemeHydrated(true);
 	}, []);
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			window.localStorage.setItem(storageKeys.theme, themeMode);
+		if (!isThemeHydrated || typeof window === 'undefined') {
+			return;
 		}
-	}, [themeMode]);
 
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			window.localStorage.setItem(storageKeys.layout, layoutMode);
-		}
-	}, [layoutMode]);
-
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			window.localStorage.setItem(storageKeys.fontSize, fontSize);
-		}
-	}, [fontSize]);
+		window.localStorage.setItem(storageKeys.theme, themeMode);
+	}, [themeMode, isThemeHydrated]);
 
 	const themeVars = useMemo(
 		() =>
@@ -184,28 +135,19 @@ const WardFacingProgram = () => {
 				'--program-panel-border':
 					themeMode === 'dark' ? 'rgba(144, 164, 174, 0.28)' : 'rgba(51, 65, 85, 0.18)',
 				'--program-group-bg':
-					themeMode === 'dark' ? 'rgba(30, 41, 59, 0.58)' : 'rgba(226, 232, 240, 0.62)',
+					themeMode === 'dark' ? 'rgba(51, 65, 85, 0.92)' : 'rgba(226, 232, 240, 0.62)',
 				'--program-group-border':
 					themeMode === 'dark'
 						? 'rgba(148, 163, 184, 0.32)'
 						: 'rgba(100, 116, 139, 0.28)',
 				'--program-link': themeMode === 'dark' ? '#93c5fd' : '#1e40af',
-				'--program-font-size': fontSizeMap[fontSize],
 			}) as React.CSSProperties,
-		[themeMode, fontSize],
+		[themeMode],
 	);
 
 	const handleSectionSelect = (section: ProgramSection) => {
 		setActiveSection(section);
 		setIsMenuOpen(false);
-	};
-
-	const handleLayoutChange = (event: SelectChangeEvent) => {
-		setLayoutMode(event.target.value as ProgramLayout);
-	};
-
-	const handleFontSizeChange = (event: SelectChangeEvent) => {
-		setFontSize(event.target.value as ProgramFontSize);
 	};
 
 	const isDarkMode = themeMode === 'dark';
@@ -225,7 +167,10 @@ const WardFacingProgram = () => {
 		? 'rgba(147, 197, 253, 0.22)'
 		: 'rgba(30, 64, 175, 0.12)';
 
-	console.log('isMenuOpen', isMenuOpen);
+	// Prevent flash of wrong theme during hydration
+	if (!isThemeHydrated) {
+		return null;
+	}
 
 	return (
 		<main css={styles} style={themeVars}>
@@ -299,27 +244,8 @@ const WardFacingProgram = () => {
 							</ListItemButton>
 						))}
 					</List>
-					<Divider />
-					<Box sx={{ p: 2, display: 'grid', gap: 1.5 }}>
-						<Typography variant="subtitle2" fontWeight={600}>
-							Display Settings
-						</Typography>
-						<FormControl size="small" fullWidth>
-							<InputLabel id="layout-mode-label">Layout</InputLabel>
-							<Select
-								labelId="layout-mode-label"
-								value={layoutMode}
-								label="Layout"
-								onChange={handleLayoutChange}
-							>
-								<MenuItem value="legacy">Legacy</MenuItem>
-								<MenuItem value="updated">Updated</MenuItem>
-							</Select>
-						</FormControl>
+					<Box sx={{ px: 2, display: 'grid', gap: 1.5 }}>
 						<Box>
-							<Typography variant="body2" fontWeight={500} mb={0.75}>
-								Theme
-							</Typography>
 							<Box
 								sx={{
 									display: 'grid',
@@ -380,19 +306,6 @@ const WardFacingProgram = () => {
 								</ButtonBase>
 							</Box>
 						</Box>
-						<FormControl size="small" fullWidth>
-							<InputLabel id="font-size-label">Font Size</InputLabel>
-							<Select
-								labelId="font-size-label"
-								value={fontSize}
-								label="Font Size"
-								onChange={handleFontSizeChange}
-							>
-								<MenuItem value="small">Small</MenuItem>
-								<MenuItem value="medium">Medium</MenuItem>
-								<MenuItem value="large">Large</MenuItem>
-							</Select>
-						</FormControl>
 					</Box>
 				</Box>
 			</Drawer>
@@ -400,7 +313,7 @@ const WardFacingProgram = () => {
 			<div className="main-content">
 				<TabPanel value={activeSection === 'agenda' ? 0 : 1} index={0}>
 					<FrontPage />
-					{layoutMode === 'updated' ? <AgendaV2 /> : <Agenda />}
+					<AgendaV2 />
 				</TabPanel>
 				<TabPanel value={activeSection === 'announcements' ? 0 : 1} index={0}>
 					<Announcements />

@@ -4,7 +4,7 @@ import { useAppContext } from '@/context/AppContext';
 
 const styles = css`
 	.panel {
-		margin-bottom: 16px;
+		margin-bottom: 12px;
 	}
 
 	.section-title {
@@ -45,7 +45,7 @@ const styles = css`
 		background: var(--program-group-bg);
 		border-radius: 16px;
 		padding: 8px 12px;
-		margin: 6px 0;
+		margin-bottom: 12px;
 	}
 
 	.group-card .row {
@@ -98,7 +98,7 @@ const StandardSecondHalfV2 = () => {
 							const block = blockToNarrow as { left: string; right: string };
 							return (
 								<div className="group-card" key={index}>
-									<div className="row">
+									<div className="row ">
 										<div className="label">{block.left}</div>
 										<div className="value">{block.right}</div>
 									</div>
@@ -121,14 +121,18 @@ const StandardSecondHalfV2 = () => {
 										</div>
 									))
 								: null}
-							</div>
+						</div>
 					) : (
-							<div className="group-card">
+						<div className="group-card">
 							<div className="row">
 								<div className="label">Intermediate Hymn</div>
 								<div className="value">
 									{intermediateHymnLink ? (
-										<a href={intermediateHymnLink} target="_blank" rel="noreferrer">
+										<a
+											href={intermediateHymnLink}
+											target="_blank"
+											rel="noreferrer"
+										>
 											{intermediateHymnNumber}
 										</a>
 									) : (

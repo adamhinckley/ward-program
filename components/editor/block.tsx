@@ -77,7 +77,7 @@ const Block = ({
 								height: '40px',
 							}}
 						>
-							<DeleteForeverIcon color="error" />
+							<DeleteForeverIcon sx={{ color: '#ef4444 !important' }} />
 						</IconButton>
 					</div>
 				))}

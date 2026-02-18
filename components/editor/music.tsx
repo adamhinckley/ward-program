@@ -315,7 +315,9 @@ const MusicEditor = ({
 														top: '-34px',
 													}}
 												>
-													<DeleteForeverIcon color="error" />
+													<DeleteForeverIcon
+														sx={{ color: '#ef4444 !important' }}
+													/>
 												</IconButton>
 											</div>
 										);

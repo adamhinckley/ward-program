@@ -61,14 +61,8 @@
 	}
 }
 
-@layer base {
-	* {
-		@apply border-foreground/20;
-	}
-}
-
 input {
-	border: 1px solid black;
+	border: 1px solid var(--editor-border);
 	border-radius: 4px;
 }
 

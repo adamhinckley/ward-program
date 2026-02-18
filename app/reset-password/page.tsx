@@ -1,3 +1,4 @@
+import { AuthLayout } from '@/app/auth-layout';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from '../login/submit-button';
@@ -31,28 +32,30 @@ export default function ResetPassword({ searchParams }: { searchParams: { messag
 	};
 
 	return (
-		<div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 m-auto mt-40">
-			<h1 className="text-2xl font-bold mb-4 ">Reset Password</h1>
-			<p className="text-sm  mb-4">Enter your new password below.</p>
-			<form className="flex-1 flex flex-col w-full justify-center gap-2 ">
-				<Textfield name="password" type="password" required label="New Password" />
-				<Textfield
-					name="confirmPassword"
-					type="password"
-					required
-					label="Confirm New Password"
-				/>
-				<SubmitButton
-					formAction={updatePassword}
-					className="bg-gray-900 rounded-md px-4 py-2  mb-2"
-					pendingText="Updating..."
-				>
-					Update Password
-				</SubmitButton>
-				{searchParams?.message && (
-					<p className="mt-4 p-4 text-black text-center">{searchParams.message}</p>
-				)}
-			</form>
-		</div>
+		<AuthLayout>
+			<div className="auth-container">
+				<h1 className="text-2xl font-bold mb-4">Reset Password</h1>
+				<p className="text-sm mb-4">Enter your new password below.</p>
+				<form className="flex flex-col w-full justify-center gap-4">
+					<Textfield name="password" type="password" required label="New Password" />
+					<Textfield
+						name="confirmPassword"
+						type="password"
+						required
+						label="Confirm New Password"
+					/>
+					<SubmitButton
+						formAction={updatePassword}
+						className="rounded-md px-4 py-2 mb-2"
+						pendingText="Updating..."
+					>
+						Update Password
+					</SubmitButton>
+					{searchParams?.message && (
+						<p className="message-box text-center">{searchParams.message}</p>
+					)}
+				</form>
+			</div>
+		</AuthLayout>
 	);
 }

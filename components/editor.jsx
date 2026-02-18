@@ -14,15 +14,59 @@ import SaveButton from '@/components/editor/SaveButton';
 import TabPanel from '@/components/editor/TabPanel';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { createClient } from '@/utils/supabase/client';
 import Settings from '@/components/editor/Settings';
+import { useProgramTheme } from '@/context/ProgramThemeContext';
 
 const styles = css`
+	background-color: var(--editor-bg);
+	color: var(--editor-fg);
+	border-radius: 8px;
+
 	.MuiTabs-flexContainer {
 		justify-content: space-between;
+	}
+
+	.MuiTab-root {
+		color: var(--editor-tab-inactive);
+	}
+
+	.MuiTab-root.Mui-selected {
+		color: var(--editor-tab-active);
+	}
+
+	.MuiInputLabel-root,
+	.MuiFormLabel-root {
+		color: var(--editor-tab-inactive);
+	}
+
+	.MuiInputLabel-root.Mui-focused,
+	.MuiFormLabel-root.Mui-focused {
+		color: var(--editor-tab-active);
+	}
+
+	.MuiInputBase-root,
+	.MuiOutlinedInput-root {
+		color: var(--editor-fg);
+		background-color: var(--editor-control-bg);
+	}
+
+	.MuiOutlinedInput-notchedOutline {
+		border-color: var(--editor-border);
+	}
+
+	.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline,
+	.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+		border-color: var(--editor-tab-active);
+	}
+
+	.MuiSvgIcon-root {
+		color: currentColor;
 	}
 
 	.tabs {
@@ -37,6 +81,7 @@ const styles = css`
 		width: 100%;
 		align-items: center;
 		justify-content: space-between;
+		gap: 8px;
 
 		@media (min-width: 751px) {
 			display: none;
@@ -45,11 +90,77 @@ const styles = css`
 			width: 40px;
 			height: 40px;
 			background-color: transparent;
+			color: var(--editor-fg);
 
 			.MuiSvgIcon-root {
-				fill: #000000;
+				fill: currentColor;
 			}
 		}
+	}
+
+	.toolbar-actions {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.desktop-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		width: 100%;
+
+		.tabs {
+			flex: 1;
+			min-width: 0;
+		}
+
+		@media (max-width: 750px) {
+			display: none;
+		}
+	}
+
+	.theme-toggle {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4px;
+		padding: 4px;
+		border-radius: 999px;
+		background-color: var(--editor-muted-bg);
+	}
+
+	.theme-toggle-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		border-radius: 999px;
+		padding: 6px 10px;
+		border: 0;
+		background-color: transparent;
+		color: var(--editor-fg);
+		cursor: pointer;
+		white-space: nowrap;
+	}
+
+	.theme-toggle-label {
+		display: inline;
+	}
+
+	@media (max-width: 960px) {
+		.theme-toggle-label {
+			display: none;
+		}
+
+		.theme-toggle-button {
+			padding: 6px 8px;
+		}
+	}
+
+	.theme-toggle-button.is-active {
+		background-color: var(--editor-strong-bg);
+		color: var(--editor-strong-fg);
 	}
 
 	.drawer {
@@ -59,11 +170,11 @@ const styles = css`
 	}
 
 	.Mui-selected.Mui-selected {
-		color: #000000;
+		color: var(--editor-tab-active);
 	}
 
 	.MuiTabs-indicator {
-		background-color: #000000;
+		background-color: var(--editor-tab-active);
 	}
 `;
 
@@ -76,8 +187,43 @@ const loadingStyles = css`
 
 const Editor = () => {
 	const { content, setContent, currentTab, setCurrentTab, userData } = useAppContext();
+	const { themeMode, setThemeMode } = useProgramTheme();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const supabase = createClient();
+
+	const isDarkMode = themeMode === 'dark';
+	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';
+	const drawerForeground = isDarkMode ? '#f1f1f4' : '#141417';
+	const drawerBorder = isDarkMode ? 'rgba(148, 163, 184, 0.28)' : 'rgba(100, 116, 139, 0.25)';
+	const drawerSelectedBackground = isDarkMode
+		? 'rgba(147, 197, 253, 0.18)'
+		: 'rgba(30, 64, 175, 0.1)';
+	const drawerHoverBackground = isDarkMode
+		? 'rgba(148, 163, 184, 0.14)'
+		: 'rgba(15, 23, 42, 0.06)';
+
+	const themeToggle = (
+		<div className="theme-toggle" role="group" aria-label="Theme selector">
+			<button
+				type="button"
+				className={`theme-toggle-button ${themeMode === 'light' ? 'is-active' : ''}`}
+				onClick={() => setThemeMode('light')}
+				aria-label="Switch to light mode"
+			>
+				<LightModeOutlinedIcon fontSize="small" />
+				{/* <span className="theme-toggle-label">Light</span> */}
+			</button>
+			<button
+				type="button"
+				className={`theme-toggle-button ${themeMode === 'dark' ? 'is-active' : ''}`}
+				onClick={() => setThemeMode('dark')}
+				aria-label="Switch to dark mode"
+			>
+				<DarkModeOutlinedIcon fontSize="small" />
+				{/* <span className="theme-toggle-label">Dark</span> */}
+			</button>
+		</div>
+	);
 
 	// return loading if content is not available
 	// check if content is an empty object
@@ -184,22 +330,30 @@ const Editor = () => {
 				<IconButton className="hamburger" onClick={() => setIsDrawerOpen((prev) => !prev)}>
 					<MenuIcon />
 				</IconButton>
-				<SaveButton />
+				<div className="toolbar-actions">
+					{themeToggle}
+					<SaveButton />
+				</div>
 			</div>
-			<Tabs
-				value={currentTab}
-				onChange={handleTabChange}
-				aria-label="order customizer module tabs"
-				className="tabs"
-			>
-				<Tab label="Settings" {...a11yProps(0)} />
-				<Tab label="Leaders" {...a11yProps(1)} />
-				<Tab label="Music" {...a11yProps(2)} />
-				<Tab label="Prayers" {...a11yProps(3)} />
-				<Tab label="Blocks" {...a11yProps(4)} />
-				<Tab label="Announcements" {...a11yProps(5)} />
-				<SaveButton />
-			</Tabs>
+			<div className="desktop-toolbar">
+				<Tabs
+					value={currentTab}
+					onChange={handleTabChange}
+					aria-label="order customizer module tabs"
+					className="tabs"
+				>
+					<Tab label="Settings" {...a11yProps(0)} />
+					<Tab label="Leaders" {...a11yProps(1)} />
+					<Tab label="Music" {...a11yProps(2)} />
+					<Tab label="Prayers" {...a11yProps(3)} />
+					<Tab label="Blocks" {...a11yProps(4)} />
+					<Tab label="Announcements" {...a11yProps(5)} />
+				</Tabs>
+				<div className="toolbar-actions">
+					{themeToggle}
+					<SaveButton />
+				</div>
+			</div>
 			<Drawer
 				anchor="left"
 				open={isDrawerOpen}
@@ -207,11 +361,20 @@ const Editor = () => {
 				className="drawer"
 				// add styles to drawer
 				sx={{
-					'& .MuiDrawer-paper': {},
+					'& .MuiDrawer-paper': {
+						backgroundColor: drawerBackground,
+						color: drawerForeground,
+						borderRight: `1px solid ${drawerBorder}`,
+					},
 					button: {
 						fontSize: '1.125rem',
 						borderRadius: '0',
 						margin: '12px 20px',
+						justifyContent: 'flex-start',
+						color: drawerForeground,
+						'&:hover': {
+							backgroundColor: drawerHoverBackground,
+						},
 					},
 				}}
 			>
@@ -219,8 +382,9 @@ const Editor = () => {
 					variant="text"
 					onClick={() => handleDrawerButtonClick(0)}
 					sx={{
-						borderBottom: currentTab === 0 ? '2px solid #000' : '',
-						color: '#000000',
+						borderBottom: currentTab === 0 ? `2px solid ${drawerForeground}` : '',
+						backgroundColor:
+							currentTab === 0 ? drawerSelectedBackground : 'transparent',
 					}}
 				>
 					Settings
@@ -230,8 +394,9 @@ const Editor = () => {
 					color="primary"
 					onClick={() => handleDrawerButtonClick(1)}
 					sx={{
-						borderBottom: currentTab === 1 ? '2px solid #000' : '',
-						color: '#000000',
+						borderBottom: currentTab === 1 ? `2px solid ${drawerForeground}` : '',
+						backgroundColor:
+							currentTab === 1 ? drawerSelectedBackground : 'transparent',
 					}}
 				>
 					Leaders
@@ -241,8 +406,9 @@ const Editor = () => {
 					color="primary"
 					onClick={() => handleDrawerButtonClick(2)}
 					sx={{
-						borderBottom: currentTab === 2 ? '2px solid #000' : '',
-						color: '#000000',
+						borderBottom: currentTab === 2 ? `2px solid ${drawerForeground}` : '',
+						backgroundColor:
+							currentTab === 2 ? drawerSelectedBackground : 'transparent',
 					}}
 				>
 					Music
@@ -252,8 +418,9 @@ const Editor = () => {
 					color="primary"
 					onClick={() => handleDrawerButtonClick(3)}
 					sx={{
-						borderBottom: currentTab === 3 ? '2px solid #000' : '',
-						color: '#000000',
+						borderBottom: currentTab === 3 ? `2px solid ${drawerForeground}` : '',
+						backgroundColor:
+							currentTab === 3 ? drawerSelectedBackground : 'transparent',
 					}}
 				>
 					Prayers
@@ -263,8 +430,9 @@ const Editor = () => {
 					color="primary"
 					onClick={() => handleDrawerButtonClick(4)}
 					sx={{
-						borderBottom: currentTab === 4 ? '2px solid #000' : '',
-						color: '#000000',
+						borderBottom: currentTab === 4 ? `2px solid ${drawerForeground}` : '',
+						backgroundColor:
+							currentTab === 4 ? drawerSelectedBackground : 'transparent',
 					}}
 				>
 					Blocks
@@ -274,8 +442,9 @@ const Editor = () => {
 					color="primary"
 					onClick={() => handleDrawerButtonClick(5)}
 					sx={{
-						borderBottom: currentTab === 5 ? '2px solid #000' : '',
-						color: '#000000',
+						borderBottom: currentTab === 5 ? `2px solid ${drawerForeground}` : '',
+						backgroundColor:
+							currentTab === 5 ? drawerSelectedBackground : 'transparent',
 					}}
 				>
 					Announcements

@@ -10,15 +10,16 @@ const styles = css`
 	.save-button {
 		margin: 12px 0;
 		max-width: 80px;
-		background-color: #000000;
+		background-color: var(--editor-strong-bg);
+		color: var(--editor-strong-fg);
 		box-shadow: none;
 
 		&:hover {
-			background-color: #000000;
+			background-color: var(--editor-strong-bg);
 		}
 
 		.MuiLoadingButton-loadingIndicator {
-			color: #ffffff;
+			color: var(--editor-strong-fg);
 		}
 	}
 `;
@@ -74,7 +75,7 @@ const SaveButton = () => {
 				variant="contained"
 				disabled={saving}
 				onClick={handleSave}
-				sx={{ margin: '12px 0', maxWidth: '80px', backgroundColor: '#4caf50' }}
+				sx={{ margin: '12px 0', maxWidth: '80px' }}
 				loading={saving}
 				className="save-button"
 			>

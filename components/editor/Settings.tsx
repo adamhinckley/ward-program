@@ -20,11 +20,11 @@ const styles = css`
 		margin: 12px 0;
 
 		.Mui-checked {
-			color: #000000;
+			color: var(--editor-tab-active);
 		}
 
 		.MuiSwitch-track.MuiSwitch-track {
-			background-color: #000;
+			background-color: var(--editor-tab-active);
 		}
 	}
 
@@ -38,18 +38,19 @@ const styles = css`
 		gap: 16px;
 
 		button {
-			background-color: #000000;
+			background-color: var(--editor-strong-bg);
+			color: var(--editor-strong-fg);
 		}
 	}
 
 	.link-container {
-		background-color: #b6b8b8;
+		background-color: var(--editor-muted-bg);
 		padding: 8px;
 		border-radius: 4px;
 	}
 
 	a {
-		color: #000000;
+		color: var(--editor-link);
 		text-decoration: underline;
 	}
 `;
@@ -67,7 +68,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 		? 'https://app.wardprogram.com/demo/program'
 		: `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
-		<div className="bg-white p-4 mb-4" css={styles}>
+		<div className="p-4 mb-4" css={styles}>
 			<Typography>
 				Have questions or ideas to share? Join our exclusive community on{' '}
 				<a

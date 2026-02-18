@@ -33,11 +33,11 @@ const styles = css`
 		margin: 12px 0;
 
 		.Mui-checked {
-			color: #000000;
+			color: var(--editor-tab-active);
 		}
 
 		.MuiSwitch-track.MuiSwitch-track {
-			background-color: #000;
+			background-color: var(--editor-tab-active);
 		}
 	}
 `;
@@ -82,6 +82,10 @@ const MusicEditor = ({
 	const showIntermediateMusic =
 		content.showIntermediateMusic === undefined || content.showIntermediateMusic;
 	const showClosingHymn = content.showClosingHymn === undefined || content.showClosingHymn;
+	const activeButtonBg = 'var(--editor-strong-bg)';
+	const activeButtonText = 'var(--editor-strong-fg)';
+	const inactiveButtonBg = 'var(--editor-muted-bg)';
+	const inactiveButtonHover = 'var(--editor-control-hover)';
 
 	return (
 		<Box sx={{ marginTop: '16px' }} css={styles}>
@@ -134,10 +138,10 @@ const MusicEditor = ({
 					value={
 						content.openingHymnNumber
 							? {
-								number: Number(content.openingHymnNumber),
-								title: content.openingHymnTitle,
-								link: content.openingHymnLink,
-							}
+									number: Number(content.openingHymnNumber),
+									title: content.openingHymnTitle,
+									link: content.openingHymnLink,
+								}
 							: null
 					}
 					isOptionEqualToValue={(option, value) => option.number === value.number}
@@ -156,10 +160,10 @@ const MusicEditor = ({
 						value={
 							content.sacramentHymnNumber
 								? {
-									number: Number(content.sacramentHymnNumber),
-									title: content.sacramentHymnTitle,
-									link: content.sacramentHymnLink,
-								}
+										number: Number(content.sacramentHymnNumber),
+										title: content.sacramentHymnTitle,
+										link: content.sacramentHymnLink,
+									}
 								: null
 						}
 						isOptionEqualToValue={(option, value) => option.number === value.number}
@@ -183,17 +187,21 @@ const MusicEditor = ({
 								aria-label="Basic button group"
 								sx={{
 									margin: '12px 0',
+									boxShadow: 'none',
 								}}
 							>
 								<Button
 									sx={{
 										backgroundColor: isHymn
-											? '#000000 !important'
-											: 'gray !important',
+											? `${activeButtonBg} !important`
+											: `${inactiveButtonBg} !important`,
+										color: isHymn
+											? `${activeButtonText} !important`
+											: 'var(--editor-fg) !important',
 										'&:hover': {
 											backgroundColor: isHymn
-												? '#4c4d4d important'
-												: '#999797 !important',
+												? `${activeButtonBg} !important`
+												: `${inactiveButtonHover} !important`,
 										},
 										borderColor: 'transparent !important',
 									}}
@@ -204,12 +212,15 @@ const MusicEditor = ({
 								<Button
 									sx={{
 										backgroundColor: !isHymn
-											? '#000000  !important'
-											: 'gray !important',
+											? `${activeButtonBg} !important`
+											: `${inactiveButtonBg} !important`,
+										color: !isHymn
+											? `${activeButtonText} !important`
+											: 'var(--editor-fg) !important',
 										'&:hover': {
 											backgroundColor: !isHymn
-												? '#4c4d4d!important'
-												: '#999797 !important',
+												? `${activeButtonBg} !important`
+												: `${inactiveButtonHover} !important`,
 										},
 										borderColor: 'transparent',
 									}}
@@ -235,10 +246,10 @@ const MusicEditor = ({
 									value={
 										content.intermediateHymnNumber
 											? {
-												number: Number(content.intermediateHymnNumber),
-												title: content.intermediateHymnTitle,
-												link: content.intermediateHymnLink,
-											}
+													number: Number(content.intermediateHymnNumber),
+													title: content.intermediateHymnTitle,
+													link: content.intermediateHymnLink,
+												}
 											: null
 									}
 									isOptionEqualToValue={(option, value) =>
@@ -315,7 +326,7 @@ const MusicEditor = ({
 											handleAddBlockIndex &&
 											handleAddBlockIndex('intermediateMusicPerformers')
 										}
-										sx={{ margin: '12px', color: '#000000' }}
+										sx={{ margin: '12px', color: 'var(--editor-tab-active)' }}
 									>
 										<AddIcon />
 										Add Performer
@@ -340,10 +351,10 @@ const MusicEditor = ({
 						value={
 							content.closingHymnNumber
 								? {
-									number: Number(content.closingHymnNumber),
-									title: content.closingHymnTitle,
-									link: content.closingHymnLink,
-								}
+										number: Number(content.closingHymnNumber),
+										title: content.closingHymnTitle,
+										link: content.closingHymnLink,
+									}
 								: null
 						}
 						isOptionEqualToValue={(option, value) => option.number === value.number}

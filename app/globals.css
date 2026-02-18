@@ -16,6 +16,17 @@
 		--program-group-bg: rgba(226, 232, 240, 0.62);
 		--program-group-border: rgba(100, 116, 139, 0.28);
 		--program-link: #1e40af;
+		--editor-bg: #ffffff;
+		--editor-fg: #141417;
+		--editor-muted-bg: #e5e7eb;
+		--editor-border: rgba(100, 116, 139, 0.35);
+		--editor-tab-active: #111827;
+		--editor-tab-inactive: #475569;
+		--editor-control-bg: #ffffff;
+		--editor-control-hover: #f3f4f6;
+		--editor-strong-bg: #111827;
+		--editor-strong-fg: #ffffff;
+		--editor-link: #1d4ed8;
 	}
 
 	:root[data-program-theme='dark'] {
@@ -27,6 +38,17 @@
 		--program-group-bg: rgba(51, 65, 85, 0.92);
 		--program-group-border: rgba(148, 163, 184, 0.32);
 		--program-link: #93c5fd;
+		--editor-bg: #111214;
+		--editor-fg: #f1f1f4;
+		--editor-muted-bg: #1f2937;
+		--editor-border: rgba(148, 163, 184, 0.38);
+		--editor-tab-active: #f1f5f9;
+		--editor-tab-inactive: #cbd5e1;
+		--editor-control-bg: #17181b;
+		--editor-control-hover: #1f2937;
+		--editor-strong-bg: #334155;
+		--editor-strong-fg: #f8fafc;
+		--editor-link: #93c5fd;
 	}
 
 	@media (prefers-color-scheme: dark) {

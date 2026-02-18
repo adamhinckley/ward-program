@@ -2,21 +2,6 @@
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 
-const currentOrNextSundayDate = (() => {
-	const date = new Date();
-	const currentDay = date.getDay();
-	const daysUntilNextSunday = currentDay === 0 ? 0 : 7 - currentDay;
-	date.setDate(date.getDate() + daysUntilNextSunday);
-
-	const options: Intl.DateTimeFormatOptions = {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	};
-
-	return date.toLocaleDateString('en-US', options);
-})();
-
 const styles = css`
 	margin-top: 8px;
 
@@ -110,6 +95,21 @@ const styles = css`
 
 const PreSacramentAgendaV2 = () => {
 	const { content } = useAppContext();
+
+	const currentOrNextSundayDate = (() => {
+		const date = new Date();
+		const currentDay = date.getDay();
+		const daysUntilNextSunday = currentDay === 0 ? 0 : 7 - currentDay;
+		date.setDate(date.getDate() + daysUntilNextSunday);
+
+		const options: Intl.DateTimeFormatOptions = {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		};
+
+		return date.toLocaleDateString('en-US', options);
+	})();
 
 	const {
 		title,

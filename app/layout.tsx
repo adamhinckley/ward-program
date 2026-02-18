@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { ProgramThemeProvider } from '@/context/ProgramThemeContext';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
@@ -29,8 +30,10 @@ export default function RootLayout({
 }>) {
 	const isLocal = process.env.NODE_ENV === 'development';
 	return (
-		<html lang="en">
-			<body className="bg-white">{children}</body>
+		<html lang="en" suppressHydrationWarning>
+			<body>
+				<ProgramThemeProvider>{children}</ProgramThemeProvider>
+			</body>
 			{!isLocal && process.env.REACT_APP_GA_ID && (
 				<GoogleAnalytics gaId={process.env.REACT_APP_GA_ID} />
 			)}

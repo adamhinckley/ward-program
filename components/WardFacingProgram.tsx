@@ -16,10 +16,11 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import AgendaV2 from '@/components/agendaV2';
 import Announcements from '@/components/announcements';
 import FrontPage from '@/components/frontPage';
+import { useProgramTheme } from '@/context/ProgramThemeContext';
 
 const styles = css`
 	max-width: 550px;
@@ -74,7 +75,6 @@ const styles = css`
 `;
 
 type ProgramSection = 'agenda' | 'announcements' | 'contacts';
-type ProgramTheme = 'light' | 'dark';
 
 const sectionLabels: Record<ProgramSection, string> = {
 	agenda: 'Agenda',
@@ -82,61 +82,10 @@ const sectionLabels: Record<ProgramSection, string> = {
 	contacts: 'Contacts',
 };
 
-const storageKeys = {
-	theme: 'ward-program-theme',
-} as const;
-
 const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [themeMode, setThemeMode] = useState<ProgramTheme>('light');
-	const [isThemeHydrated, setIsThemeHydrated] = useState(false);
-
-	useEffect(() => {
-		if (typeof window === 'undefined') {
-			return;
-		}
-
-		const storedTheme = window.localStorage.getItem(storageKeys.theme) as ProgramTheme | null;
-		const preferredDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		const defaultTheme: ProgramTheme =
-			storedTheme === 'light' || storedTheme === 'dark'
-				? storedTheme
-				: preferredDarkScheme
-					? 'dark'
-					: 'light';
-
-		setThemeMode(defaultTheme);
-		setIsThemeHydrated(true);
-	}, []);
-
-	useEffect(() => {
-		if (!isThemeHydrated || typeof window === 'undefined') {
-			return;
-		}
-
-		window.localStorage.setItem(storageKeys.theme, themeMode);
-	}, [themeMode, isThemeHydrated]);
-
-	const themeVars = useMemo(
-		() =>
-			({
-				'--program-bg': themeMode === 'dark' ? '#111214' : '#ffffff',
-				'--program-fg': themeMode === 'dark' ? '#f1f1f4' : '#141417',
-				'--program-card-bg': themeMode === 'dark' ? '#1b1c1f' : '#ffffff',
-				'--program-panel-bg': themeMode === 'dark' ? '#17181b' : '#fbfcff',
-				'--program-panel-border':
-					themeMode === 'dark' ? 'rgba(144, 164, 174, 0.28)' : 'rgba(51, 65, 85, 0.18)',
-				'--program-group-bg':
-					themeMode === 'dark' ? 'rgba(51, 65, 85, 0.92)' : 'rgba(226, 232, 240, 0.62)',
-				'--program-group-border':
-					themeMode === 'dark'
-						? 'rgba(148, 163, 184, 0.32)'
-						: 'rgba(100, 116, 139, 0.28)',
-				'--program-link': themeMode === 'dark' ? '#93c5fd' : '#1e40af',
-			}) as React.CSSProperties,
-		[themeMode],
-	);
+	const { themeMode, setThemeMode, isThemeHydrated } = useProgramTheme();
 
 	const handleSectionSelect = (section: ProgramSection) => {
 		setActiveSection(section);
@@ -166,7 +115,7 @@ const WardFacingProgram = () => {
 	}
 
 	return (
-		<main css={styles} style={themeVars}>
+		<main css={styles}>
 			<header className="menu-header">
 				<IconButton
 					className="menu-button"

@@ -75,18 +75,11 @@ const styles = css`
 
 type ProgramSection = 'agenda' | 'announcements' | 'contacts';
 type ProgramTheme = 'light' | 'dark';
-type ProgramFontSize = 'small' | 'medium' | 'large';
 
 const sectionLabels: Record<ProgramSection, string> = {
 	agenda: 'Agenda',
 	announcements: 'Announcements',
 	contacts: 'Contacts',
-};
-
-const fontSizeMap: Record<ProgramFontSize, string> = {
-	small: '14px',
-	medium: '16px',
-	large: '18px',
 };
 
 const storageKeys = {

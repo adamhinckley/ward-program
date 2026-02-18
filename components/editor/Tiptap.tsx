@@ -31,12 +31,14 @@ import { Typography } from '@mui/material';
 
 const tiptapStyles = css`
 	.ProseMirror {
-		border: 1px solid black;
+		border: 1px solid var(--editor-border);
 		border-radius: 4px;
 		height: calc(100vh - 130px);
 		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
+		background-color: var(--editor-control-bg);
+		color: var(--editor-fg);
 	}
 
 	.menu-bar {
@@ -49,12 +51,24 @@ const tiptapStyles = css`
 		margin: 0 4px;
 		border-radius: 4px;
 		padding: 4px 8px;
-		// border: 1px solid #ccc;
+		border: 1px solid var(--editor-border);
+		background-color: var(--editor-control-bg);
+		color: var(--editor-fg);
+
+		&:hover {
+			background-color: var(--editor-control-hover);
+		}
+	}
+
+	button.is-active {
+		background-color: var(--editor-strong-bg);
+		color: var(--editor-strong-fg);
+		border-color: var(--editor-strong-bg);
 	}
 
 	hr {
 		border: 0;
-		border-top: 1px solid #ccc;
+		border-top: 1px solid var(--editor-border);
 		margin: 12px 0;
 	}
 
@@ -64,7 +78,7 @@ const tiptapStyles = css`
 	}
 
 	a {
-		color: #007bff;
+		color: var(--editor-link);
 		text-decoration: underline;
 	}
 `;

@@ -1,11 +1,26 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Head from 'next/head';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { ProgramThemeProvider } from '@/context/ProgramThemeContext';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
+	metadataBase: new URL(baseUrl),
 	title: 'Ward Program',
 	description: 'Sacrament Meeting Agenda for Florence Ward',
+	robots: {
+		index: false,
+		follow: false,
+		googleBot: {
+			index: false,
+			follow: false,
+		},
+	},
+	openGraph: {
+		title: 'Ward Program',
+		description: 'Sacrament Meeting Agenda for Florence Ward',
+	},
 };
 
 export default function RootLayout({
@@ -15,17 +30,10 @@ export default function RootLayout({
 }>) {
 	const isLocal = process.env.NODE_ENV === 'development';
 	return (
-		<html lang="en">
-			<Head>
-				<title>{metadata.title as string}</title>
-				<meta name="description" content={metadata.description as string} />
-				<meta property="og:title" content={metadata.title as string} />
-				<meta property="og:description" content={metadata.description as string} />
-				<meta property="og:image" content="../assets/florence-ward.png" />
-				{/* Step 3: Add og:image meta tag */}
-				{/* Add more meta tags as needed */}
-			</Head>
-			<body className="bg-white">{children}</body>
+		<html lang="en" suppressHydrationWarning>
+			<body>
+				<ProgramThemeProvider>{children}</ProgramThemeProvider>
+			</body>
 			{!isLocal && process.env.REACT_APP_GA_ID && (
 				<GoogleAnalytics gaId={process.env.REACT_APP_GA_ID} />
 			)}

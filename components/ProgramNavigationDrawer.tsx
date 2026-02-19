@@ -153,6 +153,8 @@ const ProgramNavigationDrawer = ({
 		return null;
 	}
 
+	console.log('isStandalone:', isStandalone);
+
 	return (
 		<div
 			role="presentation"
@@ -284,12 +286,12 @@ const ProgramNavigationDrawer = ({
 					</div>
 				</div>
 
-				{isStandalone && (
+				{!isStandalone && (
 					<div style={{ padding: '8px 16px 0' }}>
 						<button
 							type="button"
 							onClick={handleAddToHomeScreen}
-							disabled={isStandalone}
+							// disabled={isStandalone}
 							aria-label="Add this app to your home screen"
 							style={{
 								width: '100%',

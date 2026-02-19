@@ -4,6 +4,22 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { ProgramThemeProvider } from '@/context/ProgramThemeContext';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+const themeInitScript = `
+(() => {
+	try {
+		const storageKey = 'ward-program-theme';
+		const storedTheme = window.localStorage.getItem(storageKey);
+		const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		const resolvedTheme =
+			storedTheme === 'light' || storedTheme === 'dark'
+				? storedTheme
+				: (prefersDark ? 'dark' : 'light');
+		document.documentElement.setAttribute('data-program-theme', resolvedTheme);
+	} catch (_) {
+		// Ignore localStorage/matchMedia access errors.
+	}
+})();
+`;
 
 export const metadata: Metadata = {
 	metadataBase: new URL(baseUrl),
@@ -31,6 +47,9 @@ export default function RootLayout({
 	const isLocal = process.env.NODE_ENV === 'development';
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+			</head>
 			<body>
 				<ProgramThemeProvider>{children}</ProgramThemeProvider>
 			</body>

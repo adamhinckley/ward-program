@@ -1,9 +1,10 @@
-'use server';
+import { Suspense } from 'react';
 import MissingWardData from '@/components/MissingWardData';
 import { ClientProvider } from './ClientProvider';
 import { createClient } from '@/utils/supabase/server';
+import HomeLoadingScreen from '@/components/HomeLoadingScreen';
 
-export default async function Home({
+async function HomeContent({
 	searchParams,
 }: {
 	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -33,4 +34,16 @@ export default async function Home({
 	}
 
 	return <MissingWardData />;
+}
+
+export default function Home({
+	searchParams,
+}: {
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+	return (
+		<Suspense fallback={<HomeLoadingScreen />}>
+			<HomeContent searchParams={searchParams} />
+		</Suspense>
+	);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import type { ProgramSection } from '@/components/WardFacingProgram';
@@ -31,12 +31,34 @@ const ProgramNavigationDrawer = ({
 		setIsClosing(false);
 	}, [isMenuOpen]);
 
-	const handleClose = () => {
+	const handleClose = useCallback(() => {
+		if (isClosing) {
+			return;
+		}
+
 		setIsClosing(true);
 		setTimeout(() => {
 			onClose();
 		}, 300);
-	};
+	}, [isClosing, onClose]);
+
+	useEffect(() => {
+		if (!isMenuOpen) {
+			return;
+		}
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				handleClose();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [isMenuOpen, handleClose]);
 	const isDarkMode = themeMode === 'dark';
 	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';
 	const drawerForeground = isDarkMode ? '#f1f1f4' : '#141417';
@@ -62,7 +84,7 @@ const ProgramNavigationDrawer = ({
 		<div
 			role="presentation"
 			onClick={handleClose}
-			className={isClosing ? 'animate-drawer-backdrop-out' : 'animate-drawer-backdrop-in'}
+			className={`${isClosing ? 'animate-drawer-backdrop-out' : 'animate-drawer-backdrop-in'} [animation-fill-mode:forwards]`}
 			style={{
 				position: 'fixed',
 				inset: 0,
@@ -74,7 +96,7 @@ const ProgramNavigationDrawer = ({
 				role="dialog"
 				aria-label="Program navigation"
 				onClick={(event) => event.stopPropagation()}
-				className={isClosing ? 'animate-drawer-slide-out' : 'animate-drawer-slide-in'}
+				className={`${isClosing ? 'animate-drawer-slide-out' : 'animate-drawer-slide-in'} [animation-fill-mode:forwards]`}
 				style={{
 					width: 240,
 					height: '100dvh',

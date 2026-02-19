@@ -303,7 +303,7 @@ const ProgramNavigationDrawer = ({
 								opacity: isStandalone ? 0.65 : 1,
 							}}
 						>
-							'Add to Home Screen'
+							Add to Home Screen
 						</button>
 						{installNotice ? (
 							<p

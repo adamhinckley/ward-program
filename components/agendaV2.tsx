@@ -1,6 +1,13 @@
-import ClosingHymnAndPrayerV2 from '@/components/closingHymnAndPrayerV2';
+import dynamic from 'next/dynamic';
 import PreSacramentAgendaV2 from '@/components/preSacramentAgendaV2';
-import StandardSecondHalfV2 from '@/components/standardSecondHalfV2';
+
+const StandardSecondHalfV2 = dynamic(() => import('@/components/standardSecondHalfV2'), {
+	ssr: false,
+});
+
+const ClosingHymnAndPrayerV2 = dynamic(() => import('@/components/closingHymnAndPrayerV2'), {
+	ssr: false,
+});
 
 const AgendaV2 = () => {
 	return (

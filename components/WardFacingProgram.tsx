@@ -50,7 +50,7 @@ const styles = css`
 		justify-content: center;
 		width: 32px;
 		height: 32px;
-		padding: 0;
+		padding: 24px;
 		border: 0;
 		border-radius: 999px;
 		background: transparent;
@@ -65,6 +65,7 @@ const styles = css`
 	.menu-icon {
 		font-size: 2rem;
 		line-height: 1;
+		padding-bottom: 1px;
 	}
 
 	.menu-spacer {

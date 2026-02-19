@@ -5,29 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
-import DOMPurify from 'dompurify';
-
-const scriptTagPattern = /<\s*\/?\s*script\b/i;
-
-/**
- * This turns escaped characters back into their original form, which allows us to check for script tags that have been escaped to bypass simple regex checks. ie.`&lt;script&gt;alert&lt;/script&gt;` → `<script>alert</script>`
- * @param value The string to decode
- * @returns the decoded string
- */
-const decodeHtmlEntities = (value: string) => {
-	const textArea = document.createElement('textarea');
-	textArea.innerHTML = value;
-	return textArea.value;
-};
-
-const containsScriptTagAttempt = (value: string) => {
-	if (scriptTagPattern.test(value)) {
-		return true;
-	}
-
-	const decodedValue = decodeHtmlEntities(value);
-	return scriptTagPattern.test(decodedValue);
-};
+import { containsScriptTagAttempt, sanitizeAnnouncementHtml } from '@/utils/sanitization';
 
 const styles = css`
 	.save-button {
@@ -66,9 +44,7 @@ const SaveButton = () => {
 				setSaving(false);
 				return;
 			}
-			const sanitizedAnnouncements = DOMPurify.sanitize(currentEditorContent, {
-				USE_PROFILES: { html: true },
-			});
+			const sanitizedAnnouncements = sanitizeAnnouncementHtml(currentEditorContent);
 			// save the announcement content before saving the entire content
 			const contentToSave = { ...content, announcements: sanitizedAnnouncements };
 			const { data: bulletinData, error: bulletinError } = await supabase

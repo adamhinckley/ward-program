@@ -58,6 +58,13 @@ describe('announcement sanitization', () => {
 		);
 	});
 
+	it('detects script tags obfuscated with unicode and hex escapes', () => {
+		expect(containsScriptTagAttempt('<scr\\x69pt>alert(1)</scr\\x69pt>')).toBe(true);
+		expect(containsScriptTagAttempt('&lt;scr\\u0069pt&gt;alert(1)&lt;/scr\\u0069pt&gt;')).toBe(
+			true,
+		);
+	});
+
 	it('does not flag normal text', () => {
 		expect(containsScriptTagAttempt('<p>Hello world</p>')).toBe(false);
 	});

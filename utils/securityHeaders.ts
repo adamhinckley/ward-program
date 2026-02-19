@@ -14,7 +14,7 @@ export const buildContentSecurityPolicy = (isDevelopment: boolean) => {
 		"img-src 'self' data: blob: https:",
 		"font-src 'self' data: https:",
 		"connect-src 'self' https: wss:",
-		"frame-src 'self' https:",
+		"frame-src 'self'",
 		'upgrade-insecure-requests',
 	].join('; ');
 };

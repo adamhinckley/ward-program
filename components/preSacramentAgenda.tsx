@@ -1,25 +1,24 @@
 'use client';
 import { useAppContext } from '@/context/AppContext';
-
-const currentOrNextSundayDate = (() => {
-	const date = new Date();
-	// Get the current day of the week, 0 (Sunday) - 6 (Saturday)
-	const currentDay = date.getDay();
-	// If today is Sunday, don't add any days. Otherwise, calculate how many days to add to get to the next Sunday
-	const daysUntilNextSunday = currentDay === 0 ? 0 : 7 - currentDay;
-	// Add the necessary days to get to the next Sunday or stay on the current date if it's already Sunday
-	date.setDate(date.getDate() + daysUntilNextSunday);
-
-	const options: Intl.DateTimeFormatOptions = {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-	};
-	return date.toLocaleDateString('en-US', options);
-})();
+import { useEffect, useState } from 'react';
 
 const PreSacramentAgenda = () => {
 	const { content } = useAppContext();
+	const [currentOrNextSundayDate, setCurrentOrNextSundayDate] = useState('');
+
+	useEffect(() => {
+		const date = new Date();
+		const currentDay = date.getDay();
+		const daysUntilNextSunday = currentDay === 0 ? 0 : 7 - currentDay;
+		date.setDate(date.getDate() + daysUntilNextSunday);
+
+		const options: Intl.DateTimeFormatOptions = {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+		};
+		setCurrentOrNextSundayDate(date.toLocaleDateString('en-US', options));
+	}, []);
 
 	const {
 		title,

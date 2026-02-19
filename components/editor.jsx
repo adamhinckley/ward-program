@@ -1,6 +1,6 @@
 'use client';
 /** @jsxImportSource @emotion/react */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import Leaders from '@/components/editor/leaders';
@@ -187,9 +187,26 @@ const loadingStyles = css`
 
 const Editor = () => {
 	const { content, setContent, currentTab, setCurrentTab, userData } = useAppContext();
-	const { themeMode, setThemeMode } = useProgramTheme();
+	const { themeMode, setThemeMode, isThemeHydrated } = useProgramTheme();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const [isMounted, setIsMounted] = useState(false);
 	const supabase = createClient();
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
+	if (!isMounted) {
+		return null;
+	}
+
+	if (!isThemeHydrated) {
+		return (
+			<div css={loadingStyles}>
+				<CircularProgress />
+			</div>
+		);
+	}
 
 	const isDarkMode = themeMode === 'dark';
 	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';

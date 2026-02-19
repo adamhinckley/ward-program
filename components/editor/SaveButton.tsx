@@ -3,8 +3,9 @@
 import { css } from '@emotion/react';
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { containsScriptTagAttempt, sanitizeAnnouncementHtml } from '@/utils/sanitization';
 
 const styles = css`
 	.save-button {
@@ -36,9 +37,16 @@ const SaveButton = () => {
 		}
 		try {
 			setSaving(true);
+			const currentEditorContent = editorContentRef.current ?? '';
+			const hasScriptTag = containsScriptTagAttempt(currentEditorContent);
+			if (hasScriptTag) {
+				window.alert('Script tags are not allowed. Please remove them before saving.');
+				setSaving(false);
+				return;
+			}
+			const sanitizedAnnouncements = sanitizeAnnouncementHtml(currentEditorContent);
 			// save the announcement content before saving the entire content
-			const contentToSave = { ...content, announcements: editorContentRef.current };
-			SVGTextContentElement;
+			const contentToSave = { ...content, announcements: sanitizedAnnouncements };
 			const { data: bulletinData, error: bulletinError } = await supabase
 				.from('ward-bulletin')
 				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
@@ -48,10 +56,13 @@ const SaveButton = () => {
 			if (bulletinError) {
 				console.error('Error updating bulletin:', error);
 				setError(true);
+				setSaving(false);
 				return;
 			}
 		} catch (error) {
 			console.error('Error caught:', error);
+			setSaving(false);
+			return;
 		}
 
 		setSaving(false);

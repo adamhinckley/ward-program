@@ -10,7 +10,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Underline from '@tiptap/extension-underline';
-import BulletList from '@tiptap/extension-bullet-list';
+// import BulletList from '@tiptap/extension-bullet-list';
 import Tooltip from '@mui/material/Tooltip';
 
 //icons
@@ -246,7 +246,7 @@ export default () => {
 			}),
 			HorizontalRule,
 			Underline,
-			BulletList,
+			// BulletList,
 			CustomImage,
 		],
 		onUpdate: ({ editor }) => {

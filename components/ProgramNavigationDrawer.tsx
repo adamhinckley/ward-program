@@ -6,6 +6,11 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
 
+type BeforeInstallPromptEvent = Event & {
+	prompt: () => Promise<void>;
+	userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+};
+
 type ProgramNavigationDrawerProps = {
 	isMenuOpen: boolean;
 	onClose: () => void;
@@ -26,6 +31,10 @@ const ProgramNavigationDrawer = ({
 	sectionLabels,
 }: ProgramNavigationDrawerProps) => {
 	const [isClosing, setIsClosing] = useState(false);
+	const [deferredInstallPrompt, setDeferredInstallPrompt] =
+		useState<BeforeInstallPromptEvent | null>(null);
+	const [isStandalone, setIsStandalone] = useState(false);
+	const [installNotice, setInstallNotice] = useState<string | null>(null);
 
 	useEffect(() => {
 		setIsClosing(false);
@@ -59,6 +68,67 @@ const ProgramNavigationDrawer = ({
 			window.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [isMenuOpen, handleClose]);
+
+	useEffect(() => {
+		const checkStandaloneMode = () => {
+			const standaloneByDisplayMode = window.matchMedia('(display-mode: standalone)').matches;
+			const standaloneByNavigator =
+				'standalone' in window.navigator &&
+				Boolean((window.navigator as Navigator & { standalone?: boolean }).standalone);
+
+			setIsStandalone(standaloneByDisplayMode || standaloneByNavigator);
+		};
+
+		const displayModeQuery = window.matchMedia('(display-mode: standalone)');
+		const onDisplayModeChange = () => checkStandaloneMode();
+
+		const onBeforeInstallPrompt = (event: Event) => {
+			const installPromptEvent = event as BeforeInstallPromptEvent;
+			installPromptEvent.preventDefault();
+			setDeferredInstallPrompt(installPromptEvent);
+		};
+
+		const onAppInstalled = () => {
+			setDeferredInstallPrompt(null);
+			setIsStandalone(true);
+			setInstallNotice('Added to home screen.');
+		};
+
+		checkStandaloneMode();
+		displayModeQuery.addEventListener('change', onDisplayModeChange);
+		window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+		window.addEventListener('appinstalled', onAppInstalled);
+
+		return () => {
+			displayModeQuery.removeEventListener('change', onDisplayModeChange);
+			window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+			window.removeEventListener('appinstalled', onAppInstalled);
+		};
+	}, []);
+
+	const handleAddToHomeScreen = useCallback(async () => {
+		if (isStandalone) {
+			setInstallNotice('Already on your home screen.');
+			return;
+		}
+
+		if (deferredInstallPrompt) {
+			await deferredInstallPrompt.prompt();
+			const { outcome } = await deferredInstallPrompt.userChoice;
+
+			setInstallNotice(outcome === 'accepted' ? 'Installing app…' : 'Install canceled.');
+			setDeferredInstallPrompt(null);
+			return;
+		}
+
+		const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+		if (isIOS) {
+			setInstallNotice('On iPhone, tap Share then “Add to Home Screen”.');
+			return;
+		}
+
+		setInstallNotice('Use your browser menu and choose “Install app” or “Add to home screen”.');
+	}, [deferredInstallPrompt, isStandalone]);
 	const isDarkMode = themeMode === 'dark';
 	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';
 	const drawerForeground = isDarkMode ? '#f1f1f4' : '#141417';
@@ -75,6 +145,9 @@ const ProgramNavigationDrawer = ({
 	const drawerThemeToggleActiveBackground = isDarkMode
 		? 'rgba(147, 197, 253, 0.22)'
 		: 'rgba(30, 64, 175, 0.12)';
+	const drawerUtilityButtonBackground = isDarkMode
+		? 'rgba(148, 163, 184, 0.12)'
+		: 'rgba(100, 116, 139, 0.1)';
 
 	if (!isMenuOpen && !isClosing) {
 		return null;
@@ -209,6 +282,40 @@ const ProgramNavigationDrawer = ({
 							<span style={{ fontSize: 12 }}>Dark</span>
 						</button>
 					</div>
+				</div>
+
+				<div style={{ padding: '8px 16px 0' }}>
+					<button
+						type="button"
+						onClick={handleAddToHomeScreen}
+						disabled={isStandalone}
+						aria-label="Add this app to your home screen"
+						style={{
+							width: '100%',
+							border: 0,
+							borderRadius: 8,
+							padding: '10px 12px',
+							fontWeight: 600,
+							backgroundColor: drawerUtilityButtonBackground,
+							color: drawerForeground,
+							cursor: isStandalone ? 'not-allowed' : 'pointer',
+							opacity: isStandalone ? 0.65 : 1,
+						}}
+					>
+						{isStandalone ? 'Added to Home Screen' : 'Add to Home Screen'}
+					</button>
+					{installNotice ? (
+						<p
+							style={{
+								marginTop: 8,
+								fontSize: 12,
+								opacity: 0.82,
+								lineHeight: 1.4,
+							}}
+						>
+							{installNotice}
+						</p>
+					) : null}
 				</div>
 			</aside>
 		</div>

@@ -153,8 +153,6 @@ const ProgramNavigationDrawer = ({
 		return null;
 	}
 
-	console.log('isStandalone:', isStandalone);
-
 	return (
 		<div
 			role="presentation"
@@ -312,7 +310,6 @@ const ProgramNavigationDrawer = ({
 								style={{
 									marginTop: 8,
 									fontSize: 12,
-									opacity: 0.82,
 									lineHeight: 1.4,
 								}}
 							>

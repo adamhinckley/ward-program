@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Script from 'next/script';
 import { ProgramThemeProvider } from '@/context/ProgramThemeContext';
+import ServiceWorkerRegistration from '../components/ServiceWorkerRegistration';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 const themeInitScript = `
@@ -25,6 +26,19 @@ export const metadata: Metadata = {
 	metadataBase: new URL(baseUrl),
 	title: 'Ward Program',
 	description: 'Sacrament Meeting Agenda for Florence Ward',
+	manifest: '/manifest.webmanifest',
+	appleWebApp: {
+		capable: true,
+		title: 'Ward Program',
+		statusBarStyle: 'black-translucent',
+	},
+	icons: {
+		apple: '/apple-icon.png',
+	},
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
+		{ media: '(prefers-color-scheme: dark)', color: '#1b1c1f' },
+	],
 	robots: {
 		index: false,
 		follow: false,
@@ -76,6 +90,7 @@ export default function RootLayout({
 				) : null}
 			</head>
 			<body>
+				<ServiceWorkerRegistration />
 				<ProgramThemeProvider>{children}</ProgramThemeProvider>
 			</body>
 		</html>

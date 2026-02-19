@@ -6,11 +6,13 @@ import { createClient } from '@/utils/supabase/server';
 export default async function Home({
 	searchParams,
 }: {
-	searchParams?: { [key: string]: string | string[] | undefined };
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const supabase = createClient();
+	const supabase = await createClient();
 	let initialState;
-	const { id } = searchParams || {};
+	const resolvedSearchParams = (await searchParams) ?? {};
+	const idParam = resolvedSearchParams.id;
+	const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
 	if (id) {
 		try {

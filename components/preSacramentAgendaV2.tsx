@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
+import { useEffect, useState } from 'react';
 
 const styles = css`
 	margin-top: 8px;
@@ -95,8 +96,9 @@ const styles = css`
 
 const PreSacramentAgendaV2 = () => {
 	const { content } = useAppContext();
+	const [currentOrNextSundayDate, setCurrentOrNextSundayDate] = useState('');
 
-	const currentOrNextSundayDate = (() => {
+	useEffect(() => {
 		const date = new Date();
 		const currentDay = date.getDay();
 		const daysUntilNextSunday = currentDay === 0 ? 0 : 7 - currentDay;
@@ -108,8 +110,8 @@ const PreSacramentAgendaV2 = () => {
 			day: 'numeric',
 		};
 
-		return date.toLocaleDateString('en-US', options);
-	})();
+		setCurrentOrNextSundayDate(date.toLocaleDateString('en-US', options));
+	}, []);
 
 	const {
 		title,

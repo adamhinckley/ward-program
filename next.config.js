@@ -13,6 +13,7 @@ const nextConfig = {
 	compiler: {
 		emotion: true,
 	},
+	turbopack: {},
 	// this webpack key was added for Tiptap https://tiptap.dev/docs/editor/getting-started/install/nextjs
 	webpack: (config, { isServer }) => {
 		if (!isServer) {

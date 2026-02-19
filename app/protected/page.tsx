@@ -6,7 +6,7 @@ import { AppContextProvider } from '@/context/AppContext';
 import { AppState } from '@/utils/types';
 
 export default async function ProtectedPage() {
-	const supabase = createClient();
+	const supabase = await createClient();
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();

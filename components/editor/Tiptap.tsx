@@ -256,13 +256,16 @@ export default () => {
 		content: editorContentRef.current,
 	});
 
-	const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+	const [viewportWidth, setViewportWidth] = useState(0);
+	const [hasMounted, setHasMounted] = useState(false);
 
 	useEffect(() => {
+		setHasMounted(true);
 		const handleResize = () => {
 			setViewportWidth(window.innerWidth);
 		};
 
+		handleResize();
 		window.addEventListener('resize', handleResize);
 
 		// Cleanup event listener on component unmount
@@ -273,7 +276,7 @@ export default () => {
 
 	return (
 		<div css={tiptapStyles}>
-			{viewportWidth < 500 ? (
+			{hasMounted && viewportWidth < 500 ? (
 				<Typography sx={{ textAlign: 'center', fontSize: `${12 / 16}rem` }}>
 					For the best experience, turn your phone to landscape mode or use a desktop to
 					edit announcements.

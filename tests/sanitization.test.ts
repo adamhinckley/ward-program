@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
 	containsScriptTagAttempt,
 	decodeHtmlEntities,
@@ -12,12 +12,50 @@ describe('announcement sanitization', () => {
 		expect(decodeHtmlEntities(encoded)).toBe('<script>alert(1)</script>');
 	});
 
+	it('decodes numeric html entities', () => {
+		const encodedDecimal = '&#60;script&#62;alert(1)&#60;/script&#62;';
+		const encodedHex = '&#x3C;script&#x3E;alert(1)&#x3C;/script&#x3E;';
+
+		expect(decodeHtmlEntities(encodedDecimal)).toBe('<script>alert(1)</script>');
+		expect(decodeHtmlEntities(encodedHex)).toBe('<script>alert(1)</script>');
+	});
+
+	it('uses fallback decoder when DOM APIs are unavailable', () => {
+		vi.stubGlobal('window', undefined);
+		vi.stubGlobal('document', undefined);
+
+		try {
+			const encoded = '&lt;script&gt;Tom &amp; Jerry&#39;s&#x3C;/script&#x3E;';
+			expect(decodeHtmlEntities(encoded)).toBe("<script>Tom & Jerry's</script>");
+		} finally {
+			vi.unstubAllGlobals();
+		}
+	});
+
+	it('preserves invalid numeric entities in fallback decoder', () => {
+		vi.stubGlobal('window', undefined);
+		vi.stubGlobal('document', undefined);
+
+		try {
+			expect(decodeHtmlEntities('&#x110000;')).toBe('&#x110000;');
+		} finally {
+			vi.unstubAllGlobals();
+		}
+	});
+
 	it('detects literal script tags', () => {
 		expect(containsScriptTagAttempt('<script>alert(1)</script>')).toBe(true);
 	});
 
 	it('detects encoded script tags', () => {
 		expect(containsScriptTagAttempt('&lt;script&gt;alert(1)&lt;/script&gt;')).toBe(true);
+	});
+
+	it('detects numeric encoded script tags', () => {
+		expect(containsScriptTagAttempt('&#60;script&#62;alert(1)&#60;/script&#62;')).toBe(true);
+		expect(containsScriptTagAttempt('&#x3C;script&#x3E;alert(1)&#x3C;/script&#x3E;')).toBe(
+			true,
+		);
 	});
 
 	it('does not flag normal text', () => {

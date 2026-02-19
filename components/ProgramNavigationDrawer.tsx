@@ -56,183 +56,138 @@ const ProgramNavigationDrawer = ({
 		return null;
 	}
 
-	const animations = `
-		@keyframes drawerBackdropFadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
-
-		@keyframes drawerBackdropFadeOut {
-			from {
-				opacity: 1;
-			}
-			to {
-				opacity: 0;
-			}
-		}
-
-		@keyframes drawerSlideIn {
-			from {
-				transform: translateX(-100%);
-			}
-			to {
-				transform: translateX(0);
-			}
-		}
-
-		@keyframes drawerSlideOut {
-			from {
-				transform: translateX(0);
-			}
-			to {
-				transform: translateX(-100%);
-			}
-		}
-	`;
-
 	return (
-		<>
-			<style>{animations}</style>
-			<div
-				role="presentation"
-				onClick={handleClose}
+		<div
+			role="presentation"
+			onClick={handleClose}
+			className={isClosing ? 'animate-drawer-backdrop-out' : 'animate-drawer-backdrop-in'}
+			style={{
+				position: 'fixed',
+				inset: 0,
+				backgroundColor: 'rgba(0, 0, 0, 0.35)',
+				zIndex: 30,
+			}}
+		>
+			<aside
+				role="dialog"
+				aria-label="Program navigation"
+				onClick={(event) => event.stopPropagation()}
+				className={isClosing ? 'animate-drawer-slide-out' : 'animate-drawer-slide-in'}
 				style={{
-					position: 'fixed',
-					inset: 0,
-					backgroundColor: 'rgba(0, 0, 0, 0.35)',
-					zIndex: 30,
-					animation: isClosing
-						? 'drawerBackdropFadeOut 0.3s ease-out'
-						: 'drawerBackdropFadeIn 0.3s ease-out',
+					width: 240,
+					height: '100dvh',
+					backgroundColor: drawerBackground,
+					color: drawerForeground,
+					borderRight: `1px solid ${drawerBorder}`,
+					padding: '8px 0',
+					boxSizing: 'border-box',
 				}}
 			>
-				<aside
-					role="dialog"
-					aria-label="Program navigation"
-					onClick={(event) => event.stopPropagation()}
-					style={{
-						width: 240,
-						height: '100dvh',
-						backgroundColor: drawerBackground,
-						color: drawerForeground,
-						borderRight: `1px solid ${drawerBorder}`,
-						padding: '8px 0',
-						boxSizing: 'border-box',
-						animation: isClosing
-							? 'drawerSlideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-							: 'drawerSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-					}}
-				>
-					<nav aria-label="Program sections" style={{ padding: '0 8px' }}>
-						{(Object.keys(sectionLabels) as ProgramSection[]).map((section) => {
-							const isSelected = activeSection === section;
-							return (
-								<button
-									key={section}
-									type="button"
-									onClick={() => {
-										onSectionSelect(section);
-										handleClose();
-									}}
-									style={{
-										width: '100%',
-										textAlign: 'left',
-										border: 0,
-										borderRadius: 8,
-										padding: '10px 12px',
-										marginBottom: 4,
-										backgroundColor: isSelected
-											? drawerSelectedBackground
-											: 'transparent',
-										color: drawerForeground,
-										cursor: 'pointer',
-									}}
-									onMouseEnter={(event) => {
-										if (!isSelected) {
-											event.currentTarget.style.backgroundColor =
-												drawerHoverBackground;
-										}
-									}}
-									onMouseLeave={(event) => {
-										event.currentTarget.style.backgroundColor = isSelected
-											? drawerSelectedBackground
-											: 'transparent';
-									}}
-								>
-									{sectionLabels[section]}
-								</button>
-							);
-						})}
-					</nav>
+				<nav aria-label="Program sections" style={{ padding: '0 8px' }}>
+					{(Object.keys(sectionLabels) as ProgramSection[]).map((section) => {
+						const isSelected = activeSection === section;
+						return (
+							<button
+								key={section}
+								type="button"
+								onClick={() => {
+									onSectionSelect(section);
+									handleClose();
+								}}
+								style={{
+									width: '100%',
+									textAlign: 'left',
+									border: 0,
+									borderRadius: 8,
+									padding: '10px 12px',
+									marginBottom: 4,
+									backgroundColor: isSelected
+										? drawerSelectedBackground
+										: 'transparent',
+									color: drawerForeground,
+									cursor: 'pointer',
+								}}
+								onMouseEnter={(event) => {
+									if (!isSelected) {
+										event.currentTarget.style.backgroundColor =
+											drawerHoverBackground;
+									}
+								}}
+								onMouseLeave={(event) => {
+									event.currentTarget.style.backgroundColor = isSelected
+										? drawerSelectedBackground
+										: 'transparent';
+								}}
+							>
+								{sectionLabels[section]}
+							</button>
+						);
+					})}
+				</nav>
 
-					<div style={{ padding: '12px 16px' }}>
-						<div
+				<div style={{ padding: '12px 16px' }}>
+					<div
+						style={{
+							display: 'grid',
+							gridTemplateColumns: '1fr 1fr',
+							gap: 6,
+							padding: 6,
+							borderRadius: 999,
+							backgroundColor: drawerThemeToggleBackground,
+						}}
+					>
+						<button
+							type="button"
+							onClick={() => setThemeMode('light')}
+							aria-label="Switch to light mode"
 							style={{
-								display: 'grid',
-								gridTemplateColumns: '1fr 1fr',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
 								gap: 6,
-								padding: 6,
 								borderRadius: 999,
-								backgroundColor: drawerThemeToggleBackground,
+								border: 0,
+								padding: '8px 10px',
+								fontWeight: 600,
+								backgroundColor:
+									themeMode === 'light'
+										? drawerThemeToggleActiveBackground
+										: 'transparent',
+								color: drawerForeground,
+								cursor: 'pointer',
 							}}
 						>
-							<button
-								type="button"
-								onClick={() => setThemeMode('light')}
-								aria-label="Switch to light mode"
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-									gap: 6,
-									borderRadius: 999,
-									border: 0,
-									padding: '8px 10px',
-									fontWeight: 600,
-									backgroundColor:
-										themeMode === 'light'
-											? drawerThemeToggleActiveBackground
-											: 'transparent',
-									color: drawerForeground,
-									cursor: 'pointer',
-								}}
-							>
-								<span aria-hidden="true">☀️</span>
-								<span style={{ fontSize: 12 }}>Light</span>
-							</button>
-							<button
-								type="button"
-								onClick={() => setThemeMode('dark')}
-								aria-label="Switch to dark mode"
-								style={{
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-									gap: 6,
-									borderRadius: 999,
-									border: 0,
-									padding: '8px 10px',
-									fontWeight: 600,
-									backgroundColor:
-										themeMode === 'dark'
-											? drawerThemeToggleActiveBackground
-											: 'transparent',
-									color: drawerForeground,
-									cursor: 'pointer',
-								}}
-							>
-								<span aria-hidden="true">🌙</span>
-								<span style={{ fontSize: 12 }}>Dark</span>
-							</button>
-						</div>
+							<span aria-hidden="true">☀️</span>
+							<span style={{ fontSize: 12 }}>Light</span>
+						</button>
+						<button
+							type="button"
+							onClick={() => setThemeMode('dark')}
+							aria-label="Switch to dark mode"
+							style={{
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								gap: 6,
+								borderRadius: 999,
+								border: 0,
+								padding: '8px 10px',
+								fontWeight: 600,
+								backgroundColor:
+									themeMode === 'dark'
+										? drawerThemeToggleActiveBackground
+										: 'transparent',
+								color: drawerForeground,
+								cursor: 'pointer',
+							}}
+						>
+							<span aria-hidden="true">🌙</span>
+							<span style={{ fontSize: 12 }}>Dark</span>
+						</button>
 					</div>
-				</aside>
-			</div>
-		</>
+				</div>
+			</aside>
+		</div>
 	);
 };
 

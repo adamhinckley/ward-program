@@ -284,39 +284,41 @@ const ProgramNavigationDrawer = ({
 					</div>
 				</div>
 
-				<div style={{ padding: '8px 16px 0' }}>
-					<button
-						type="button"
-						onClick={handleAddToHomeScreen}
-						disabled={isStandalone}
-						aria-label="Add this app to your home screen"
-						style={{
-							width: '100%',
-							border: 0,
-							borderRadius: 8,
-							padding: '10px 12px',
-							fontWeight: 600,
-							backgroundColor: drawerUtilityButtonBackground,
-							color: drawerForeground,
-							cursor: isStandalone ? 'not-allowed' : 'pointer',
-							opacity: isStandalone ? 0.65 : 1,
-						}}
-					>
-						{isStandalone ? 'Added to Home Screen' : 'Add to Home Screen'}
-					</button>
-					{installNotice ? (
-						<p
+				{isStandalone && (
+					<div style={{ padding: '8px 16px 0' }}>
+						<button
+							type="button"
+							onClick={handleAddToHomeScreen}
+							disabled={isStandalone}
+							aria-label="Add this app to your home screen"
 							style={{
-								marginTop: 8,
-								fontSize: 12,
-								opacity: 0.82,
-								lineHeight: 1.4,
+								width: '100%',
+								border: 0,
+								borderRadius: 8,
+								padding: '10px 12px',
+								fontWeight: 600,
+								backgroundColor: drawerUtilityButtonBackground,
+								color: drawerForeground,
+								cursor: isStandalone ? 'not-allowed' : 'pointer',
+								opacity: isStandalone ? 0.65 : 1,
 							}}
 						>
-							{installNotice}
-						</p>
-					) : null}
-				</div>
+							'Add to Home Screen'
+						</button>
+						{installNotice ? (
+							<p
+								style={{
+									marginTop: 8,
+									fontSize: 12,
+									opacity: 0.82,
+									lineHeight: 1.4,
+								}}
+							>
+								{installNotice}
+							</p>
+						) : null}
+					</div>
+				)}
 			</aside>
 		</div>
 	);

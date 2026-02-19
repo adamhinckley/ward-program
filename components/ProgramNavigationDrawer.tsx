@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
 
@@ -157,7 +159,7 @@ const ProgramNavigationDrawer = ({
 								cursor: 'pointer',
 							}}
 						>
-							<span aria-hidden="true">☀️</span>
+							<LightModeOutlinedIcon aria-hidden="true" sx={{ fontSize: 16 }} />
 							<span style={{ fontSize: 12 }}>Light</span>
 						</button>
 						<button
@@ -181,7 +183,7 @@ const ProgramNavigationDrawer = ({
 								cursor: 'pointer',
 							}}
 						>
-							<span aria-hidden="true">🌙</span>
+							<DarkModeOutlinedIcon aria-hidden="true" sx={{ fontSize: 16 }} />
 							<span style={{ fontSize: 12 }}>Dark</span>
 						</button>
 					</div>

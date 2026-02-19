@@ -2,6 +2,18 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const updateSession = async (request: NextRequest) => {
+  const pathname = request.nextUrl.pathname;
+  const isAuthOrProtectedRoute =
+    pathname.startsWith('/auth') || pathname.startsWith('/protected');
+
+  if (!isAuthOrProtectedRoute) {
+    return NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    });
+  }
+
   // This `try/catch` block is only here for the interactive tutorial.
   // Feel free to remove once you have Supabase connected.
   try {

@@ -92,17 +92,12 @@ const sectionLabels: Record<ProgramSection, string> = {
 const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const { themeMode, setThemeMode, isThemeHydrated } = useProgramTheme();
+	const { themeMode, setThemeMode } = useProgramTheme();
 
 	const handleSectionSelect = (section: ProgramSection) => {
 		setActiveSection(section);
 		setIsMenuOpen(false);
 	};
-
-	// Prevent flash of wrong theme during hydration
-	if (!isThemeHydrated) {
-		return null;
-	}
 
 	return (
 		<main css={styles}>

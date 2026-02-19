@@ -3,8 +3,31 @@
 import { css } from '@emotion/react';
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
+import DOMPurify from 'dompurify';
+
+const scriptTagPattern = /<\s*\/?\s*script\b/i;
+
+/**
+ * This turns escaped characters back into their original form, which allows us to check for script tags that have been escaped to bypass simple regex checks. ie.`&lt;script&gt;alert&lt;/script&gt;` → `<script>alert</script>`
+ * @param value The string to decode
+ * @returns the decoded string
+ */
+const decodeHtmlEntities = (value: string) => {
+	const textArea = document.createElement('textarea');
+	textArea.innerHTML = value;
+	return textArea.value;
+};
+
+const containsScriptTagAttempt = (value: string) => {
+	if (scriptTagPattern.test(value)) {
+		return true;
+	}
+
+	const decodedValue = decodeHtmlEntities(value);
+	return scriptTagPattern.test(decodedValue);
+};
 
 const styles = css`
 	.save-button {
@@ -36,9 +59,18 @@ const SaveButton = () => {
 		}
 		try {
 			setSaving(true);
+			const currentEditorContent = editorContentRef.current ?? '';
+			const hasScriptTag = containsScriptTagAttempt(currentEditorContent);
+			if (hasScriptTag) {
+				window.alert('Script tags are not allowed. Please remove them before saving.');
+				setSaving(false);
+				return;
+			}
+			const sanitizedAnnouncements = DOMPurify.sanitize(currentEditorContent, {
+				USE_PROFILES: { html: true },
+			});
 			// save the announcement content before saving the entire content
-			const contentToSave = { ...content, announcements: editorContentRef.current };
-			SVGTextContentElement;
+			const contentToSave = { ...content, announcements: sanitizedAnnouncements };
 			const { data: bulletinData, error: bulletinError } = await supabase
 				.from('ward-bulletin')
 				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
@@ -48,10 +80,13 @@ const SaveButton = () => {
 			if (bulletinError) {
 				console.error('Error updating bulletin:', error);
 				setError(true);
+				setSaving(false);
 				return;
 			}
 		} catch (error) {
 			console.error('Error caught:', error);
+			setSaving(false);
+			return;
 		}
 
 		setSaving(false);

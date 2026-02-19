@@ -24,6 +24,7 @@
 		"@tiptap/react": "^2.5.8",
 		"@tiptap/starter-kit": "^2.5.8",
 		"autoprefixer": "10.4.17",
+		"dompurify": "^3.2.6",
 		"geist": "^1.2.1",
 		"lodash": "^4.17.21",
 		"next": "latest",

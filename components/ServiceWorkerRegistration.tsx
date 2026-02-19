@@ -8,7 +8,9 @@ const ServiceWorkerRegistration = () => {
 			return;
 		}
 
-		navigator.serviceWorker.register('/sw.js').catch(() => undefined);
+		navigator.serviceWorker
+			.register('/sw.js')
+			.catch((error) => console.error('Failed to register service worker:', error));
 	}, []);
 
 	return null;

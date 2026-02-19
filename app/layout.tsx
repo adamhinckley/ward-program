@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 	metadataBase: new URL(baseUrl),
 	title: 'Ward Program',
 	description: 'Sacrament Meeting Agenda for Florence Ward',
-	manifest: '/manifest.webmanifest',
+	manifest: '/manifest.json',
 	appleWebApp: {
 		capable: true,
 		title: 'Ward Program',

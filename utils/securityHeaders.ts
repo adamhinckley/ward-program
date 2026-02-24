@@ -29,4 +29,8 @@ export const applySecurityHeaders = (headers: Headers) => {
 	headers.set('X-Content-Type-Options', 'nosniff');
 	headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 	headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+	if (process.env.NODE_ENV === 'production') {
+		headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+	}
 };

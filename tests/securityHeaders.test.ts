@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import {
 	applySecurityHeaders,
 	buildContentSecurityPolicy,
@@ -6,6 +6,12 @@ import {
 } from '../utils/securityHeaders';
 
 describe('security headers', () => {
+	const originalNodeEnv = process.env.NODE_ENV;
+
+	afterEach(() => {
+		(process.env as any).NODE_ENV = originalNodeEnv;
+	});
+
 	it('applies CSP and hardening headers', () => {
 		const headers = new Headers();
 		applySecurityHeaders(headers);
@@ -15,6 +21,26 @@ describe('security headers', () => {
 		expect(headers.get('X-Content-Type-Options')).toBe('nosniff');
 		expect(headers.get('Referrer-Policy')).toBe('strict-origin-when-cross-origin');
 		expect(headers.get('Permissions-Policy')).toBe('camera=(), microphone=(), geolocation=()');
+	});
+
+	it('applies HSTS in production', () => {
+		(process.env as any).NODE_ENV = 'production';
+		const headers = new Headers();
+
+		applySecurityHeaders(headers);
+
+		expect(headers.get('Strict-Transport-Security')).toBe(
+			'max-age=31536000; includeSubDomains',
+		);
+	});
+
+	it('does not apply HSTS outside production', () => {
+		(process.env as any).NODE_ENV = 'test';
+		const headers = new Headers();
+
+		applySecurityHeaders(headers);
+
+		expect(headers.get('Strict-Transport-Security')).toBeNull();
 	});
 
 	it('contains key CSP directives', () => {

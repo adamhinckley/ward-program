@@ -30,7 +30,7 @@ export const applySecurityHeaders = (headers: Headers) => {
 	headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 	headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
-	if (process.env.NODE_ENV === 'production') {
+	if (process.env.NODE_ENV === 'production' && process.env.HSTS_ENABLED === 'true') {
 		headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 	}
 };

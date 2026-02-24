@@ -5,11 +5,18 @@ import {
 	contentSecurityPolicy,
 } from '../utils/securityHeaders';
 
+// Type-safe helper for mutating process.env in tests
+type WritableProcessEnv = Record<string, string | undefined>;
+
 describe('security headers', () => {
 	const originalNodeEnv = process.env.NODE_ENV;
 
 	afterEach(() => {
-		(process.env as any).NODE_ENV = originalNodeEnv;
+		if (originalNodeEnv === undefined) {
+			delete (process.env as WritableProcessEnv).NODE_ENV;
+		} else {
+			(process.env as WritableProcessEnv).NODE_ENV = originalNodeEnv;
+		}
 	});
 
 	it('applies CSP and hardening headers', () => {
@@ -24,7 +31,7 @@ describe('security headers', () => {
 	});
 
 	it('applies HSTS in production', () => {
-		(process.env as any).NODE_ENV = 'production';
+		(process.env as WritableProcessEnv).NODE_ENV = 'production';
 		const headers = new Headers();
 
 		applySecurityHeaders(headers);
@@ -35,7 +42,7 @@ describe('security headers', () => {
 	});
 
 	it('does not apply HSTS outside production', () => {
-		(process.env as any).NODE_ENV = 'test';
+		(process.env as WritableProcessEnv).NODE_ENV = 'test';
 		const headers = new Headers();
 
 		applySecurityHeaders(headers);

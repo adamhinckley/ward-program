@@ -339,6 +339,7 @@ const ProgramNavigationDrawer = ({
 										level="M"
 										fgColor="#000000"
 										bgColor="#ffffff"
+										aria-label="QR code for sharing the app"
 									/>
 								</div>
 							</div>

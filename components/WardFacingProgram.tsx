@@ -6,10 +6,12 @@ import TabPanel from '@/components/editor/TabPanel';
 import { useState } from 'react';
 import AgendaV2 from '@/components/agendaV2';
 import FrontPage from '@/components/frontPage';
+import { IconButton } from '@mui/material';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
+import MenuIcon from '@mui/icons-material/Menu';
+import Announcements from '@/components/announcements';
+import WardContacts from '@/components/WardContacts';
 
-const Announcements = dynamic(() => import('@/components/announcements'));
-const WardContacts = dynamic(() => import('@/components/WardContacts'));
 const ProgramNavigationDrawer = dynamic(() => import('./ProgramNavigationDrawer'), {
 	ssr: false,
 });
@@ -33,6 +35,7 @@ const styles = css`
 		top: 0;
 		background-color: var(--program-bg);
 		z-index: 2;
+		opacity: 0.55;
 	}
 
 	.main-content {
@@ -65,7 +68,6 @@ const styles = css`
 	.menu-icon {
 		font-size: 2rem;
 		line-height: 1;
-		padding-bottom: 1px;
 	}
 
 	.menu-spacer {
@@ -103,15 +105,13 @@ const WardFacingProgram = () => {
 	return (
 		<main css={styles}>
 			<header className="menu-header">
-				<button
+				<IconButton
 					className="menu-button"
 					aria-label="Open navigation menu"
 					onClick={() => setIsMenuOpen(true)}
 				>
-					<span className="menu-icon" aria-hidden="true">
-						☰
-					</span>
-				</button>
+					<MenuIcon className="menu-icon" aria-hidden="true" />
+				</IconButton>
 				<h1 className="menu-title">{sectionLabels[activeSection]}</h1>
 				<div className="menu-spacer" aria-hidden="true" />
 			</header>

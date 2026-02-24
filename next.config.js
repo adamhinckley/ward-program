@@ -9,6 +9,7 @@ const nextConfig = {
 				hostname: '**',
 			},
 		],
+		minimumCacheTTL: 60 * 60 * 24,
 	},
 	compiler: {
 		emotion: true,

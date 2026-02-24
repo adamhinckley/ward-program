@@ -18,11 +18,9 @@ const setEnvVar = (key: string, value: string | undefined) => {
 
 describe('security headers', () => {
 	const originalNodeEnv = process.env.NODE_ENV;
-	const originalHstsEnabled = process.env.HSTS_ENABLED;
 
 	afterEach(() => {
 		setEnvVar('NODE_ENV', originalNodeEnv);
-		setEnvVar('HSTS_ENABLED', originalHstsEnabled);
 	});
 
 	it('applies CSP and hardening headers', () => {
@@ -39,7 +37,6 @@ describe('security headers', () => {
 	it('applies HSTS in production', () => {
 		const headers = new Headers();
 		setEnvVar('NODE_ENV', 'production');
-		setEnvVar('HSTS_ENABLED', 'true');
 
 		applySecurityHeaders(headers);
 
@@ -51,17 +48,6 @@ describe('security headers', () => {
 	it('does not apply HSTS outside production', () => {
 		const headers = new Headers();
 		setEnvVar('NODE_ENV', 'test');
-		setEnvVar('HSTS_ENABLED', 'true');
-
-		applySecurityHeaders(headers);
-
-		expect(headers.get('Strict-Transport-Security')).toBeNull();
-	});
-
-	it('does not apply HSTS when disabled in production', () => {
-		const headers = new Headers();
-		setEnvVar('NODE_ENV', 'production');
-		setEnvVar('HSTS_ENABLED', 'false');
 
 		applySecurityHeaders(headers);
 

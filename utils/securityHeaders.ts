@@ -23,14 +23,17 @@ export const contentSecurityPolicy = buildContentSecurityPolicy(
 	process.env.NODE_ENV !== 'production',
 );
 
-export const applySecurityHeaders = (headers: Headers) => {
+export const applySecurityHeaders = (
+	headers: Headers,
+	nodeEnv: string | undefined = process.env.NODE_ENV,
+) => {
 	headers.set('Content-Security-Policy', contentSecurityPolicy);
 	headers.set('X-Frame-Options', 'DENY');
 	headers.set('X-Content-Type-Options', 'nosniff');
 	headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 	headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
-	if (process.env.NODE_ENV === 'production' && process.env.HSTS_ENABLED === 'true') {
+	if (nodeEnv === 'production') {
 		headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 	}
 };

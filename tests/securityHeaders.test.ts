@@ -24,6 +24,7 @@ describe('security headers', () => {
 	});
 
 	it('applies CSP and hardening headers', () => {
+		setEnvVar('NODE_ENV', 'test');
 		const headers = new Headers();
 		applySecurityHeaders(headers);
 
@@ -32,6 +33,7 @@ describe('security headers', () => {
 		expect(headers.get('X-Content-Type-Options')).toBe('nosniff');
 		expect(headers.get('Referrer-Policy')).toBe('strict-origin-when-cross-origin');
 		expect(headers.get('Permissions-Policy')).toBe('camera=(), microphone=(), geolocation=()');
+		expect(headers.get('Strict-Transport-Security')).toBeNull();
 	});
 
 	it('applies HSTS in production', () => {

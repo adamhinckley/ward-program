@@ -22,6 +22,8 @@ type ProgramNavigationDrawerProps = {
 	sectionLabels: Record<ProgramSection, string>;
 };
 
+const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
+
 const ProgramNavigationDrawer = ({
 	isMenuOpen,
 	onClose,
@@ -43,6 +45,19 @@ const ProgramNavigationDrawer = ({
 		if (typeof window !== 'undefined') {
 			setCurrentUrl(window.location.href);
 		}
+	}, []);
+
+	useEffect(() => {
+		if (typeof window === 'undefined') {
+			return;
+		}
+
+		const id = new URLSearchParams(window.location.search).get('id');
+		if (!id) {
+			return;
+		}
+
+		window.localStorage.setItem(LAST_PROGRAM_ID_STORAGE_KEY, id);
 	}, []);
 
 	useEffect(() => {

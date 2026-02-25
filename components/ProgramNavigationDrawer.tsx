@@ -325,25 +325,23 @@ const ProgramNavigationDrawer = ({
 								{installNotice}
 							</p>
 						) : null}
-						{currentUrl && (
-							<div
-								className={`mt-4 rounded-lg flex flex-col items-center gap-2 px-3 py-3 pb-6 ${isDarkMode ? 'bg-white/10' : 'bg-black/[0.03]'}`}
-							>
-								<p className="text-xs m-0 text-center opacity-80">
-									Share with a friend
-								</p>
-								<div className="p-2 bg-white rounded">
-									<QRCode
-										value={currentUrl}
-										size={160}
-										level="M"
-										fgColor="#000000"
-										bgColor="#ffffff"
-										aria-label="QR code for sharing the app"
-									/>
-								</div>
-							</div>
-						)}
+					</div>
+				)}
+				{currentUrl && (
+					<div
+						className={`mt-4 rounded-lg flex flex-col items-center gap-2 px-3 py-3 pb-6 mr-4 ml-4  ${isDarkMode ? 'bg-white/10' : 'bg-black/[0.03]'}`}
+					>
+						<p className="text-xs m-0 text-center opacity-80">Share with a friend</p>
+						<div className="p-2 bg-white rounded">
+							<QRCode
+								value={currentUrl}
+								size={160}
+								level="M"
+								fgColor="#000000"
+								bgColor="#ffffff"
+								aria-label="QR code for sharing the app"
+							/>
+						</div>
 					</div>
 				)}
 			</aside>

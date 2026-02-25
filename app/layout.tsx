@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Script from 'next/script';
 import { ProgramThemeProvider } from '@/context/ProgramThemeContext';
@@ -35,10 +35,6 @@ export const metadata: Metadata = {
 	icons: {
 		apple: '/apple-icon.png',
 	},
-	themeColor: [
-		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
-		{ media: '(prefers-color-scheme: dark)', color: '#1b1c1f' },
-	],
 	robots: {
 		index: false,
 		follow: false,
@@ -51,6 +47,13 @@ export const metadata: Metadata = {
 		title: 'Ward Program',
 		description: 'Sacrament Meeting Agenda for Florence Ward',
 	},
+};
+
+export const viewport: Viewport = {
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: '#ffffff' },
+		{ media: '(prefers-color-scheme: dark)', color: '#1b1c1f' },
+	],
 };
 
 export default function RootLayout({

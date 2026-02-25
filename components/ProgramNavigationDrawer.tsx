@@ -6,6 +6,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import QRCode from 'react-qr-code';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
+import { LAST_PROGRAM_ID_STORAGE_KEY } from './MissingWardData';
 
 type BeforeInstallPromptEvent = Event & {
 	prompt: () => Promise<void>;
@@ -21,8 +22,6 @@ type ProgramNavigationDrawerProps = {
 	setThemeMode: (theme: ProgramTheme) => void;
 	sectionLabels: Record<ProgramSection, string>;
 };
-
-const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
 
 const ProgramNavigationDrawer = ({
 	isMenuOpen,
@@ -51,13 +50,16 @@ const ProgramNavigationDrawer = ({
 		if (typeof window === 'undefined') {
 			return;
 		}
-
-		const id = new URLSearchParams(window.location.search).get('id');
-		if (!id) {
-			return;
+		try {
+			const id = new URLSearchParams(window.location.search).get('id');
+			if (!id) {
+				return;
+			}
+			window.localStorage.setItem(LAST_PROGRAM_ID_STORAGE_KEY, id);
+		} catch {
+			// Fail silently if storage is unavailable or access throws
+			console.warn('Unable to access localStorage to save last program ID.');
 		}
-
-		window.localStorage.setItem(LAST_PROGRAM_ID_STORAGE_KEY, id);
 	}, []);
 
 	useEffect(() => {

@@ -79,6 +79,7 @@ const FrontPage = () => {
 						width={550}
 						height={550}
 						className="responsive-image"
+						loading="eager"
 					/>
 				) : null}
 			</div>

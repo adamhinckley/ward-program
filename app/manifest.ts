@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
 	return {
+		id: '/',
 		name: 'Ward Program',
 		short_name: 'Ward Program',
 		description: 'Sacrament Meeting Agenda for Florence Ward',

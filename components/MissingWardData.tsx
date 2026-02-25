@@ -7,7 +7,7 @@ import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import Logo from './Logo';
 import { Button, Link, Typography } from '@mui/material';
 
-const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
+export const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
 
 const styles = css`
 	max-width: 800px;
@@ -73,26 +73,32 @@ const MissingWardData = () => {
 			return;
 		}
 
-		const hasIdInUrl = new URLSearchParams(window.location.search).has('id');
-		if (hasIdInUrl) {
+		const idFromUrl = new URLSearchParams(window.location.search).get('id');
+		if (idFromUrl?.trim()) {
 			return;
 		}
 
-		const standaloneByDisplayMode = window.matchMedia('(display-mode: standalone)').matches;
-		const standaloneByNavigator =
-			'standalone' in window.navigator &&
-			Boolean((window.navigator as Navigator & { standalone?: boolean }).standalone);
+		try {
+			const standaloneByDisplayMode =
+				typeof window.matchMedia === 'function' &&
+				window.matchMedia('(display-mode: standalone)').matches;
+			const standaloneByNavigator =
+				'standalone' in window.navigator &&
+				Boolean((window.navigator as Navigator & { standalone?: boolean }).standalone);
 
-		if (!standaloneByDisplayMode && !standaloneByNavigator) {
+			if (!standaloneByDisplayMode && !standaloneByNavigator) {
+				return;
+			}
+
+			const storedId = window.localStorage.getItem(LAST_PROGRAM_ID_STORAGE_KEY);
+			if (!storedId) {
+				return;
+			}
+
+			router.replace(`/?id=${encodeURIComponent(storedId)}`);
+		} catch {
 			return;
 		}
-
-		const storedId = window.localStorage.getItem(LAST_PROGRAM_ID_STORAGE_KEY);
-		if (!storedId) {
-			return;
-		}
-
-		router.replace(`/?id=${encodeURIComponent(storedId)}`);
 	}, [router]);
 
 	const handleRouteToLoginPage = () => {

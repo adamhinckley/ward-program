@@ -103,7 +103,14 @@ const CustomImage = Image.extend({
 	},
 });
 
-const ToolbarButton = ({ title, onClick, isActive, children }: any) => (
+interface ToolbarButtonProps {
+	title: string;
+	onClick: () => void;
+	isActive?: boolean;
+	children: React.ReactNode;
+}
+
+const ToolbarButton = ({ title, onClick, isActive, children }: ToolbarButtonProps) => (
 	<button
 		type="button"
 		title={title}

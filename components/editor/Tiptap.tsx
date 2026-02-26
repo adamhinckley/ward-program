@@ -1,6 +1,4 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
@@ -26,62 +24,6 @@ import {
 
 import { useAppContext } from '@/context/AppContext';
 import { UrlDialog } from '@/components/ui/dialog';
-
-const tiptapStyles = css`
-	.ProseMirror {
-		border: 1px solid var(--editor-border);
-		border-radius: 4px;
-		height: calc(100vh - 130px);
-		overflow-y: auto;
-		display: flex;
-		flex-direction: column;
-		background-color: var(--editor-control-bg);
-		color: var(--editor-fg);
-	}
-
-	.menu-bar {
-		display: flex;
-		justify-content: center;
-		margin: 12px 0;
-		flex-wrap: wrap;
-		gap: 4px;
-	}
-
-	button {
-		margin: 0 4px;
-		border-radius: 4px;
-		padding: 4px 8px;
-		border: 1px solid var(--editor-border);
-		background-color: var(--editor-control-bg);
-		color: var(--editor-fg);
-
-		&:hover {
-			background-color: var(--editor-control-hover);
-		}
-	}
-
-	button.is-active {
-		background-color: var(--editor-strong-bg);
-		color: var(--editor-strong-fg);
-		border-color: var(--editor-strong-bg);
-	}
-
-	hr {
-		border: 0;
-		border-top: 1px solid var(--editor-border);
-		margin: 12px 0;
-	}
-
-	li {
-		list-style-type: disc;
-		margin-left: 24px;
-	}
-
-	a {
-		color: var(--editor-link);
-		text-decoration: underline;
-	}
-`;
 
 const CustomImage = Image.extend({
 	addAttributes() {
@@ -116,7 +58,11 @@ const ToolbarButton = ({ title, onClick, isActive, children }: ToolbarButtonProp
 		title={title}
 		aria-label={title}
 		onClick={onClick}
-		className={isActive ? 'is-active' : ''}
+		className={`mx-1 rounded border border-[var(--editor-border)] bg-[var(--editor-control-bg)] px-2 py-1 text-[var(--editor-fg)] hover:bg-[var(--editor-control-hover)] ${
+			isActive
+				? 'is-active border-[var(--editor-strong-bg)] bg-[var(--editor-strong-bg)] text-[var(--editor-strong-fg)]'
+				: ''
+		}`}
 	>
 		{children}
 	</button>
@@ -136,7 +82,7 @@ const MenuBar = ({
 	}
 
 	return (
-		<div className="menu-bar">
+		<div className="my-3 flex flex-wrap justify-center gap-1">
 			<ToolbarButton
 				title="Heading 1"
 				onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -295,7 +241,7 @@ export default () => {
 	}, []);
 
 	return (
-		<div css={tiptapStyles}>
+		<div className="[&_.ProseMirror]:flex [&_.ProseMirror]:h-[calc(100vh-130px)] [&_.ProseMirror]:flex-col [&_.ProseMirror]:overflow-y-auto [&_.ProseMirror]:rounded [&_.ProseMirror]:border [&_.ProseMirror]:border-[var(--editor-border)] [&_.ProseMirror]:bg-[var(--editor-control-bg)] [&_.ProseMirror]:text-[var(--editor-fg)] [&_.ProseMirror_a]:text-[var(--editor-link)] [&_.ProseMirror_a]:underline [&_.ProseMirror_hr]:my-3 [&_.ProseMirror_hr]:border-0 [&_.ProseMirror_hr]:border-t [&_.ProseMirror_hr]:border-[var(--editor-border)] [&_.ProseMirror_li]:ml-6 [&_.ProseMirror_li]:list-disc">
 			{hasMounted && viewportWidth < 500 ? (
 				<p className="text-center text-xs">
 					For the best experience, turn your phone to landscape mode or use a desktop to

@@ -1,7 +1,5 @@
 'use client';
-/** @jsxImportSource @emotion/react */
 import { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
 import { Menu, Moon, Sun, Loader2, X } from 'lucide-react';
 import { useAppContext } from '@/context/AppContext';
 import Leaders from '@/components/editor/leaders';
@@ -25,125 +23,6 @@ const tabs = [
 	{ value: '4', label: 'Blocks' },
 	{ value: '5', label: 'Announcements' },
 ];
-
-const styles = css`
-	background-color: var(--editor-bg);
-	color: var(--editor-fg);
-	border-radius: 8px;
-
-	.update-banner {
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 12px;
-		padding: 12px 14px;
-		margin-bottom: 12px;
-		border-radius: 10px;
-		border: 1px solid var(--editor-border);
-		background-color: var(--editor-control-bg);
-		color: var(--editor-fg);
-	}
-
-	.update-banner-title {
-		font-size: 0.95rem;
-		font-weight: 600;
-		margin: 0;
-	}
-
-	.update-banner-text {
-		font-size: 0.9rem;
-		line-height: 1.4;
-		margin: 2px 0 0;
-		color: var(--editor-tab-inactive);
-	}
-
-	.update-banner-link {
-		color: var(--editor-link);
-		text-decoration: underline;
-		text-underline-offset: 2px;
-	}
-
-	.update-banner-dismiss {
-		flex-shrink: 0;
-		height: 32px;
-		width: 32px;
-	}
-
-	[role='tablist'] {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-
-		@media (max-width: 750px) {
-			display: none;
-		}
-	}
-
-	.mobile-menu-container {
-		display: flex;
-		width: 100%;
-		align-items: center;
-		justify-content: space-between;
-		gap: 8px;
-
-		@media (min-width: 751px) {
-			display: none;
-		}
-	}
-
-	.toolbar-actions {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.desktop-toolbar {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 8px;
-		width: 100%;
-
-		@media (max-width: 750px) {
-			display: none;
-		}
-	}
-
-	.theme-toggle {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 4px;
-		padding: 4px;
-		border-radius: 999px;
-		background-color: var(--editor-muted-bg);
-	}
-
-	.theme-toggle-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 4px;
-		border-radius: 999px;
-		padding: 6px 10px;
-		border: 0;
-		background-color: transparent;
-		color: var(--editor-fg);
-		cursor: pointer;
-		white-space: nowrap;
-	}
-
-	.theme-toggle-button.is-active {
-		background-color: var(--editor-strong-bg);
-		color: var(--editor-strong-fg);
-	}
-`;
-
-const loadingStyles = css`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-`;
 
 const Editor = () => {
 	const { content, setContent, currentTab, setCurrentTab, userData } = useAppContext();
@@ -169,7 +48,7 @@ const Editor = () => {
 
 	if (!isThemeHydrated) {
 		return (
-			<div css={loadingStyles}>
+			<div className="flex h-screen items-center justify-center">
 				<Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
 			</div>
 		);
@@ -187,10 +66,18 @@ const Editor = () => {
 		: 'rgba(15, 23, 42, 0.06)';
 
 	const themeToggle = (
-		<div className="theme-toggle" role="group" aria-label="Theme selector">
+		<div
+			className="grid grid-cols-2 gap-1 rounded-full bg-[var(--editor-muted-bg)] p-1"
+			role="group"
+			aria-label="Theme selector"
+		>
 			<button
 				type="button"
-				className={`theme-toggle-button ${themeMode === 'light' ? 'is-active' : ''}`}
+				className={`flex items-center justify-center gap-1 whitespace-nowrap rounded-full border-0 px-2.5 py-1.5 text-[var(--editor-fg)] ${
+					themeMode === 'light'
+						? 'bg-[var(--editor-strong-bg)] text-[var(--editor-strong-fg)]'
+						: 'bg-transparent'
+				}`}
 				onClick={() => setThemeMode('light')}
 				aria-label="Switch to light mode"
 			>
@@ -198,7 +85,11 @@ const Editor = () => {
 			</button>
 			<button
 				type="button"
-				className={`theme-toggle-button ${themeMode === 'dark' ? 'is-active' : ''}`}
+				className={`flex items-center justify-center gap-1 whitespace-nowrap rounded-full border-0 px-2.5 py-1.5 text-[var(--editor-fg)] ${
+					themeMode === 'dark'
+						? 'bg-[var(--editor-strong-bg)] text-[var(--editor-strong-fg)]'
+						: 'bg-transparent'
+				}`}
 				onClick={() => setThemeMode('dark')}
 				aria-label="Switch to dark mode"
 			>
@@ -209,7 +100,7 @@ const Editor = () => {
 
 	if (Object.keys(content).length === 0) {
 		return (
-			<div css={loadingStyles}>
+			<div className="flex h-screen items-center justify-center">
 				<Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
 			</div>
 		);
@@ -307,18 +198,22 @@ const Editor = () => {
 	};
 
 	return (
-		<div className="max-w-4xl flex justify-center flex-col m-auto p-4" css={styles}>
+		<div className="m-auto flex max-w-4xl flex-col justify-center rounded-lg bg-[var(--editor-bg)] p-4 text-[var(--editor-fg)]">
 			{showUpdateBanner && !isDemoRoute ? (
-				<div className="update-banner" role="status" aria-live="polite">
+				<div
+					className="mb-3 flex items-start justify-between gap-3 rounded-[10px] border border-[var(--editor-border)] bg-[var(--editor-control-bg)] px-[14px] py-3 text-[var(--editor-fg)]"
+					role="status"
+					aria-live="polite"
+				>
 					<div>
-						<p className="update-banner-text">
+						<p className="mt-0.5 text-[0.9rem] leading-[1.4] text-[var(--editor-tab-inactive)]">
 							We’ve made a major refresh behind the scenes that should make the
 							program load faster especially on older devices and slow connections.
 							Things feel a little different, but all functionality in the editor
 							"should" be the same 😉 If you spot a bug or have a suggestion, email{' '}
 							<a
 								href="mailto:adamhinckley@mac.com?subject=WARD%20PROGRAM"
-								className="update-banner-link"
+								className="text-[var(--editor-link)] underline underline-offset-2"
 							>
 								adamhinckley@mac.com
 							</a>{' '}
@@ -329,7 +224,7 @@ const Editor = () => {
 						type="button"
 						variant="ghost"
 						size="icon"
-						className="update-banner-dismiss"
+						className="h-8 w-8 shrink-0"
 						onClick={handleDismissUpdateBanner}
 						aria-label="Dismiss update message"
 					>
@@ -338,7 +233,7 @@ const Editor = () => {
 				</div>
 			) : null}
 			<Tabs value={currentTab.toString()} onValueChange={handleTabChange}>
-				<div className="mobile-menu-container">
+				<div className="flex w-full items-center justify-between gap-2 min-[751px]:hidden">
 					<Button
 						variant="ghost"
 						size="icon"
@@ -347,20 +242,20 @@ const Editor = () => {
 					>
 						<Menu />
 					</Button>
-					<div className="toolbar-actions">
+					<div className="flex items-center gap-2">
 						{themeToggle}
 						<SaveButton />
 					</div>
 				</div>
-				<div className="desktop-toolbar">
-					<TabsList className="tabs">
+				<div className="hidden w-full items-center justify-between gap-2 min-[751px]:flex">
+					<TabsList className="hidden flex-wrap gap-2 min-[751px]:flex">
 						{tabs.map((tab) => (
 							<TabsTrigger key={tab.value} value={tab.value}>
 								{tab.label}
 							</TabsTrigger>
 						))}
 					</TabsList>
-					<div className="toolbar-actions">
+					<div className="flex items-center gap-2">
 						{themeToggle}
 						<SaveButton />
 					</div>

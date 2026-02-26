@@ -60,14 +60,20 @@ const MusicEditor = ({
 
 	const handleToggle = () => {
 		intermediateMusicType === 'hymn'
-			? setContent({ ...content, intermediateMusicType: 'musicalNumber' })
-			: setContent({ ...content, intermediateMusicType: 'hymn' });
+			? setContent((previousContent) => ({
+					...previousContent,
+					intermediateMusicType: 'musicalNumber',
+				}))
+			: setContent((previousContent) => ({
+					...previousContent,
+					intermediateMusicType: 'hymn',
+				}));
 	};
 
 	const isHymn = intermediateMusicType === 'hymn';
 
 	const handleCheckboxChange = (name: string, checked: boolean) => {
-		setContent({ ...content, [name]: checked });
+		setContent((previousContent) => ({ ...previousContent, [name]: checked }));
 	};
 
 	const showOpeningHymn = content.showOpeningHymn === undefined || content.showOpeningHymn;

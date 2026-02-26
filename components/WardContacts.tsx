@@ -28,10 +28,10 @@ const WardContacts = () => {
 						key={index}
 						type="single"
 						collapsible
-						className="mb-[10px] rounded-md border border-[var(--program-panel-border)] bg-[var(--program-card-bg)] px-4 text-[var(--program-fg)]"
+						className="mb-[10px] rounded-md border border-[var(--program-panel-border)] bg-[var(--program-panel-bg)] px-4 text-[var(--program-fg)]"
 					>
 						<AccordionItem value={`contact-${index}`} className="border-b-0">
-							<AccordionTrigger className="bg-[var(--program-panel-bg)] px-3 rounded-md no-underline hover:no-underline">
+							<AccordionTrigger className="bg-transparent px-3 rounded-md no-underline hover:no-underline">
 								{block.left}
 							</AccordionTrigger>
 							<AccordionContent className="text-center text-[var(--program-link)] px-3 pt-3">

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { newHymnsArray } from '@/utils/hymns';
 import { Input } from '@/components/ui/input';
@@ -106,19 +106,18 @@ const HymnAutocompleteInput = ({
 		color: 'var(--editor-fg)',
 		cursor: 'pointer',
 	};
-
-	const clearBlurTimeout = () => {
+	const clearBlurTimeout = useCallback(() => {
 		if (blurTimeoutRef.current !== null) {
 			window.clearTimeout(blurTimeoutRef.current);
 			blurTimeoutRef.current = null;
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		return () => {
 			clearBlurTimeout();
 		};
-	}, []);
+	}, [clearBlurTimeout]);
 
 	useEffect(() => {
 		if (!isOpen) {

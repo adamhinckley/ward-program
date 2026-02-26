@@ -240,31 +240,48 @@ const Editor = () => {
 	};
 
 	const handleCheckboxChange = (e) => {
-		setContent({ ...content, [e.target.name]: e.target.checked });
+		setContent((previousContent) => ({
+			...previousContent,
+			[e.target.name]: e.target.checked,
+		}));
 	};
 
 	const handleAddBlockIndex = (block) => {
 		if (block === 'intermediateMusicPerformers') {
-			const newPerformer = content.intermediateMusicPerformers.concat('');
-			setContent({ ...content, intermediateMusicPerformers: newPerformer });
+			setContent((previousContent) => ({
+				...previousContent,
+				intermediateMusicPerformers: previousContent.intermediateMusicPerformers.concat(''),
+			}));
 			return;
 		}
 
 		if (!content[block]) {
-			setContent({ ...content, [block]: [{ left: '', right: '' }] });
+			setContent((previousContent) => ({
+				...previousContent,
+				[block]: [{ left: '', right: '' }],
+			}));
 			return;
 		}
 
-		setContent({ ...content, [block]: [...content[block], { left: '', right: '' }] });
+		setContent((previousContent) => ({
+			...previousContent,
+			[block]: [...previousContent[block], { left: '', right: '' }],
+		}));
 	};
 
 	const handleDeleteBlockIndex = (block, index) => {
 		if (block === 'intermediateMusicPerformers') {
-			const newPerformers = content.intermediateMusicPerformers.filter((_, i) => i !== index);
-			setContent({ ...content, intermediateMusicPerformers: newPerformers });
+			setContent((previousContent) => ({
+				...previousContent,
+				intermediateMusicPerformers: previousContent.intermediateMusicPerformers.filter(
+					(_, i) => i !== index,
+				),
+			}));
 		} else {
-			const newBlock = content[block].filter((_, i) => i !== index);
-			setContent({ ...content, [block]: newBlock });
+			setContent((previousContent) => ({
+				...previousContent,
+				[block]: previousContent[block].filter((_, i) => i !== index),
+			}));
 		}
 	};
 

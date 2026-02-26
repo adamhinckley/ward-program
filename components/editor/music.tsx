@@ -2,9 +2,9 @@
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import { Plus, Trash2 } from 'lucide-react';
-import { newHymnsArray } from '@/utils/hymns';
 
 import type { EditorChildren } from '@/utils/types';
+import HymnAutocompleteInput from '@/components/editor/HymnAutocompleteInput';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,8 +25,6 @@ const styles = css`
 	}
 `;
 
-const toHymnDisplay = (hymn: { number: number; title: string }) => `${hymn.number} - ${hymn.title}`;
-
 const MusicEditor = ({
 	handleChange,
 	handleDeleteBlockIndex,
@@ -34,19 +32,29 @@ const MusicEditor = ({
 }: EditorChildren) => {
 	const { content, setContent } = useAppContext();
 	const { intermediateMusicType } = content;
-
 	type HymnValue = { number: number; title: string; link: string };
+
 	const handleHymnChange = (selectedOption: HymnValue | null, key: string) => {
 		if (selectedOption) {
 			const hymnNumber = { [`${key}Number`]: selectedOption.number.toString() };
 			const hymnTitle = { [`${key}Title`]: selectedOption.title };
 			const hymnLink = { [`${key}Link`]: selectedOption.link };
-			setContent({ ...content, ...hymnNumber, ...hymnTitle, ...hymnLink });
+			setContent((previousContent) => ({
+				...previousContent,
+				...hymnNumber,
+				...hymnTitle,
+				...hymnLink,
+			}));
 		} else {
 			const hymnNumber = { [`${key}Number`]: '' };
 			const hymnTitle = { [`${key}Title`]: '' };
 			const hymnLink = { [`${key}Link`]: '' };
-			setContent({ ...content, ...hymnNumber, ...hymnTitle, ...hymnLink });
+			setContent((previousContent) => ({
+				...previousContent,
+				...hymnNumber,
+				...hymnTitle,
+				...hymnLink,
+			}));
 		}
 	};
 
@@ -62,25 +70,6 @@ const MusicEditor = ({
 		setContent({ ...content, [name]: checked });
 	};
 
-	const handleHymnInputChange = (value: string, key: string, clearWhenNoMatch = false) => {
-		const selected = newHymnsArray.find((option) => toHymnDisplay(option) === value);
-		if (selected) {
-			handleHymnChange(selected, key);
-			return;
-		}
-
-		const maybeNumber = Number(value.trim());
-		if (!Number.isNaN(maybeNumber)) {
-			const byNumber = newHymnsArray.find((option) => option.number === maybeNumber);
-			handleHymnChange(byNumber ?? null, key);
-			return;
-		}
-
-		if (clearWhenNoMatch) {
-			handleHymnChange(null, key);
-		}
-	};
-
 	const showOpeningHymn = content.showOpeningHymn === undefined || content.showOpeningHymn;
 	const showSacramentHymn = content.showSacramentHymn === undefined || content.showSacramentHymn;
 	const showIntermediateMusic =
@@ -89,11 +78,6 @@ const MusicEditor = ({
 
 	return (
 		<div className="mt-4" css={styles}>
-			<datalist id="hymn-options">
-				{newHymnsArray.map((hymn, index) => (
-					<option key={`hymn-${hymn.number}-${index}`} value={toHymnDisplay(hymn)} />
-				))}
-			</datalist>
 			<div className="switch-parent">
 				<div className="switch-container">
 					<Label htmlFor="showOpeningHymn">Opening Hymn</Label>
@@ -140,21 +124,13 @@ const MusicEditor = ({
 			{content.showOpeningHymn && (
 				<div className="grid gap-2">
 					<Label htmlFor="openingHymn">Opening Hymn</Label>
-					<Input
+					<HymnAutocompleteInput
 						id="openingHymn"
-						list="hymn-options"
-						defaultValue={
-							content.openingHymnNumber
-								? `${content.openingHymnNumber} - ${content.openingHymnTitle}`
-								: ''
-						}
-						onChange={(event) =>
-							handleHymnInputChange(event.target.value, 'openingHymn')
-						}
-						onBlur={(event) =>
-							handleHymnInputChange(event.target.value, 'openingHymn', true)
-						}
-						placeholder="Type hymn number or select a hymn"
+						placeholder="Opening Hymn"
+						listboxLabel="Opening hymn options"
+						selectedNumber={content.openingHymnNumber}
+						selectedTitle={content.openingHymnTitle}
+						onSelectHymn={(hymn) => handleHymnChange(hymn, 'openingHymn')}
 					/>
 				</div>
 			)}
@@ -164,21 +140,13 @@ const MusicEditor = ({
 					<hr className="my-4 border-[var(--editor-border)]" />
 					<div className="grid gap-2">
 						<Label htmlFor="sacramentHymn">Sacrament Hymn</Label>
-						<Input
+						<HymnAutocompleteInput
 							id="sacramentHymn"
-							list="hymn-options"
-							defaultValue={
-								content.sacramentHymnNumber
-									? `${content.sacramentHymnNumber} - ${content.sacramentHymnTitle}`
-									: ''
-							}
-							onChange={(event) =>
-								handleHymnInputChange(event.target.value, 'sacramentHymn')
-							}
-							onBlur={(event) =>
-								handleHymnInputChange(event.target.value, 'sacramentHymn', true)
-							}
-							placeholder="Type hymn number or select a hymn"
+							placeholder="Sacrament Hymn"
+							listboxLabel="Sacrament hymn options"
+							selectedNumber={content.sacramentHymnNumber}
+							selectedTitle={content.sacramentHymnTitle}
+							onSelectHymn={(hymn) => handleHymnChange(hymn, 'sacramentHymn')}
 						/>
 					</div>
 				</>
@@ -215,28 +183,15 @@ const MusicEditor = ({
 						{intermediateMusicType === 'hymn' ? (
 							<div className="grid gap-2">
 								<Label htmlFor="intermediateHymn">Intermediate Hymn</Label>
-								<Input
+								<HymnAutocompleteInput
 									id="intermediateHymn"
-									list="hymn-options"
-									defaultValue={
-										content.intermediateHymnNumber
-											? `${content.intermediateHymnNumber} - ${content.intermediateHymnTitle}`
-											: ''
+									placeholder="Intermediate Hymn"
+									listboxLabel="Intermediate hymn options"
+									selectedNumber={content.intermediateHymnNumber}
+									selectedTitle={content.intermediateHymnTitle}
+									onSelectHymn={(hymn) =>
+										handleHymnChange(hymn, 'intermediateHymn')
 									}
-									onChange={(event) =>
-										handleHymnInputChange(
-											event.target.value,
-											'intermediateHymn',
-										)
-									}
-									onBlur={(event) =>
-										handleHymnInputChange(
-											event.target.value,
-											'intermediateHymn',
-											true,
-										)
-									}
-									placeholder="Type hymn number or select a hymn"
 								/>
 							</div>
 						) : (
@@ -331,21 +286,13 @@ const MusicEditor = ({
 					<hr className="my-4 border-[var(--editor-border)]" />
 					<div className="grid gap-2">
 						<Label htmlFor="closingHymn">Closing Hymn</Label>
-						<Input
+						<HymnAutocompleteInput
 							id="closingHymn"
-							list="hymn-options"
-							defaultValue={
-								content.closingHymnNumber
-									? `${content.closingHymnNumber} - ${content.closingHymnTitle}`
-									: ''
-							}
-							onChange={(event) =>
-								handleHymnInputChange(event.target.value, 'closingHymn')
-							}
-							onBlur={(event) =>
-								handleHymnInputChange(event.target.value, 'closingHymn', true)
-							}
-							placeholder="Type hymn number or select a hymn"
+							placeholder="Closing Hymn"
+							listboxLabel="Closing hymn options"
+							selectedNumber={content.closingHymnNumber}
+							selectedTitle={content.closingHymnTitle}
+							onSelectHymn={(hymn) => handleHymnChange(hymn, 'closingHymn')}
 						/>
 					</div>
 				</>

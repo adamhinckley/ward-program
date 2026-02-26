@@ -65,8 +65,25 @@ afterEach(() => {
 
 type MockEditor = ReturnType<typeof createMockEditor>;
 
+interface MockChain {
+	focus: ReturnType<typeof vi.fn>;
+	toggleHeading: ReturnType<typeof vi.fn>;
+	setParagraph: ReturnType<typeof vi.fn>;
+	toggleBold: ReturnType<typeof vi.fn>;
+	toggleItalic: ReturnType<typeof vi.fn>;
+	toggleHighlight: ReturnType<typeof vi.fn>;
+	setTextAlign: ReturnType<typeof vi.fn>;
+	extendMarkRange: ReturnType<typeof vi.fn>;
+	setLink: ReturnType<typeof vi.fn>;
+	setHorizontalRule: ReturnType<typeof vi.fn>;
+	toggleUnderline: ReturnType<typeof vi.fn>;
+	toggleBulletList: ReturnType<typeof vi.fn>;
+	setImage: ReturnType<typeof vi.fn>;
+	run: ReturnType<typeof vi.fn>;
+}
+
 const createMockEditor = (activeKeys: string[] = []) => {
-	const chain = {
+	const chain: MockChain = {
 		focus: vi.fn(() => chain),
 		toggleHeading: vi.fn(() => chain),
 		setParagraph: vi.fn(() => chain),

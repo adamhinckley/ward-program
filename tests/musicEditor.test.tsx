@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MusicEditor from '../components/editor/music';
 import { newHymnsArray } from '../utils/hymns';
@@ -209,9 +209,19 @@ describe('MusicEditor hymn selection', () => {
 		);
 
 		const selectById = async (inputId: string) => {
+			const listboxLabelsByInputId: Record<string, string> = {
+				openingHymn: 'Opening hymn options',
+				sacramentHymn: 'Sacrament hymn options',
+				intermediateHymn: 'Intermediate hymn options',
+				closingHymn: 'Closing hymn options',
+			};
 			const input = container.querySelector(`#${inputId}`) as HTMLInputElement;
 			await userEvent.click(input);
-			const firstOption = container.querySelector('.hymn-option') as HTMLButtonElement;
+
+			const listbox = await screen.findByRole('listbox', {
+				name: listboxLabelsByInputId[inputId],
+			});
+			const firstOption = within(listbox).getAllByRole('button')[0] as HTMLButtonElement;
 			const selectedText = firstOption.textContent ?? '';
 			const selectedHymn = newHymnsArray.find((hymn) => toDisplay(hymn) === selectedText);
 			if (!selectedHymn) {

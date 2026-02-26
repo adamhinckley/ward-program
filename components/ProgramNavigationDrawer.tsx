@@ -1,8 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import { Moon, Sun } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
@@ -280,7 +279,7 @@ const ProgramNavigationDrawer = ({
 								cursor: 'pointer',
 							}}
 						>
-							<LightModeOutlinedIcon aria-hidden="true" sx={{ fontSize: 16 }} />
+							<Sun aria-hidden="true" size={16} />
 							<span style={{ fontSize: 12 }}>Light</span>
 						</button>
 						<button
@@ -304,7 +303,7 @@ const ProgramNavigationDrawer = ({
 								cursor: 'pointer',
 							}}
 						>
-							<DarkModeOutlinedIcon aria-hidden="true" sx={{ fontSize: 16 }} />
+							<Moon aria-hidden="true" size={16} />
 							<span style={{ fontSize: 12 }}>Dark</span>
 						</button>
 					</div>

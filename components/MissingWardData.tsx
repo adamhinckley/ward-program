@@ -3,9 +3,10 @@
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 import Logo from './Logo';
-import { Button, Link, Typography } from '@mui/material';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
 export const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
 
@@ -35,14 +36,6 @@ const styles = css`
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
-
-		button {
-			background-color: #000000;
-		}
-
-		.MuiLoadingButton-loadingIndicator {
-			color: #ffffff;
-		}
 	}
 
 	h1 {
@@ -56,11 +49,6 @@ const styles = css`
 		margin-top: 16px;
 		justify-content: space-around;
 		width: 100%;
-		button {
-			background-color: #000000;
-			color: #ffffff;
-			padding: 8px 16px;
-		}
 	}
 `;
 
@@ -111,29 +99,32 @@ const MissingWardData = () => {
 			<div className="top-bar">
 				<Logo />
 				<div className="input-container">
-					<LoadingButton
-						loading={isRoutingToLogin}
-						variant="contained"
-						color="primary"
+					<Button
+						type="button"
 						onClick={handleRouteToLoginPage}
+						disabled={isRoutingToLogin}
 					>
-						Admin Login
-					</LoadingButton>
+						{isRoutingToLogin ? (
+							<Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+						) : (
+							'Admin Login'
+						)}
+					</Button>
 				</div>
 			</div>
 			<main>
-				<Typography variant="h1">
+				<h1>
 					If you need access to your program, please contact the responsible member in
 					your ward or branch for a direct link.
-				</Typography>
+				</h1>
 
 				<div className="button-container">
-					<Link href="/demo/program">
-						<Button>Demo Program</Button>
-					</Link>
-					<Link href="demo/editor">
-						<Button>Demo Editor</Button>
-					</Link>
+					<Button asChild>
+						<Link href="/demo/program">Demo Program</Link>
+					</Button>
+					<Button asChild>
+						<Link href="/demo/editor">Demo Editor</Link>
+					</Button>
 				</div>
 			</main>
 		</div>

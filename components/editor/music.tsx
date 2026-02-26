@@ -1,25 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Textfield from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Autocomplete from '@mui/material/Autocomplete';
 import { useAppContext } from '@/context/AppContext';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Plus, Trash2 } from 'lucide-react';
 import { newHymnsArray } from '@/utils/hymns';
-import Switch from '@mui/material/Switch';
 
 import type { EditorChildren } from '@/utils/types';
-import { Box, ButtonGroup, Divider } from '@mui/material';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 
 const styles = css`
-	.switch-input-container {
-		display: flex;
-		width: 100%;
-	}
-
 	.switch-parent {
 		display: flex;
 		flex-wrap: wrap;
@@ -31,16 +22,10 @@ const styles = css`
 		align-items: center;
 		gap: 8px;
 		margin: 12px 0;
-
-		.Mui-checked {
-			color: var(--editor-tab-active);
-		}
-
-		.MuiSwitch-track.MuiSwitch-track {
-			background-color: var(--editor-tab-active);
-		}
 	}
 `;
+
+const toHymnDisplay = (hymn: { number: number; title: string }) => `${hymn.number} - ${hymn.title}`;
 
 const MusicEditor = ({
 	handleChange,
@@ -73,8 +58,27 @@ const MusicEditor = ({
 
 	const isHymn = intermediateMusicType === 'hymn';
 
-	const handleCheckboxChange = (e: { target: { name: any; checked: any } }) => {
-		setContent({ ...content, [e.target.name]: e.target.checked });
+	const handleCheckboxChange = (name: string, checked: boolean) => {
+		setContent({ ...content, [name]: checked });
+	};
+
+	const handleHymnInputChange = (value: string, key: string, clearWhenNoMatch = false) => {
+		const selected = newHymnsArray.find((option) => toHymnDisplay(option) === value);
+		if (selected) {
+			handleHymnChange(selected, key);
+			return;
+		}
+
+		const maybeNumber = Number(value.trim());
+		if (!Number.isNaN(maybeNumber)) {
+			const byNumber = newHymnsArray.find((option) => option.number === maybeNumber);
+			handleHymnChange(byNumber ?? null, key);
+			return;
+		}
+
+		if (clearWhenNoMatch) {
+			handleHymnChange(null, key);
+		}
 	};
 
 	const showOpeningHymn = content.showOpeningHymn === undefined || content.showOpeningHymn;
@@ -82,255 +86,237 @@ const MusicEditor = ({
 	const showIntermediateMusic =
 		content.showIntermediateMusic === undefined || content.showIntermediateMusic;
 	const showClosingHymn = content.showClosingHymn === undefined || content.showClosingHymn;
-	const activeButtonBg = 'var(--editor-strong-bg)';
-	const activeButtonText = 'var(--editor-strong-fg)';
-	const inactiveButtonBg = 'var(--editor-muted-bg)';
-	const inactiveButtonHover = 'var(--editor-control-hover)';
 
 	return (
-		<Box sx={{ marginTop: '16px' }} css={styles}>
+		<div className="mt-4" css={styles}>
+			<datalist id="hymn-options">
+				{newHymnsArray.map((hymn, index) => (
+					<option key={`hymn-${hymn.number}-${index}`} value={toHymnDisplay(hymn)} />
+				))}
+			</datalist>
 			<div className="switch-parent">
 				<div className="switch-container">
-					<Typography>Opening Hymn</Typography>
+					<Label htmlFor="showOpeningHymn">Opening Hymn</Label>
 					<Switch
+						id="showOpeningHymn"
 						checked={showOpeningHymn}
-						onChange={handleCheckboxChange}
-						name="showOpeningHymn"
-						inputProps={{ 'aria-label': 'controlled' }}
+						onCheckedChange={(checked) =>
+							handleCheckboxChange('showOpeningHymn', checked)
+						}
 					/>
 				</div>
 				<div className="switch-container">
-					<Typography>Sacrament Hymn</Typography>
+					<Label htmlFor="showSacramentHymn">Sacrament Hymn</Label>
 					<Switch
+						id="showSacramentHymn"
 						checked={showSacramentHymn}
-						onChange={handleCheckboxChange}
-						name="showSacramentHymn"
-						inputProps={{ 'aria-label': 'controlled' }}
+						onCheckedChange={(checked) =>
+							handleCheckboxChange('showSacramentHymn', checked)
+						}
 					/>
 				</div>
 				<div className="switch-container">
-					<Typography>Intermediate Hymn</Typography>
+					<Label htmlFor="showIntermediateMusic">Intermediate Hymn</Label>
 					<Switch
+						id="showIntermediateMusic"
 						checked={showIntermediateMusic}
-						onChange={handleCheckboxChange}
-						name="showIntermediateMusic"
-						inputProps={{ 'aria-label': 'controlled' }}
+						onCheckedChange={(checked) =>
+							handleCheckboxChange('showIntermediateMusic', checked)
+						}
 					/>
 				</div>
 				<div className="switch-container">
-					<Typography>Closing Hymn</Typography>
+					<Label htmlFor="showClosingHymn">Closing Hymn</Label>
 					<Switch
+						id="showClosingHymn"
 						checked={showClosingHymn}
-						onChange={handleCheckboxChange}
-						name="showClosingHymn"
-						inputProps={{ 'aria-label': 'controlled' }}
+						onCheckedChange={(checked) =>
+							handleCheckboxChange('showClosingHymn', checked)
+						}
 					/>
 				</div>
 			</div>
-			{/* OPENING HYMN */}
+
 			{content.showOpeningHymn && (
-				<Autocomplete
-					fullWidth
-					options={newHymnsArray}
-					getOptionLabel={(option) => `${option.number} - ${option.title}`}
-					renderInput={(params) => <Textfield {...params} label="Opening Hymn" />}
-					onChange={(e, value) => handleHymnChange(value, 'openingHymn')}
-					value={
-						content.openingHymnNumber
-							? {
-									number: Number(content.openingHymnNumber),
-									title: content.openingHymnTitle,
-									link: content.openingHymnLink,
-								}
-							: null
-					}
-					isOptionEqualToValue={(option, value) => option.number === value.number}
-				/>
+				<div className="grid gap-2">
+					<Label htmlFor="openingHymn">Opening Hymn</Label>
+					<Input
+						id="openingHymn"
+						list="hymn-options"
+						defaultValue={
+							content.openingHymnNumber
+								? `${content.openingHymnNumber} - ${content.openingHymnTitle}`
+								: ''
+						}
+						onChange={(event) =>
+							handleHymnInputChange(event.target.value, 'openingHymn')
+						}
+						onBlur={(event) =>
+							handleHymnInputChange(event.target.value, 'openingHymn', true)
+						}
+						placeholder="Type hymn number or select a hymn"
+					/>
+				</div>
 			)}
 
 			{content.showSacramentHymn && (
 				<>
-					<Divider sx={{ my: 2 }} />
-
-					<Autocomplete
-						options={newHymnsArray}
-						getOptionLabel={(option) => `${option.number} - ${option.title}`}
-						renderInput={(params) => <Textfield {...params} label="Sacrament Hymn" />}
-						onChange={(e, value) => handleHymnChange(value, 'sacramentHymn')}
-						value={
-							content.sacramentHymnNumber
-								? {
-										number: Number(content.sacramentHymnNumber),
-										title: content.sacramentHymnTitle,
-										link: content.sacramentHymnLink,
-									}
-								: null
-						}
-						isOptionEqualToValue={(option, value) => option.number === value.number}
-					/>
+					<hr className="my-4 border-[var(--editor-border)]" />
+					<div className="grid gap-2">
+						<Label htmlFor="sacramentHymn">Sacrament Hymn</Label>
+						<Input
+							id="sacramentHymn"
+							list="hymn-options"
+							defaultValue={
+								content.sacramentHymnNumber
+									? `${content.sacramentHymnNumber} - ${content.sacramentHymnTitle}`
+									: ''
+							}
+							onChange={(event) =>
+								handleHymnInputChange(event.target.value, 'sacramentHymn')
+							}
+							onBlur={(event) =>
+								handleHymnInputChange(event.target.value, 'sacramentHymn', true)
+							}
+							placeholder="Type hymn number or select a hymn"
+						/>
+					</div>
 				</>
 			)}
 			{content.showIntermediateMusic && (
 				<>
-					<Divider sx={{ my: 2 }} />
-
-					{/* INTERMEDIATE MUSIC */}
+					<hr className="my-4 border-[var(--editor-border)]" />
 					<div className="flex flex-col">
-						<Typography sx={{ alignSelf: 'center' }}>Intermediate Music</Typography>
-						<Typography sx={{ alignSelf: 'center', fontSize: `${12 / 16}rem` }}>
-							To remove from the program, select "Musical Number" and clear the
-							inputs.
-						</Typography>
+						<h3 className="text-base font-semibold self-center">Intermediate Music</h3>
+						<p className="self-center text-xs">
+							To remove from the program, select &quot;Musical Number&quot; and clear
+							the inputs.
+						</p>
 						<div className="flex items-center justify-center">
-							<ButtonGroup
-								variant="contained"
-								aria-label="Basic button group"
-								sx={{
-									margin: '12px 0',
-									boxShadow: 'none',
-								}}
-							>
+							<div className="inline-flex my-3 rounded-md border border-[var(--editor-border)] overflow-hidden">
 								<Button
-									sx={{
-										backgroundColor: isHymn
-											? `${activeButtonBg} !important`
-											: `${inactiveButtonBg} !important`,
-										color: isHymn
-											? `${activeButtonText} !important`
-											: 'var(--editor-fg) !important',
-										'&:hover': {
-											backgroundColor: isHymn
-												? `${activeButtonBg} !important`
-												: `${inactiveButtonHover} !important`,
-										},
-										borderColor: 'transparent !important',
-									}}
+									type="button"
+									variant={isHymn ? 'default' : 'outline'}
+									className="rounded-none"
 									onClick={handleToggle}
 								>
 									Congregational Hymn
 								</Button>
 								<Button
-									sx={{
-										backgroundColor: !isHymn
-											? `${activeButtonBg} !important`
-											: `${inactiveButtonBg} !important`,
-										color: !isHymn
-											? `${activeButtonText} !important`
-											: 'var(--editor-fg) !important',
-										'&:hover': {
-											backgroundColor: !isHymn
-												? `${activeButtonBg} !important`
-												: `${inactiveButtonHover} !important`,
-										},
-										borderColor: 'transparent',
-									}}
+									type="button"
+									variant={!isHymn ? 'default' : 'outline'}
+									className="rounded-none"
 									onClick={handleToggle}
 								>
 									Musical Number
 								</Button>
-							</ButtonGroup>
+							</div>
 						</div>
 						{intermediateMusicType === 'hymn' ? (
-							<>
-								<Autocomplete
-									options={newHymnsArray}
-									getOptionLabel={(option) =>
-										`${option.number} - ${option.title}`
-									}
-									renderInput={(params) => (
-										<Textfield {...params} label="Intermediate Hymn" />
-									)}
-									onChange={(e, value) =>
-										handleHymnChange(value, 'intermediateHymn')
-									}
-									value={
+							<div className="grid gap-2">
+								<Label htmlFor="intermediateHymn">Intermediate Hymn</Label>
+								<Input
+									id="intermediateHymn"
+									list="hymn-options"
+									defaultValue={
 										content.intermediateHymnNumber
-											? {
-													number: Number(content.intermediateHymnNumber),
-													title: content.intermediateHymnTitle,
-													link: content.intermediateHymnLink,
-												}
-											: null
+											? `${content.intermediateHymnNumber} - ${content.intermediateHymnTitle}`
+											: ''
 									}
-									isOptionEqualToValue={(option, value) =>
-										option.number === value.number
+									onChange={(event) =>
+										handleHymnInputChange(
+											event.target.value,
+											'intermediateHymn',
+										)
 									}
+									onBlur={(event) =>
+										handleHymnInputChange(
+											event.target.value,
+											'intermediateHymn',
+											true,
+										)
+									}
+									placeholder="Type hymn number or select a hymn"
 								/>
-							</>
+							</div>
 						) : (
 							<>
-								<div className="flex relative justify-between content-center min-w-full items-center">
-									<Textfield
-										name="intermediateMusicLeftSide"
-										// @ts-ignore
-										value={content.intermediateMusicLeftSide || ''}
-										onChange={(e) => handleChange(e)}
-										fullWidth
-										label="left side"
-										sx={{ mb: 2, width: '49%' }}
-										placeholder="special musical number"
-									/>
-									<Textfield
-										name="intermediateMusicRightSide"
-										// @ts-ignore
-										value={content.intermediateMusicRightSide || ''}
-										onChange={(e) => handleChange(e)}
-										fullWidth
-										label="right side"
-										sx={{ mb: 2, width: '49%' }}
-										placeholder="song title"
-									/>
+								<div className="flex relative justify-between content-center min-w-full items-start gap-3">
+									<div className="grid w-[49%] gap-2">
+										<Label htmlFor="intermediateMusicLeftSide">Left side</Label>
+										<Input
+											id="intermediateMusicLeftSide"
+											name="intermediateMusicLeftSide"
+											value={content.intermediateMusicLeftSide || ''}
+											onChange={(e) => handleChange(e)}
+											placeholder="special musical number"
+										/>
+									</div>
+									<div className="grid w-[49%] gap-2">
+										<Label htmlFor="intermediateMusicRightSide">
+											Right side
+										</Label>
+										<Input
+											id="intermediateMusicRightSide"
+											name="intermediateMusicRightSide"
+											value={content.intermediateMusicRightSide || ''}
+											onChange={(e) => handleChange(e)}
+											placeholder="song title"
+										/>
+									</div>
 								</div>
 								{Array.isArray(content.intermediateMusicPerformers) &&
 									content.intermediateMusicPerformers.map((performer, index) => {
 										return (
-											<div key={index} className="flex relative">
-												<Textfield
-													name={`performer ${index + 1}`}
-													value={performer}
-													onChange={(e) =>
-														handleChange(
-															e,
-															'intermediateMusicPerformers',
-															index,
-														)
-													}
-													fullWidth
-													label={`Performer ${index + 1}`}
-													sx={{ mb: 2 }}
-												/>
-												<IconButton
-													onClick={() =>
-														handleDeleteBlockIndex &&
-														handleDeleteBlockIndex(
-															'intermediateMusicPerformers',
-															index,
-														)
-													}
-													sx={{
-														height: '40px',
-														margin: '42px 0 0',
-														position: 'absolute',
-														right: '2px',
-														top: '-34px',
-													}}
-												>
-													<DeleteForeverIcon
-														sx={{ color: '#ef4444 !important' }}
-													/>
-												</IconButton>
+											<div key={index} className="mt-3">
+												<div className="grid gap-2">
+													<Label
+														htmlFor={`performer-${index}`}
+													>{`Performer ${index + 1}`}</Label>
+													<div className="relative">
+														<Input
+															id={`performer-${index}`}
+															name={`performer ${index + 1}`}
+															value={performer}
+															onChange={(e) =>
+																handleChange(
+																	e,
+																	'intermediateMusicPerformers',
+																	index,
+																)
+															}
+															className="pr-10"
+														/>
+														<Button
+															type="button"
+															variant="ghost"
+															size="icon"
+															className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-red-500"
+															onClick={() =>
+																handleDeleteBlockIndex &&
+																handleDeleteBlockIndex(
+																	'intermediateMusicPerformers',
+																	index,
+																)
+															}
+														>
+															<Trash2 className="h-5 w-5" />
+														</Button>
+													</div>
+												</div>
 											</div>
 										);
 									})}
-								<div className="flex justify-center">
+								<div className="flex justify-center mt-3">
 									<Button
+										type="button"
+										variant="outline"
 										onClick={() =>
 											handleAddBlockIndex &&
 											handleAddBlockIndex('intermediateMusicPerformers')
 										}
-										sx={{ margin: '12px', color: 'var(--editor-tab-active)' }}
 									>
-										<AddIcon />
+										<Plus className="h-4 w-4 mr-1" />
 										Add Performer
 									</Button>
 								</div>
@@ -342,28 +328,29 @@ const MusicEditor = ({
 
 			{content.showClosingHymn && (
 				<>
-					<Divider sx={{ my: 2 }} />
-
-					{/* CLOSING HYMN */}
-					<Autocomplete
-						options={newHymnsArray}
-						getOptionLabel={(option) => `${option.number} - ${option.title}`}
-						renderInput={(params) => <Textfield {...params} label="Closing Hymn" />}
-						onChange={(e, value) => handleHymnChange(value, 'closingHymn')}
-						value={
-							content.closingHymnNumber
-								? {
-										number: Number(content.closingHymnNumber),
-										title: content.closingHymnTitle,
-										link: content.closingHymnLink,
-									}
-								: null
-						}
-						isOptionEqualToValue={(option, value) => option.number === value.number}
-					/>
+					<hr className="my-4 border-[var(--editor-border)]" />
+					<div className="grid gap-2">
+						<Label htmlFor="closingHymn">Closing Hymn</Label>
+						<Input
+							id="closingHymn"
+							list="hymn-options"
+							defaultValue={
+								content.closingHymnNumber
+									? `${content.closingHymnNumber} - ${content.closingHymnTitle}`
+									: ''
+							}
+							onChange={(event) =>
+								handleHymnInputChange(event.target.value, 'closingHymn')
+							}
+							onBlur={(event) =>
+								handleHymnInputChange(event.target.value, 'closingHymn', true)
+							}
+							placeholder="Type hymn number or select a hymn"
+						/>
+					</div>
 				</>
 			)}
-		</Box>
+		</div>
 	);
 };
 

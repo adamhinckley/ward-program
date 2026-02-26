@@ -112,7 +112,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 					value={content.imageUrl}
 					onChange={handleChange}
 				/>
-				<p className="text-xs text-[var(--editor-tab-inactive)]">
+				<p className="text-xs text-[var(--editor-tab-inactive)] mb-4">
 					Ensure the link points directly to the image file, not to a webpage containing
 					the image.
 				</p>

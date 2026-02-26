@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import TabPanel from '@/components/editor/TabPanel';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AgendaV2 from '@/components/agendaV2';
 import FrontPage from '@/components/frontPage';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
@@ -26,12 +26,19 @@ const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+	const headerRef = useRef<HTMLElement | null>(null);
 	const { themeMode, setThemeMode } = useProgramTheme();
 
 	useEffect(() => {
 		let previousScrollY = window.scrollY;
-		// mobile scroll solution
-		const hideHeaderOffset = 64;
+		let hideHeaderOffset = 0;
+
+		const updateHideHeaderOffset = () => {
+			// Source: measured rendered height of this component's sticky header.
+			hideHeaderOffset = headerRef.current?.getBoundingClientRect().height ?? 0;
+		};
+
+		updateHideHeaderOffset();
 
 		const handleScroll = () => {
 			const currentScrollY = window.scrollY;
@@ -59,8 +66,14 @@ const WardFacingProgram = () => {
 			previousScrollY = currentScrollY;
 		};
 
+		window.addEventListener('resize', updateHideHeaderOffset, { passive: true });
+		window.addEventListener('orientationchange', updateHideHeaderOffset, { passive: true });
 		window.addEventListener('scroll', handleScroll, { passive: true });
-		return () => window.removeEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('resize', updateHideHeaderOffset);
+			window.removeEventListener('orientationchange', updateHideHeaderOffset);
+			window.removeEventListener('scroll', handleScroll);
+		};
 	}, []);
 
 	const handleSectionSelect = (section: ProgramSection) => {
@@ -71,6 +84,7 @@ const WardFacingProgram = () => {
 	return (
 		<main className="mx-auto min-h-dvh max-w-[550px] bg-[var(--program-bg)] px-3 pb-3 text-[var(--program-fg)] [font-size:var(--program-font-size)] min-[550px]:text-base [&_a]:text-[var(--program-link)]">
 			<header
+				ref={headerRef}
 				className={`sticky top-0 z-[2]  flex items-center justify-between bg-[var(--program-bg)] py-1 transition-transform duration-200 ${
 					isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
 				}`}

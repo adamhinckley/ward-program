@@ -30,16 +30,27 @@ const WardFacingProgram = () => {
 
 	useEffect(() => {
 		let previousScrollY = window.scrollY;
+		// mobile scroll solution
+		const hideHeaderOffset = 64;
 
 		const handleScroll = () => {
 			const currentScrollY = window.scrollY;
+
+			// prevent header from hiding on mobile when user is at the top of the page and scroll down and page pops back up to the top
+			if (currentScrollY <= 0) {
+				setIsHeaderVisible(true);
+				previousScrollY = 0;
+				return;
+			}
+
 			const delta = currentScrollY - previousScrollY;
 
 			if (Math.abs(delta) < 2) {
 				return;
 			}
 
-			if (delta > 0) {
+			// also for the mobile issue mentioned above
+			if (delta > 0 && currentScrollY > hideHeaderOffset) {
 				setIsHeaderVisible(false);
 			} else {
 				setIsHeaderVisible(true);

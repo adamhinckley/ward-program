@@ -1,9 +1,7 @@
-/** @jsxImportSource @emotion/react */
 'use client';
-import { css } from '@emotion/react';
 import dynamic from 'next/dynamic';
 import TabPanel from '@/components/editor/TabPanel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AgendaV2 from '@/components/agendaV2';
 import FrontPage from '@/components/frontPage';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
@@ -16,57 +14,6 @@ const ProgramNavigationDrawer = dynamic(() => import('./ProgramNavigationDrawer'
 	ssr: false,
 });
 
-const styles = css`
-	max-width: 550px;
-	margin: 0 auto;
-	padding: 0 12px 12px;
-	background-color: var(--program-bg);
-	color: var(--program-fg);
-	min-height: 100dvh;
-	font-size: var(--program-font-size);
-
-	.menu-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 8px 0;
-		margin-bottom: 4px;
-		position: sticky;
-		top: 0;
-		background-color: var(--program-bg);
-		z-index: 2;
-		opacity: 0.55;
-	}
-
-	.main-content {
-		padding-bottom: 8px;
-	}
-
-	.menu-title {
-		font-size: 1rem;
-		font-weight: 600;
-	}
-
-	.menu-icon {
-		width: 1.5rem;
-		height: 1.5rem;
-		stroke-width: 2.5;
-	}
-
-	.menu-spacer {
-		width: 32px;
-		height: 32px;
-	}
-
-	a {
-		color: var(--program-link);
-	}
-
-	@media (min-width: 550px) {
-		font-size: 1rem;
-	}
-`;
-
 export type ProgramSection = 'agenda' | 'announcements' | 'contacts';
 
 const sectionLabels: Record<ProgramSection, string> = {
@@ -78,7 +25,32 @@ const sectionLabels: Record<ProgramSection, string> = {
 const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 	const { themeMode, setThemeMode } = useProgramTheme();
+
+	useEffect(() => {
+		let previousScrollY = window.scrollY;
+
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
+			const delta = currentScrollY - previousScrollY;
+
+			if (Math.abs(delta) < 2) {
+				return;
+			}
+
+			if (delta > 0) {
+				setIsHeaderVisible(false);
+			} else {
+				setIsHeaderVisible(true);
+			}
+
+			previousScrollY = currentScrollY;
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
 
 	const handleSectionSelect = (section: ProgramSection) => {
 		setActiveSection(section);
@@ -86,19 +58,23 @@ const WardFacingProgram = () => {
 	};
 
 	return (
-		<main css={styles}>
-			<header className="menu-header">
+		<main className="mx-auto min-h-dvh max-w-[550px] bg-[var(--program-bg)] px-3 pb-3 text-[var(--program-fg)] [font-size:var(--program-font-size)] min-[550px]:text-base [&_a]:text-[var(--program-link)]">
+			<header
+				className={`sticky top-0 z-[2]  flex items-center justify-between bg-[var(--program-bg)] py-1 transition-transform duration-200 ${
+					isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+				}`}
+			>
 				<Button
 					variant="ghost"
 					size="icon"
 					aria-label="Open navigation menu"
 					onClick={() => setIsMenuOpen(true)}
-					className="rounded-full"
+					className="h-8 w-8 rounded-full"
 				>
-					<Menu className="menu-icon" />
+					<Menu className="h-5 w-5 stroke-[2.5]" />
 				</Button>
-				<h1 className="menu-title">{sectionLabels[activeSection]}</h1>
-				<div className="menu-spacer" aria-hidden="true" />
+				<h1 className="text-base font-semibold">{sectionLabels[activeSection]}</h1>
+				<div className="h-8 w-8" aria-hidden="true" />
 			</header>
 
 			<ProgramNavigationDrawer
@@ -111,7 +87,7 @@ const WardFacingProgram = () => {
 				sectionLabels={sectionLabels}
 			/>
 
-			<div className="main-content">
+			<div className="pb-2">
 				<TabPanel value={activeSection === 'agenda' ? 0 : 1} index={0}>
 					<FrontPage />
 					<AgendaV2 />

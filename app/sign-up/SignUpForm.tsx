@@ -1,42 +1,13 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { SetStateAction, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import Logo from '@/components/Logo';
-import { AuthLayout } from '@/app/auth-layout';
-import { useProgramTheme } from '@/context/ProgramThemeContext';
+import { AuthLayout } from '@/app/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const styles = css`
-	display: flex;
-		width: 100%;
-	}
-
-	h5 {
-		color: var(--editor-fg);
-	width: 300px;
-	margin: 0 auto;
-			opacity: 0.9;
-	top: 50%;
-	left: 50%;
-			color: var(--editor-tab-inactive);
-		}
-
-		.MuiInputLabel-root.Mui-focused {
-			color: var(--editor-tab-active);
-		}
-	}
-
-	h5 {
-		color: var(--editor-fg);
-	}
-`;
-
 const SignUpForm = () => {
-	const { isThemeHydrated } = useProgramTheme();
 	const [inputValues, setInputValues] = useState({
 		email: '',
 		password: '',
@@ -86,15 +57,13 @@ const SignUpForm = () => {
 		}));
 	};
 
-	if (!isThemeHydrated) {
-		return null;
-	}
-
 	return (
 		<AuthLayout>
-			<form css={styles}>
+			<div className="mb-3 flex justify-center">
 				<Logo />
-				<h5>Sign Up</h5>
+			</div>
+			<h1 className="mb-4 text-center text-2xl font-bold">Sign Up</h1>
+			<form className="flex w-full flex-col justify-center gap-4" onSubmit={handleSignUp}>
 				<div className="grid gap-2">
 					<Label htmlFor="email">Email</Label>
 					<Input
@@ -128,11 +97,11 @@ const SignUpForm = () => {
 						required
 					/>
 				</div>
-				<Button type="submit" onClick={handleSignUp}>
-					Sign Up
-				</Button>
+				<Button type="submit">Sign Up</Button>
 
-				{successMessage ? <p>{successMessage}</p> : null}
+				{successMessage ? (
+					<p className="message-box text-center">{successMessage}</p>
+				) : null}
 			</form>
 		</AuthLayout>
 	);

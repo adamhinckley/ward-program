@@ -1,6 +1,4 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Logo from './Logo';
@@ -9,48 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 
 export const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
-
-const styles = css`
-	max-width: 800px;
-	margin: 0 auto;
-
-	.top-bar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 12px;
-	}
-
-	main {
-		margin: 0 auto;
-		padding: 20px 12px;
-		// center in the viewport
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 100vh;
-	}
-
-	.input-container {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	h1 {
-		font-family: 'Roboto', sans-serif;
-		font-size: 1.5rem;
-	}
-
-	.button-container {
-		display: flex;
-		gap: 16px;
-		margin-top: 16px;
-		justify-content: space-around;
-		width: 100%;
-	}
-`;
 
 const MissingWardData = () => {
 	const router = useRouter();
@@ -95,10 +51,10 @@ const MissingWardData = () => {
 	};
 
 	return (
-		<div css={styles}>
-			<div className="top-bar">
+		<div className="mx-auto max-w-[800px]">
+			<div className="flex items-center justify-between p-3">
 				<Logo />
-				<div className="input-container">
+				<div className="flex flex-col gap-4">
 					<Button
 						type="button"
 						onClick={handleRouteToLoginPage}
@@ -112,13 +68,13 @@ const MissingWardData = () => {
 					</Button>
 				</div>
 			</div>
-			<main>
-				<h1>
+			<main className="mx-auto flex h-screen flex-col items-center justify-center px-3 py-5">
+				<h1 className="text-2xl" style={{ fontFamily: 'Roboto, sans-serif' }}>
 					If you need access to your program, please contact the responsible member in
 					your ward or branch for a direct link.
 				</h1>
 
-				<div className="button-container">
+				<div className="mt-4 flex w-full justify-around gap-4">
 					<Button asChild>
 						<Link href="/demo/program">Demo Program</Link>
 					</Button>

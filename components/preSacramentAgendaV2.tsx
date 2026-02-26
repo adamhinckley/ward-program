@@ -1,98 +1,5 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import { useEffect, useState } from 'react';
-
-const styles = css`
-	margin-top: 8px;
-
-	.panel {
-		margin-bottom: 12px;
-	}
-
-	.header {
-		text-align: center;
-		margin-bottom: 12px;
-	}
-
-	.heading {
-		font-size: 1.05em;
-		font-weight: 700;
-	}
-
-	.date {
-		opacity: 0.8;
-		margin-top: 4px;
-	}
-
-	.section-title {
-		font-weight: 700;
-		margin: 10px 0 8px;
-		text-align: center;
-	}
-
-	.row {
-		display: flex;
-		justify-content: space-between;
-		gap: 12px;
-		margin: 8px 0;
-	}
-
-	.label {
-		font-weight: 600;
-		white-space: nowrap;
-	}
-
-	.value {
-		text-align: right;
-	}
-
-	.hymn-title {
-		text-align: center;
-		opacity: 0.9;
-		margin: 0 0 8px;
-	}
-
-	.group-card {
-		background: var(--program-group-bg);
-		border-radius: 16px;
-		padding: 8px 12px;
-		margin-bottom: 12px;
-	}
-
-	.connected-group {
-		background: var(--program-group-bg);
-		border-radius: 16px;
-		padding: 8px 12px;
-		margin: 8px 0;
-	}
-
-	.connected-group .row {
-		margin: 4px 0;
-	}
-
-	.group-card .row {
-		margin: 4px 0;
-	}
-
-	.group-card .hymn-title {
-		margin: 2px 0 4px;
-	}
-
-	.agenda-marker .row {
-		justify-content: center;
-	}
-
-	.agenda-marker .label {
-		font-weight: 700;
-		letter-spacing: 0.02em;
-	}
-
-	a {
-		color: var(--program-link);
-		text-decoration: underline;
-	}
-`;
 
 const PreSacramentAgendaV2 = () => {
 	const { content } = useAppContext();
@@ -135,57 +42,73 @@ const PreSacramentAgendaV2 = () => {
 	const shouldShowSacramentHymn = showSacramentHymn === undefined || showSacramentHymn;
 
 	return (
-		<div css={styles}>
-			<div className="panel">
-				<div className="header">
-					<div className="heading">{title}</div>
-					<div className="date">{currentOrNextSundayDate}</div>
+		<div className="mt-2">
+			<div className="mb-3">
+				<div className="mb-3 text-center">
+					<div className="text-[1.05em] font-bold">{title}</div>
+					<div className="mt-1 opacity-80">{currentOrNextSundayDate}</div>
 				</div>
 
 				{presiding || conducting || musicLeader || accompanist ? (
-					// <div className="connected-group">
 					<div>
 						{presiding ? (
-							<div className="row group-card">
-								<div className="label">Presiding</div>
-								<div className="value">{presiding}</div>
+							<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+								<div className="my-1 flex justify-between gap-3">
+									<div className="whitespace-nowrap font-semibold">Presiding</div>
+									<div className="text-right">{presiding}</div>
+								</div>
 							</div>
 						) : null}
 						{conducting ? (
-							<div className="row group-card">
-								<div className="label">Conducting</div>
-								<div className="value">{conducting}</div>
+							<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+								<div className="my-1 flex justify-between gap-3">
+									<div className="whitespace-nowrap font-semibold">
+										Conducting
+									</div>
+									<div className="text-right">{conducting}</div>
+								</div>
 							</div>
 						) : null}
 						{musicLeader ? (
-							<div className="row group-card">
-								<div className="label">Chorister</div>
-								<div className="value">{musicLeader}</div>
+							<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+								<div className="my-1 flex justify-between gap-3">
+									<div className="whitespace-nowrap font-semibold">Chorister</div>
+									<div className="text-right">{musicLeader}</div>
+								</div>
 							</div>
 						) : null}
 						{accompanist ? (
-							<div className="row group-card">
-								<div className="label">Accompanist</div>
-								<div className="value">{accompanist}</div>
+							<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+								<div className="my-1 flex justify-between gap-3">
+									<div className="whitespace-nowrap font-semibold">
+										Accompanist
+									</div>
+									<div className="text-right">{accompanist}</div>
+								</div>
 							</div>
 						) : null}
 					</div>
 				) : null}
 			</div>
 
-			<div className="panel">
-				<div className=" agenda-marker">
-					<div className="row">
-						<div className="label">Ward Announcements</div>
+			<div className="mb-3">
+				<div>
+					<div className="my-2 flex justify-center gap-3">
+						<div className="font-bold tracking-[0.02em]">Ward Announcements</div>
 					</div>
 				</div>
 				{shouldShowOpeningHymn ? (
-					<div className="group-card">
-						<div className="row">
-							<div className="label">Opening Hymn</div>
-							<div className="value">
+					<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+						<div className="my-1 flex justify-between gap-3">
+							<div className="whitespace-nowrap font-semibold">Opening Hymn</div>
+							<div className="text-right">
 								{openingHymnLink ? (
-									<a href={openingHymnLink} target="_blank" rel="noreferrer">
+									<a
+										href={openingHymnLink}
+										target="_blank"
+										rel="noreferrer"
+										className="text-[var(--program-link)] underline"
+									>
 										{openingHymnNumber}
 									</a>
 								) : (
@@ -193,42 +116,54 @@ const PreSacramentAgendaV2 = () => {
 								)}
 							</div>
 						</div>
-						<div className="hymn-title">{openingHymnTitle}</div>
+						<div className="my-[2px] mb-1 text-center opacity-90">
+							{openingHymnTitle}
+						</div>
 					</div>
 				) : null}
 
-				<div className="group-card">
-					<div className="row">
-						<div className="label">Opening Prayer</div>
-						<div className="value">{openingPrayer}</div>
+				<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+					<div className="my-1 flex justify-between gap-3">
+						<div className="whitespace-nowrap font-semibold">Opening Prayer</div>
+						<div className="text-right">{openingPrayer}</div>
 					</div>
 				</div>
 			</div>
 
-			<div className="panel">
-				<div className=" agenda-marker">
-					<div className="row">
-						<div className="label">Stake and Ward Business</div>
+			<div className="mb-3">
+				<div>
+					<div className="my-2 flex justify-center gap-3">
+						<div className="font-bold tracking-[0.02em]">Stake and Ward Business</div>
 					</div>
 				</div>
 				{Array.isArray(blockOne)
 					? blockOne.map((block, index) => (
-							<div className="group-card" key={index}>
-								<div className="row">
-									<div className="label">{block.left}</div>
-									<div className="value">{block.right}</div>
+							<div
+								className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2"
+								key={index}
+							>
+								<div className="my-1 flex justify-between gap-3">
+									<div className="whitespace-nowrap font-semibold">
+										{block.left}
+									</div>
+									<div className="text-right">{block.right}</div>
 								</div>
 							</div>
 						))
 					: null}
 
 				{shouldShowSacramentHymn ? (
-					<div className="group-card">
-						<div className="row">
-							<div className="label">Sacrament Hymn</div>
-							<div className="value">
+					<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+						<div className="my-1 flex justify-between gap-3">
+							<div className="whitespace-nowrap font-semibold">Sacrament Hymn</div>
+							<div className="text-right">
 								{sacramentHymnLink ? (
-									<a href={sacramentHymnLink} target="_blank" rel="noreferrer">
+									<a
+										href={sacramentHymnLink}
+										target="_blank"
+										rel="noreferrer"
+										className="text-[var(--program-link)] underline"
+									>
 										{sacramentHymnNumber}
 									</a>
 								) : (
@@ -236,7 +171,9 @@ const PreSacramentAgendaV2 = () => {
 								)}
 							</div>
 						</div>
-						<div className="hymn-title">{sacramentHymnTitle}</div>
+						<div className="my-[2px] mb-1 text-center opacity-90">
+							{sacramentHymnTitle}
+						</div>
 					</div>
 				) : null}
 			</div>

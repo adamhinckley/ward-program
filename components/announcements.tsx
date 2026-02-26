@@ -1,30 +1,6 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import { sanitizeAnnouncementHtml } from '@/utils/sanitization';
-
-const announcementStyles = css`
-	display: flex;
-	flex-direction: column;
-
-	img {
-		align-self: center;
-	}
-
-	hr {
-		border: 0;
-		border-top: 1px solid #ccc;
-		margin: 12px 0;
-	}
-
-	a {
-		color: var(--program-link);
-		text-decoration: underline;
-	}
-
-	padding-bottom: 12px;
-`;
 
 const Announcements = () => {
 	const { content } = useAppContext();
@@ -39,7 +15,7 @@ const Announcements = () => {
 	return (
 		<div
 			id="announcement"
-			css={announcementStyles}
+			className="flex flex-col pb-3 [&_a]:text-[var(--program-link)] [&_a]:underline [&_hr]:my-3 [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-[#ccc] [&_img]:self-center"
 			dangerouslySetInnerHTML={{ __html: sanitizedAnnouncements }}
 		></div>
 	);

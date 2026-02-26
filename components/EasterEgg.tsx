@@ -1,46 +1,17 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { useState } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-const styles = (hideComponent: Boolean) => css`
-	height: 100vh;
-	width: 100vw;
-	background-color: #ffffff;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	width: 100%;
-	margin: 0 auto;
-	padding: 12px;
-
-	// make this fill the screen
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1000;
-
-	p {
-		text-align: center;
-	}
-
-	.title {
-		font-size: 2rem;
-	}
-`;
 
 type EasterEggProps = {
 	setShowEasterEgg: (value: boolean) => void;
 };
 
 const EasterEgg = ({ setShowEasterEgg }: EasterEggProps) => {
-	const [hideComponent, setHideComponent] = useState(false);
-
 	return (
-		<div css={styles(hideComponent)}>
-			<p className="title">🎉 Congratulations! 🎉</p>
-			<p>Enter code "Think Celestial" on the church website for a 10% discount on tithing!</p>
+		<div className="fixed inset-0 z-[2147483647] flex h-dvh w-dvw flex-col justify-center overflow-auto bg-[var(--program-bg)] p-3 text-[var(--program-fg)]">
+			<p className="text-center text-[2rem]">🎉 Congratulations! 🎉</p>
+			<p className="text-center">
+				Enter code "Think Celestial" on the church website for a 10% discount on tithing!
+			</p>
 			<div className="flex justify-center mt-4">
 				<Button
 					type="button"

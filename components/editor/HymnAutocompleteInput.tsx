@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { newHymnsArray } from '@/utils/hymns';
@@ -15,38 +13,6 @@ type HymnAutocompleteInputProps = {
 	selectedTitle?: string;
 	onSelectHymn: (hymn: HymnValue | null) => void;
 };
-
-const styles = css`
-	.hymn-input-wrapper {
-		position: relative;
-	}
-
-	.hymn-input-wrapper.is-open {
-		z-index: 60;
-	}
-
-	.hymn-options {
-		max-height: 320px;
-		overflow-y: auto;
-	}
-
-	.hymn-option {
-		display: block;
-		width: 100%;
-		padding: 8px 10px;
-		text-align: left;
-		font-size: 0.9rem;
-		border: 0;
-		background: transparent;
-		color: var(--editor-fg);
-		cursor: pointer;
-	}
-
-	.hymn-option:hover,
-	.hymn-option.is-highlighted {
-		background: var(--editor-control-hover);
-	}
-`;
 
 const toHymnDisplay = (hymn: { number: number; title: string }) => `${hymn.number} - ${hymn.title}`;
 
@@ -292,11 +258,7 @@ const HymnAutocompleteInput = ({
 	};
 
 	return (
-		<div
-			className={`hymn-input-wrapper ${isOpen ? 'is-open' : ''}`}
-			css={styles}
-			ref={wrapperRef}
-		>
+		<div className={`relative ${isOpen ? 'z-[60]' : ''}`} ref={wrapperRef}>
 			<Input
 				ref={inputRef}
 				id={id}
@@ -312,7 +274,7 @@ const HymnAutocompleteInput = ({
 			{isOpen && dropdownPosition && typeof document !== 'undefined'
 				? createPortal(
 						<div
-							className="hymn-options"
+							className="max-h-80 overflow-y-auto"
 							role="listbox"
 							aria-label={listboxLabel}
 							data-direction={dropdownPosition.openDirection}
@@ -328,7 +290,7 @@ const HymnAutocompleteInput = ({
 								<button
 									type="button"
 									key={`${id}-${hymn.number}-${index}`}
-									className={`hymn-option ${highlightedIndex === index ? 'is-highlighted' : ''}`}
+									className="block w-full border-0 px-[10px] py-2 text-left text-[0.9rem] text-[var(--editor-fg)]"
 									style={{
 										...optionBaseStyle,
 										background:

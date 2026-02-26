@@ -1,44 +1,8 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import Image from 'next/image';
 import { useAppContext } from '../context/AppContext';
 import { useState } from 'react';
 import EasterEgg from './EasterEgg';
-
-const styles = css`
-	.image-container {
-		width: fit-content;
-		margin: 0 auto;
-		position: relative;
-		display: inline-block;
-	}
-
-	.responsive-image {
-		display: block;
-		height: auto;
-	}
-	.hidden-container {
-		// make the container the same size as the image
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display: flex;
-	}
-
-	.left,
-	.right,
-	.top-bottom-container {
-		width: 33.3%;
-	}
-
-	.top,
-	.bottom {
-		height: 50%;
-	}
-`;
 
 const FrontPage = () => {
 	const { content } = useAppContext();
@@ -62,15 +26,15 @@ const FrontPage = () => {
 	};
 
 	return (
-		<div css={styles}>
-			<div className="image-container">
-				<div className="hidden-container">
-					<div className="left" onClick={(e) => handleClick(e, 'left')} />
-					<div className="top-bottom-container">
-						<div className="top" onClick={(e) => handleClick(e, 'up')} />
-						<div className="bottom" onClick={(e) => handleClick(e, 'down')} />
+		<div>
+			<div className="relative mx-auto inline-block w-fit">
+				<div className="absolute inset-0 flex">
+					<div className="w-1/3" onClick={(e) => handleClick(e, 'left')} />
+					<div className="w-1/3">
+						<div className="h-1/2" onClick={(e) => handleClick(e, 'up')} />
+						<div className="h-1/2" onClick={(e) => handleClick(e, 'down')} />
 					</div>
-					<div className="right" onClick={(e) => handleClick(e, 'right')} />
+					<div className="w-1/3" onClick={(e) => handleClick(e, 'right')} />
 				</div>
 				{content.imageUrl ? (
 					<Image
@@ -78,7 +42,7 @@ const FrontPage = () => {
 						alt=""
 						width={550}
 						height={550}
-						className="responsive-image"
+						className="block h-auto"
 						loading="eager"
 					/>
 				) : null}

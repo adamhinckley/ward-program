@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import QRCode from 'react-qr-code';
 import { Bulletin } from '@/utils/types';
@@ -11,49 +9,6 @@ type SettingsProps = {
 	content: Bulletin;
 	handleChange: () => void;
 };
-
-const styles = css`
-	.switch-container {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin: 12px 0;
-
-		.Mui-checked {
-			color: var(--editor-tab-active);
-		}
-
-		.MuiSwitch-track.MuiSwitch-track {
-			background-color: var(--editor-tab-active);
-		}
-	}
-
-	.qr-code-container {
-		max-width: 400px;
-		margin: 0 auto;
-		justify-content: center;
-		display: flex;
-		flex-direction: column;
-
-		gap: 16px;
-
-		button {
-			background-color: var(--editor-strong-bg);
-			color: var(--editor-strong-fg);
-		}
-	}
-
-	.link-container {
-		background-color: var(--editor-muted-bg);
-		padding: 8px;
-		border-radius: 4px;
-	}
-
-	a {
-		color: var(--editor-link);
-		text-decoration: underline;
-	}
-`;
 
 const Settings = ({ content, handleChange }: SettingsProps) => {
 	const { setContent, userData, bulletinId } = useAppContext();
@@ -68,7 +23,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 		? 'https://app.wardprogram.com/demo/program'
 		: `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
-		<div className="p-4 mb-4" css={styles}>
+		<div className="mb-4 p-4 [&_a]:text-[var(--editor-link)] [&_a]:underline">
 			<p>
 				Have questions or ideas to share? Join our exclusive community on{' '}
 				<a
@@ -80,7 +35,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 				</a>{' '}
 				and dive right in!
 			</p>
-			<div className="link-container">
+			<div className="rounded bg-[var(--editor-muted-bg)] p-2">
 				<p>Your custom program link: </p>
 				<a href={qrCodeValue} target="_blank" rel="noreferrer">
 					{qrCodeValue}
@@ -112,12 +67,12 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 					value={content.imageUrl}
 					onChange={handleChange}
 				/>
-				<p className="text-xs text-[var(--editor-tab-inactive)]">
+				<p className="text-xs text-[var(--editor-tab-inactive)] mb-4">
 					Ensure the link points directly to the image file, not to a webpage containing
 					the image.
 				</p>
 			</div>
-			<div className="qr-code-container">
+			<div className="mx-auto flex max-w-[400px] flex-col justify-center gap-4">
 				<QRCode
 					value={qrCodeValue}
 					id="QRCode"
@@ -146,6 +101,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 							img.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
 						}
 					}}
+					className="bg-[var(--editor-strong-bg)] text-[var(--editor-strong-fg)] hover:bg-[var(--editor-strong-bg)]/90"
 				>
 					Download qr code
 				</Button>

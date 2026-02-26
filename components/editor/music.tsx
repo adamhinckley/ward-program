@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import { Plus, Trash2 } from 'lucide-react';
 
@@ -9,21 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-
-const styles = css`
-	.switch-parent {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
-
-	.switch-container {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		margin: 12px 0;
-	}
-`;
 
 const MusicEditor = ({
 	handleChange,
@@ -83,9 +66,9 @@ const MusicEditor = ({
 	const showClosingHymn = content.showClosingHymn === undefined || content.showClosingHymn;
 
 	return (
-		<div className="mt-4" css={styles}>
-			<div className="switch-parent">
-				<div className="switch-container">
+		<div className="mt-4">
+			<div className="flex flex-wrap justify-between">
+				<div className="my-3 flex items-center gap-2">
 					<Label htmlFor="showOpeningHymn">Opening Hymn</Label>
 					<Switch
 						id="showOpeningHymn"
@@ -95,7 +78,7 @@ const MusicEditor = ({
 						}
 					/>
 				</div>
-				<div className="switch-container">
+				<div className="my-3 flex items-center gap-2">
 					<Label htmlFor="showSacramentHymn">Sacrament Hymn</Label>
 					<Switch
 						id="showSacramentHymn"
@@ -105,7 +88,7 @@ const MusicEditor = ({
 						}
 					/>
 				</div>
-				<div className="switch-container">
+				<div className="my-3 flex items-center gap-2">
 					<Label htmlFor="showIntermediateMusic">Intermediate Hymn</Label>
 					<Switch
 						id="showIntermediateMusic"
@@ -115,7 +98,7 @@ const MusicEditor = ({
 						}
 					/>
 				</div>
-				<div className="switch-container">
+				<div className="my-3 flex items-center gap-2">
 					<Label htmlFor="showClosingHymn">Closing Hymn</Label>
 					<Switch
 						id="showClosingHymn"

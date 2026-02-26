@@ -1,4 +1,4 @@
-import { AuthLayout } from '@/app/auth-layout';
+import { AuthLayout } from '@/app/AuthLayout';
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';

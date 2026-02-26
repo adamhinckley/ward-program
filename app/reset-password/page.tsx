@@ -1,4 +1,4 @@
-import { AuthLayout } from '@/app/auth-layout';
+import { AuthLayout } from '@/app/AuthLayout';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from '../login/submit-button';

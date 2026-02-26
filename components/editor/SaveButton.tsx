@@ -4,24 +4,14 @@ import { css } from '@emotion/react';
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { containsScriptTagAttempt, sanitizeAnnouncementHtml } from '@/utils/sanitization';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
 const styles = css`
 	.save-button {
 		margin: 12px 0;
 		max-width: 80px;
-		background-color: var(--editor-strong-bg);
-		color: var(--editor-strong-fg);
-		box-shadow: none;
-
-		&:hover {
-			background-color: var(--editor-strong-bg);
-		}
-
-		.MuiLoadingButton-loadingIndicator {
-			color: var(--editor-strong-fg);
-		}
 	}
 `;
 
@@ -82,16 +72,9 @@ const SaveButton = () => {
 
 	return (
 		<div css={styles}>
-			<LoadingButton
-				variant="contained"
-				disabled={saving}
-				onClick={handleSave}
-				sx={{ margin: '12px 0', maxWidth: '80px' }}
-				loading={saving}
-				className="save-button"
-			>
-				Save
-			</LoadingButton>
+			<Button type="button" disabled={saving} onClick={handleSave} className="save-button">
+				{saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : 'Save'}
+			</Button>
 		</div>
 	);
 };

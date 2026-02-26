@@ -1,8 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
-import { Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const styles = css`
 	margin-bottom: 12px;
@@ -22,39 +26,20 @@ const WardContacts = () => {
 				return (
 					<Accordion
 						key={index}
-						disableGutters
-						elevation={0}
-						sx={{
-							backgroundColor: 'var(--program-card-bg)',
-							color: 'var(--program-fg)',
-							border: '1px solid var(--program-panel-border)',
-							borderRadius: '6px',
-							overflow: 'hidden',
-							boxShadow: 'none',
-							marginBottom: '10px',
-							'&:before': {
-								display: 'none',
-							},
-						}}
+						type="single"
+						collapsible
+						className="mb-[10px] rounded-md border border-[var(--program-panel-border)] bg-[var(--program-panel-bg)] px-4 text-[var(--program-fg)]"
 					>
-						<AccordionSummary
-							expandIcon={<ExpandMoreIcon />}
-							sx={{
-								backgroundColor: 'var(--program-panel-bg)',
-								'& .MuiAccordionSummary-expandIconWrapper': {
-									color: 'var(--program-fg)',
-								},
-							}}
-						>
-							<Typography>{block.left}</Typography>
-						</AccordionSummary>
-						<AccordionDetails sx={{ backgroundColor: 'var(--program-card-bg)' }}>
-							<Typography sx={{ textAlign: 'center', color: 'var(--program-link)' }}>
+						<AccordionItem value={`contact-${index}`} className="border-b-0">
+							<AccordionTrigger className="bg-transparent px-3 rounded-md no-underline hover:no-underline">
+								{block.left}
+							</AccordionTrigger>
+							<AccordionContent className="text-center text-[var(--program-link)] px-3 pt-3">
 								<a href={`tel:+1-${block.right}`} rel="noopener noreferrer">
 									{block.right}
 								</a>
-							</Typography>
-						</AccordionDetails>
+							</AccordionContent>
+						</AccordionItem>
 					</Accordion>
 				);
 			})}

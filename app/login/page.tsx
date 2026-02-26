@@ -4,7 +4,8 @@ import { headers } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from './submit-button';
-import Textfield from '@mui/material/TextField';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function Login({ searchParams }: { searchParams: { message: string } }) {
 	const signIn = async (formData: FormData) => {
@@ -53,8 +54,14 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 		<AuthLayout>
 			<div className="auth-container">
 				<form className="flex flex-col w-full justify-center gap-4">
-					<Textfield name="email" required label="Email" />
-					<Textfield type="password" name="password" required label="Password" />
+					<div className="grid gap-2">
+						<Label htmlFor="email">Email</Label>
+						<Input id="email" name="email" required type="email" />
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="password">Password</Label>
+						<Input id="password" type="password" name="password" required />
+					</div>
 					<SubmitButton
 						formAction={signIn}
 						className="rounded-md px-4 py-2 mb-2"

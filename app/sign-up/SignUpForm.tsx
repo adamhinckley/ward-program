@@ -3,51 +3,25 @@
 import { css } from '@emotion/react';
 import { SetStateAction, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Button, TextField, Typography } from '@mui/material';
 import Logo from '@/components/Logo';
 import { AuthLayout } from '@/app/auth-layout';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const styles = css`
 	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	width: 300px;
-	margin: 0 auto;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-
-	button {
-		background-color: var(--editor-strong-bg) !important;
-		color: var(--editor-strong-fg) !important;
-
-		&:hover {
-			background-color: var(--editor-strong-bg) !important;
-			opacity: 0.9;
-		}
+		width: 100%;
 	}
 
-	.MuiTextField-root {
-		.MuiOutlinedInput-root {
-			background-color: var(--editor-control-bg);
-			color: var(--editor-fg);
-		}
-
-		.MuiOutlinedInput-notchedOutline {
-			border-color: var(--editor-border);
-		}
-
-		.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-			border-color: var(--editor-tab-active);
-		}
-
-		.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-			border-color: var(--editor-tab-active);
-		}
-
-		.MuiInputLabel-root {
+	h5 {
+		color: var(--editor-fg);
+	width: 300px;
+	margin: 0 auto;
+			opacity: 0.9;
+	top: 50%;
+	left: 50%;
 			color: var(--editor-tab-inactive);
 		}
 
@@ -120,39 +94,45 @@ const SignUpForm = () => {
 		<AuthLayout>
 			<form css={styles}>
 				<Logo />
-				<Typography variant="h5">Sign Up</Typography>
-				<TextField
-					type="email"
-					name="email"
-					label="Email"
-					value={email}
-					onChange={handleChange}
-					required
-					fullWidth
-				/>
-				<TextField
-					type="password"
-					name="password"
-					label="Password"
-					value={password}
-					onChange={handleChange}
-					required
-					fullWidth
-				/>
-				<TextField
-					type="password"
-					name="password2"
-					label="Verify Password"
-					value={password2}
-					onChange={handleChange}
-					required
-					fullWidth
-				/>
-				<Button type="submit" variant="contained" color="primary" onClick={handleSignUp}>
+				<h5>Sign Up</h5>
+				<div className="grid gap-2">
+					<Label htmlFor="email">Email</Label>
+					<Input
+						id="email"
+						type="email"
+						name="email"
+						value={email}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className="grid gap-2">
+					<Label htmlFor="password">Password</Label>
+					<Input
+						id="password"
+						type="password"
+						name="password"
+						value={password}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className="grid gap-2">
+					<Label htmlFor="password2">Verify Password</Label>
+					<Input
+						id="password2"
+						type="password"
+						name="password2"
+						value={password2}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<Button type="submit" onClick={handleSignUp}>
 					Sign Up
 				</Button>
 
-				{successMessage ? <Typography>{successMessage}</Typography> : null}
+				{successMessage ? <p>{successMessage}</p> : null}
 			</form>
 		</AuthLayout>
 	);

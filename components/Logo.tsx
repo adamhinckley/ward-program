@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import { Typography } from '@mui/material';
+import { BookOpenText } from 'lucide-react';
 
 const styles = css`
 	display: flex;
@@ -26,9 +25,9 @@ const styles = css`
 
 const Logo = () => (
 	<div css={styles}>
-		<MenuBookOutlinedIcon fontSize="large" />
+		<BookOpenText size={30} aria-hidden="true" />
 		<div className="text-container">
-			<Typography className="">Ward Program</Typography>
+			<p>Ward Program</p>
 			{/* <hr />
 			<Typography variant="caption" className="">
       Plain as Paper

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Loader2 } from 'lucide-react';
 
 const loadingStyles = css`
 	display: flex;
@@ -12,7 +12,7 @@ const loadingStyles = css`
 const Loading = () => {
 	return (
 		<div css={loadingStyles}>
-			<CircularProgress />
+			<Loader2 className="h-8 w-8 animate-spin" aria-hidden="true" />
 		</div>
 	);
 };

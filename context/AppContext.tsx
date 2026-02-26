@@ -1,6 +1,5 @@
 'use client';
 import { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
-import cloneDeep from 'lodash/cloneDeep';
 
 import { AppState, Bulletin, UserSettings } from '@/utils/types';
 
@@ -12,7 +11,7 @@ type AppContextProviderProps = {
 // Define the shape of the context state
 type AppContextState = {
 	content: Bulletin;
-	setContent: (content: Bulletin) => void;
+	setContent: React.Dispatch<React.SetStateAction<Bulletin>>;
 	editorContentRef: React.MutableRefObject<string>;
 	currentTab: number;
 	setCurrentTab: (tab: number) => void;

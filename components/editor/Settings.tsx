@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Textfield from '@mui/material/TextField';
-import { Typography, Button, Box } from '@mui/material';
-import Switch from '@mui/material/Switch';
 import { useAppContext } from '@/context/AppContext';
 import QRCode from 'react-qr-code';
 import { Bulletin } from '@/utils/types';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 type SettingsProps = {
 	content: Bulletin;
@@ -69,7 +69,7 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 		: `https://app.wardprogram.com/?id=${bulletinId}`;
 	return (
 		<div className="p-4 mb-4" css={styles}>
-			<Typography>
+			<p>
 				Have questions or ideas to share? Join our exclusive community on{' '}
 				<a
 					href="https://www.facebook.com/share/g/mTLYxUWuD1ci6b66/"
@@ -79,40 +79,44 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 					facebook
 				</a>{' '}
 				and dive right in!
-			</Typography>
+			</p>
 			<div className="link-container">
-				<Typography>Your custom program link: </Typography>
+				<p>Your custom program link: </p>
 				<a href={qrCodeValue} target="_blank" rel="noreferrer">
 					{qrCodeValue}
 				</a>
 			</div>
 
-			<Textfield
-				name="title"
-				value={content.title}
-				onChange={handleChange}
-				fullWidth
-				label="title"
-				sx={{ mb: 2, mt: 2 }}
-			/>
-			<Textfield
-				name="customHeading"
-				value={content.customHeading}
-				onChange={handleChange}
-				fullWidth
-				label="Custom Post Sacrament Heading"
-				sx={{ mb: 2 }}
-				helperText="Shows up after the sacrament - Testimony Meeting, Primary Program, etc.  Leave blank when not needed."
-			/>
-			<Textfield
-				name="imageUrl"
-				value={content.imageUrl}
-				onChange={handleChange}
-				fullWidth
-				label="Image URL"
-				sx={{ mb: 2 }}
-				helperText="Ensure the link points directly to the image file, not to a webpage containing the image."
-			/>
+			<div className="mt-4 grid gap-2">
+				<Label htmlFor="title">Title</Label>
+				<Input id="title" name="title" value={content.title} onChange={handleChange} />
+			</div>
+			<div className="mt-4 grid gap-2">
+				<Label htmlFor="customHeading">Custom Post Sacrament Heading</Label>
+				<Input
+					id="customHeading"
+					name="customHeading"
+					value={content.customHeading}
+					onChange={handleChange}
+				/>
+				<p className="text-xs text-[var(--editor-tab-inactive)]">
+					Shows up after the sacrament - Testimony Meeting, Primary Program, etc. Leave
+					blank when not needed.
+				</p>
+			</div>
+			<div className="mt-4 grid gap-2">
+				<Label htmlFor="imageUrl">Image URL</Label>
+				<Input
+					id="imageUrl"
+					name="imageUrl"
+					value={content.imageUrl}
+					onChange={handleChange}
+				/>
+				<p className="text-xs text-[var(--editor-tab-inactive)]">
+					Ensure the link points directly to the image file, not to a webpage containing
+					the image.
+				</p>
+			</div>
 			<div className="qr-code-container">
 				<QRCode
 					value={qrCodeValue}
@@ -122,7 +126,6 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 				<Button
 					type="button"
 					value="Download QR"
-					variant="contained"
 					onClick={() => {
 						const svg = document.getElementById('QRCode');
 						if (svg) {

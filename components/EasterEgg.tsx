@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { IconButton, Typography } from '@mui/material';
 import { useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import { X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const styles = (hideComponent: Boolean) => css`
 	height: 100vh;
@@ -39,13 +39,18 @@ const EasterEgg = ({ setShowEasterEgg }: EasterEggProps) => {
 
 	return (
 		<div css={styles(hideComponent)}>
-			<Typography className="title">🎉 Congratulations! 🎉</Typography>
-			<Typography>
-				Enter code "Think Celestial" on the church website for a 10% discount on tithing!
-			</Typography>
-			<IconButton onClick={() => setShowEasterEgg(false)}>
-				<CloseIcon />
-			</IconButton>
+			<p className="title">🎉 Congratulations! 🎉</p>
+			<p>Enter code "Think Celestial" on the church website for a 10% discount on tithing!</p>
+			<div className="flex justify-center mt-4">
+				<Button
+					type="button"
+					variant="outline"
+					size="icon"
+					onClick={() => setShowEasterEgg(false)}
+				>
+					<X className="h-4 w-4" />
+				</Button>
+			</div>
 		</div>
 	);
 };

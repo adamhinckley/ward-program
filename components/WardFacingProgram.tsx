@@ -6,11 +6,11 @@ import TabPanel from '@/components/editor/TabPanel';
 import { useState } from 'react';
 import AgendaV2 from '@/components/agendaV2';
 import FrontPage from '@/components/frontPage';
-import { IconButton } from '@mui/material';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Menu } from 'lucide-react';
 import Announcements from '@/components/announcements';
 import WardContacts from '@/components/WardContacts';
+import { Button } from '@/components/ui/button';
 
 const ProgramNavigationDrawer = dynamic(() => import('./ProgramNavigationDrawer'), {
 	ssr: false,
@@ -47,27 +47,10 @@ const styles = css`
 		font-weight: 600;
 	}
 
-	.menu-button {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 32px;
-		height: 32px;
-		padding: 24px;
-		border: 0;
-		border-radius: 999px;
-		background: transparent;
-		color: var(--program-fg);
-		cursor: pointer;
-	}
-
-	.menu-button:hover {
-		background-color: rgba(127, 127, 127, 0.16);
-	}
-
 	.menu-icon {
-		font-size: 2rem;
-		line-height: 1;
+		width: 1.5rem;
+		height: 1.5rem;
+		stroke-width: 2.5;
 	}
 
 	.menu-spacer {
@@ -105,13 +88,15 @@ const WardFacingProgram = () => {
 	return (
 		<main css={styles}>
 			<header className="menu-header">
-				<IconButton
-					className="menu-button"
+				<Button
+					variant="ghost"
+					size="icon"
 					aria-label="Open navigation menu"
 					onClick={() => setIsMenuOpen(true)}
+					className="rounded-full"
 				>
-					<MenuIcon className="menu-icon" aria-hidden="true" />
-				</IconButton>
+					<Menu className="menu-icon" />
+				</Button>
 				<h1 className="menu-title">{sectionLabels[activeSection]}</h1>
 				<div className="menu-spacer" aria-hidden="true" />
 			</header>

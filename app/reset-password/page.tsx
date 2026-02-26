@@ -2,7 +2,8 @@ import { AuthLayout } from '@/app/auth-layout';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from '../login/submit-button';
-import Textfield from '@mui/material/TextField';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function ResetPassword({ searchParams }: { searchParams: { message?: string } }) {
 	const updatePassword = async (formData: FormData) => {
@@ -37,13 +38,19 @@ export default function ResetPassword({ searchParams }: { searchParams: { messag
 				<h1 className="text-2xl font-bold mb-4">Reset Password</h1>
 				<p className="text-sm mb-4">Enter your new password below.</p>
 				<form className="flex flex-col w-full justify-center gap-4">
-					<Textfield name="password" type="password" required label="New Password" />
-					<Textfield
-						name="confirmPassword"
-						type="password"
-						required
-						label="Confirm New Password"
-					/>
+					<div className="grid gap-2">
+						<Label htmlFor="password">New Password</Label>
+						<Input id="password" name="password" type="password" required />
+					</div>
+					<div className="grid gap-2">
+						<Label htmlFor="confirmPassword">Confirm New Password</Label>
+						<Input
+							id="confirmPassword"
+							name="confirmPassword"
+							type="password"
+							required
+						/>
+					</div>
 					<SubmitButton
 						formAction={updatePassword}
 						className="rounded-md px-4 py-2 mb-2"

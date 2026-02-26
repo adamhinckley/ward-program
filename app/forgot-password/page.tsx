@@ -4,7 +4,8 @@ import { headers } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from '../login/submit-button';
-import Textfield from '@mui/material/TextField';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function ForgotPassword({ searchParams }: { searchParams: { message: string } }) {
 	const requestPasswordReset = async (formData: FormData) => {
@@ -36,7 +37,10 @@ export default function ForgotPassword({ searchParams }: { searchParams: { messa
 					Enter your email address and we'll send you a link to reset your password.
 				</p>
 				<form className="flex flex-col w-full justify-center gap-4">
-					<Textfield name="email" required label="Email" type="email" />
+					<div className="grid gap-2">
+						<Label htmlFor="email">Email</Label>
+						<Input id="email" name="email" required type="email" />
+					</div>
 					<SubmitButton
 						formAction={requestPasswordReset}
 						className="rounded-md px-4 py-2 mb-2"

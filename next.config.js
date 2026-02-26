@@ -11,9 +11,6 @@ const nextConfig = {
 		],
 		minimumCacheTTL: 60 * 60 * 24,
 	},
-	compiler: {
-		emotion: true,
-	},
 	turbopack: {},
 	// this webpack key was added for Tiptap https://tiptap.dev/docs/editor/getting-started/install/nextjs
 	webpack: (config, { isServer }) => {

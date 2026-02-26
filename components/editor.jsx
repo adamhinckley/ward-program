@@ -13,6 +13,7 @@ import SaveButton from '@/components/editor/SaveButton';
 import { createClient } from '@/utils/supabase/client';
 import Settings from '@/components/editor/Settings';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
@@ -29,6 +30,44 @@ const styles = css`
 	background-color: var(--editor-bg);
 	color: var(--editor-fg);
 	border-radius: 8px;
+
+	.update-banner {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 12px;
+		padding: 12px 14px;
+		margin-bottom: 12px;
+		border-radius: 10px;
+		border: 1px solid var(--editor-border);
+		background-color: var(--editor-control-bg);
+		color: var(--editor-fg);
+	}
+
+	.update-banner-title {
+		font-size: 0.95rem;
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.update-banner-text {
+		font-size: 0.9rem;
+		line-height: 1.4;
+		margin: 2px 0 0;
+		color: var(--editor-tab-inactive);
+	}
+
+	.update-banner-link {
+		color: var(--editor-link);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.update-banner-dismiss {
+		flex-shrink: 0;
+		height: 32px;
+		width: 32px;
+	}
 
 	[role='tablist'] {
 		display: flex;
@@ -109,13 +148,20 @@ const loadingStyles = css`
 const Editor = () => {
 	const { content, setContent, currentTab, setCurrentTab, userData } = useAppContext();
 	const { themeMode, setThemeMode, isThemeHydrated } = useProgramTheme();
+	const pathname = usePathname();
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
+	const [showUpdateBanner, setShowUpdateBanner] = useState(true);
 	const supabase = createClient();
+	const isDemoRoute = pathname?.startsWith('/demo');
 
 	useEffect(() => {
 		setIsMounted(true);
 	}, []);
+
+	const handleDismissUpdateBanner = () => {
+		setShowUpdateBanner(false);
+	};
 
 	if (!isMounted) {
 		return null;
@@ -245,6 +291,35 @@ const Editor = () => {
 
 	return (
 		<div className="max-w-4xl flex justify-center flex-col m-auto p-4" css={styles}>
+			{showUpdateBanner && !isDemoRoute ? (
+				<div className="update-banner" role="status" aria-live="polite">
+					<div>
+						<p className="update-banner-text">
+							We’ve made a major refresh behind the scenes that should make the
+							program load faster especially on older devices and slow connections.
+							Things feel a little different, but all functionality in the editor
+							"should" be the same 😉 If you spot a bug or have a suggestion, email{' '}
+							<a
+								href="mailto:adamhinckley@mac.com?subject=WARD%20PROGRAM"
+								className="update-banner-link"
+							>
+								adamhinckley@mac.com
+							</a>{' '}
+							with “WARD PROGRAM” in the subject.
+						</p>
+					</div>
+					<Button
+						type="button"
+						variant="ghost"
+						size="icon"
+						className="update-banner-dismiss"
+						onClick={handleDismissUpdateBanner}
+						aria-label="Dismiss update message"
+					>
+						<X className="h-4 w-4" />
+					</Button>
+				</div>
+			) : null}
 			<Tabs value={currentTab.toString()} onValueChange={handleTabChange}>
 				<div className="mobile-menu-container">
 					<Button

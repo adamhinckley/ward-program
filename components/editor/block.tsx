@@ -48,7 +48,7 @@ const Block = ({
 			{Array.isArray(content[blockName]) &&
 				(content[blockName] as Array<any>).map((block: BlockOneItem, index) => (
 					<div
-						className="flex relative justify-between content-center min-w-full items-center"
+						className="flex relative justify-between content-center min-w-full items-center mb-6"
 						key={index}
 					>
 						<div className="grid w-[46%] gap-2">

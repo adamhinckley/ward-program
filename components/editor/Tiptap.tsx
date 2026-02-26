@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 
 import { useAppContext } from '@/context/AppContext';
+import { UrlDialog } from '@/components/ui/dialog';
 
 const tiptapStyles = css`
 	.ProseMirror {
@@ -114,17 +115,18 @@ const ToolbarButton = ({ title, onClick, isActive, children }: any) => (
 	</button>
 );
 
-const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
+const MenuBar = ({
+	editor,
+	onAddLink,
+	onAddImage,
+}: {
+	editor: ReturnType<typeof useEditor>;
+	onAddLink: () => void;
+	onAddImage: () => void;
+}) => {
 	if (!editor) {
 		return null;
 	}
-
-	const addImage = () => {
-		const url = window.prompt('Enter the URL of the image:');
-		if (url) {
-			editor.chain().focus().setImage({ src: url }).run();
-		}
-	};
 
 	return (
 		<div className="menu-bar">
@@ -184,16 +186,7 @@ const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 			>
 				<AlignRight className="h-4 w-4" />
 			</ToolbarButton>
-			<ToolbarButton
-				title="Add Link"
-				onClick={() => {
-					const url = window.prompt('Enter the URL');
-					if (url) {
-						editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-					}
-				}}
-				isActive={editor.isActive('link')}
-			>
+			<ToolbarButton title="Add Link" onClick={onAddLink} isActive={editor.isActive('link')}>
 				<Link2 className="h-4 w-4" />
 			</ToolbarButton>
 			<ToolbarButton
@@ -216,7 +209,7 @@ const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 			>
 				<List className="h-4 w-4" />
 			</ToolbarButton>
-			<ToolbarButton title="Add Image" onClick={addImage}>
+			<ToolbarButton title="Add Image" onClick={onAddImage}>
 				<ImagePlus className="h-4 w-4" />
 			</ToolbarButton>
 		</div>
@@ -225,6 +218,9 @@ const MenuBar = ({ editor }: { editor: ReturnType<typeof useEditor> }) => {
 
 export default () => {
 	const { editorContentRef } = useAppContext();
+	const [urlDialogMode, setUrlDialogMode] = useState<'link' | 'image' | null>(null);
+	const [urlValue, setUrlValue] = useState('');
+
 	const editor = useEditor({
 		immediatelyRender: false,
 		extensions: [
@@ -251,6 +247,32 @@ export default () => {
 	const [viewportWidth, setViewportWidth] = useState(0);
 	const [hasMounted, setHasMounted] = useState(false);
 
+	const closeDialog = () => {
+		setUrlDialogMode(null);
+		setUrlValue('');
+	};
+
+	const confirmDialog = () => {
+		if (!editor || !urlDialogMode) {
+			closeDialog();
+			return;
+		}
+
+		const cleanedUrl = urlValue.trim();
+		if (!cleanedUrl) {
+			closeDialog();
+			return;
+		}
+
+		if (urlDialogMode === 'link') {
+			editor.chain().focus().extendMarkRange('link').setLink({ href: cleanedUrl }).run();
+		} else {
+			editor.chain().focus().setImage({ src: cleanedUrl }).run();
+		}
+
+		closeDialog();
+	};
+
 	useEffect(() => {
 		setHasMounted(true);
 		const handleResize = () => {
@@ -273,8 +295,28 @@ export default () => {
 					edit announcements.
 				</p>
 			) : null}
-			<MenuBar editor={editor} />
+			<MenuBar
+				editor={editor}
+				onAddLink={() => setUrlDialogMode('link')}
+				onAddImage={() => setUrlDialogMode('image')}
+			/>
 			<EditorContent editor={editor} />
+			<UrlDialog
+				open={urlDialogMode !== null}
+				title={urlDialogMode === 'link' ? 'Add Link' : 'Add Image'}
+				description={
+					urlDialogMode === 'link'
+						? 'Paste the URL you want to attach to the selected text.'
+						: 'Paste the image URL you want to insert.'
+				}
+				label={urlDialogMode === 'link' ? 'Link URL' : 'Image URL'}
+				placeholder="https://"
+				confirmText={urlDialogMode === 'link' ? 'Add Link' : 'Add Image'}
+				value={urlValue}
+				onValueChange={setUrlValue}
+				onCancel={closeDialog}
+				onConfirm={confirmDialog}
+			/>
 		</div>
 	);
 };

@@ -1,19 +1,10 @@
 'use client';
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 import { containsScriptTagAttempt, sanitizeAnnouncementHtml } from '@/utils/sanitization';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-
-const styles = css`
-	.save-button {
-		margin: 12px 0;
-		max-width: 80px;
-	}
-`;
 
 const SaveButton = () => {
 	const supabase = createClient();
@@ -71,8 +62,8 @@ const SaveButton = () => {
 	// };
 
 	return (
-		<div css={styles}>
-			<Button type="button" disabled={saving} onClick={handleSave} className="save-button">
+		<div>
+			<Button type="button" disabled={saving} onClick={handleSave} className="my-3 min-w-20">
 				{saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : 'Save'}
 			</Button>
 		</div>

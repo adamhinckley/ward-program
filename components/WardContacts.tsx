@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import { useAppContext } from '@/context/AppContext';
 import {
 	Accordion,
@@ -8,19 +6,12 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion';
 
-const styles = css`
-	margin-bottom: 12px;
-	.agenda-content {
-		text-decoration: underline;
-		color: var(--program-link);
-	}
-`;
 const WardContacts = () => {
 	const { content } = useAppContext();
 	const { wardContacts } = content;
 
 	return Array.isArray(wardContacts) && wardContacts.length ? (
-		<div css={styles}>
+		<div className="mb-3">
 			{wardContacts.map((blockToNarrow, index) => {
 				const block = blockToNarrow as { left: string; right: string };
 				return (
@@ -35,7 +26,11 @@ const WardContacts = () => {
 								{block.left}
 							</AccordionTrigger>
 							<AccordionContent className="text-center text-[var(--program-link)] px-3 pt-3">
-								<a href={`tel:+1-${block.right}`} rel="noopener noreferrer">
+								<a
+									href={`tel:+1-${block.right}`}
+									rel="noopener noreferrer"
+									className="text-[var(--program-link)] underline"
+								>
 									{block.right}
 								</a>
 							</AccordionContent>

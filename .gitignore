@@ -29,6 +29,9 @@ yarn-error.log*
 # pnpm
 .pnpm-store/
 
+# npm (project uses pnpm; ignore npm lock file if accidentally generated)
+package-lock.json
+
 # local env files
 .env*.local
 .env

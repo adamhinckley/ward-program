@@ -1,41 +1,46 @@
 import { useAppContext } from '@/context/AppContext';
 
-const ClosingHymnAndPrayer = () => {
+const ClosingHymnAndPrayerV2 = () => {
 	const { content } = useAppContext();
 	const { closingHymnNumber, closingHymnTitle, closingPrayer, closingHymnLink } = content;
-
 	const showClosingHymn = content.showClosingHymn === undefined || content.showClosingHymn;
 
 	return (
-		<div className="agenda-block">
-			{showClosingHymn && (
-				<>
-					<div className="title-container no-margin">
-						<p className="agenda-title">Closing Hymn</p>
-						{closingHymnLink ? (
-							<a
-								href={closingHymnLink}
-								target="_blank"
-								rel="noreferrer"
-								className="underline text-blue-800"
-							>
-								<p className="agenda-content">{closingHymnNumber}</p>
-							</a>
-						) : (
-							<p className="agenda-content">{closingHymnNumber}</p>
-						)}
+		<div>
+			<div className="mb-4">
+				{showClosingHymn ? (
+					<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+						<div className="my-1 flex justify-between gap-3">
+							<div className="whitespace-nowrap font-semibold">Closing Hymn</div>
+							<div className="text-right">
+								{closingHymnLink ? (
+									<a
+										href={closingHymnLink}
+										target="_blank"
+										rel="noreferrer"
+										className="text-[var(--program-link)] underline"
+									>
+										{closingHymnNumber}
+									</a>
+								) : (
+									closingHymnNumber
+								)}
+							</div>
+						</div>
+						<div className="my-[2px] mb-1 text-center opacity-90">
+							{closingHymnTitle}
+						</div>
 					</div>
-					<div className="title-container hymn">
-						<p className="agenda-content">{closingHymnTitle}</p>
+				) : null}
+				<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+					<div className="my-1 flex justify-between gap-3">
+						<div className="whitespace-nowrap font-semibold">Closing Prayer</div>
+						<div className="text-right">{closingPrayer}</div>
 					</div>
-				</>
-			)}
-			<div className="title-container">
-				<p className="agenda-title">Closing Prayer</p>
-				<p className="agenda-content">{closingPrayer}</p>
+				</div>
 			</div>
 		</div>
 	);
 };
 
-export default ClosingHymnAndPrayer;
+export default ClosingHymnAndPrayerV2;

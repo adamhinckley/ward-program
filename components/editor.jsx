@@ -107,27 +107,41 @@ const Editor = () => {
 	}
 
 	const handleChange = (e, block, index) => {
+		const { name, value } = e.target;
 		if (block) {
 			if (Array.isArray(content[block]) && typeof content[block][0] === 'string') {
-				const newBlock = content[block].map((item, i) => {
-					if (i === index) {
-						return e.target.value;
-					}
-					return item;
+				setContent((previousContent) => {
+					const previousBlock = Array.isArray(previousContent[block])
+						? previousContent[block]
+						: [];
+					const newBlock = previousBlock.map((item, i) => {
+						if (i === index) {
+							return value;
+						}
+						return item;
+					});
+
+					return { ...previousContent, [block]: newBlock };
 				});
-				setContent({ ...content, [block]: newBlock });
 			} else {
-				const newBlock = content[block].map((block, i) => {
-					if (i === index) {
-						return { ...block, [e.target.name]: e.target.value };
-					}
-					return block;
+				setContent((previousContent) => {
+					const previousBlock = Array.isArray(previousContent[block])
+						? previousContent[block]
+						: [];
+					const newBlock = previousBlock.map((blockValue, i) => {
+						if (i === index) {
+							return { ...blockValue, [name]: value };
+						}
+						return blockValue;
+					});
+
+					return { ...previousContent, [block]: newBlock };
 				});
-				setContent({ ...content, [block]: newBlock });
 			}
 			return;
 		}
-		setContent({ ...content, [e.target.name]: e.target.value });
+
+		setContent((previousContent) => ({ ...previousContent, [name]: value }));
 	};
 
 	const handleCheckboxChange = (e) => {

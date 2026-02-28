@@ -37,3 +37,34 @@ Open [http://localhost:3000](http://localhost:3000).
 ### Live demo
 
 [https://www.wardprogram.com/](https://www.wardprogram.com/)
+
+### ISR for ward pages (`/ward/[id]`)
+
+Public ward pages use Next.js Data Cache + ISR-style revalidation.
+
+- Read path: `app/ward/WardProgramPage.tsx` fetches ward bulletin data with:
+    - `next.revalidate` (time-based cache window)
+    - `next.tags` using `ward-bulletin:<id>`
+- Publish path: `app/api/bulletin/route.ts` updates bulletin data and calls
+  `revalidateTag('ward-bulletin:<id>', 'max')` to invalidate cached data for that ward.
+
+#### Environment requirements
+
+Set these in your deployment environment:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+#### Verify ISR behavior (production)
+
+Use a production deployment (not local dev) for accurate ISR behavior.
+
+1. Open `/ward/<id>` and confirm content renders.
+2. Open the same URL again and confirm it is fast/stable (cache hit behavior).
+3. Update content from the editor and click Save (publish endpoint).
+4. Refresh `/ward/<id>` and confirm updated content is visible (tag revalidation worked).
+
+Notes:
+
+- Revalidation is request-driven after TTL expires (not a timed cron job).
+- On-demand `revalidateTag` provides near-immediate freshness after publish.

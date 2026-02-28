@@ -2,6 +2,7 @@
 import { createContext, useContext, ReactNode, useState, useRef } from 'react';
 
 import { AppState, Bulletin, UserSettings } from '@/utils/types';
+import { normalizeBulletin } from '@/utils/normalizeBulletin';
 
 type AppContextProviderProps = {
 	initialState: AppState;
@@ -26,7 +27,9 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 	initialState,
 	children,
 }) => {
-	const [content, setContent] = useState(initialState.bulletinData[0].bulletin);
+	const [content, setContent] = useState(
+		normalizeBulletin(initialState.bulletinData[0].bulletin),
+	);
 	const bulletinId = initialState.bulletinData[0].id;
 
 	const [currentTab, setCurrentTab] = useState(

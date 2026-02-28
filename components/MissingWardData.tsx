@@ -5,6 +5,7 @@ import Logo from './Logo';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { buildWardPath, getWardIdFromLocation } from '@/utils/wardUrl';
 
 export const LAST_PROGRAM_ID_STORAGE_KEY = 'ward-program:last-id';
 
@@ -17,7 +18,7 @@ const MissingWardData = () => {
 			return;
 		}
 
-		const idFromUrl = new URLSearchParams(window.location.search).get('id');
+		const idFromUrl = getWardIdFromLocation(window.location);
 		if (idFromUrl?.trim()) {
 			return;
 		}
@@ -39,7 +40,7 @@ const MissingWardData = () => {
 				return;
 			}
 
-			router.replace(`/?id=${encodeURIComponent(storedId)}`);
+			router.replace(buildWardPath(storedId));
 		} catch {
 			return;
 		}

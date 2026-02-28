@@ -1,6 +1,6 @@
 import { useAppContext } from '@/context/AppContext';
 
-const ClosingHymnAndPrayerV2 = () => {
+const ClosingHymnAndPrayer = () => {
 	const { content } = useAppContext();
 	const { closingHymnNumber, closingHymnTitle, closingPrayer, closingHymnLink } = content;
 	const showClosingHymn = content.showClosingHymn === undefined || content.showClosingHymn;
@@ -43,4 +43,4 @@ const ClosingHymnAndPrayerV2 = () => {
 	);
 };
 
-export default ClosingHymnAndPrayerV2;
+export default ClosingHymnAndPrayer;

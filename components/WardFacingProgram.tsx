@@ -2,11 +2,11 @@
 import dynamic from 'next/dynamic';
 import TabPanel from '@/components/editor/TabPanel';
 import { useEffect, useRef, useState } from 'react';
-import AgendaV2 from '@/components/agendaV2';
-import FrontPage from '@/components/frontPage';
+import AgendaV2 from '@/components/Agenda';
+import FrontPage from '@/components/FrontPage';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
 import { Menu } from 'lucide-react';
-import Announcements from '@/components/announcements';
+import Announcements from '@/components/Announcements';
 import WardContacts from '@/components/WardContacts';
 import { Button } from '@/components/ui/button';
 

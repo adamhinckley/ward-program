@@ -6,9 +6,9 @@ import userEvent from '@testing-library/user-event';
 import MusicEditor from '../components/editor/music';
 import Leaders from '../components/editor/leaders';
 import Block from '../components/editor/block';
-import PreSacramentAgendaV2 from '../components/preSacramentAgendaV2';
-import StandardSecondHalfV2 from '../components/standardSecondHalfV2';
-import ClosingHymnAndPrayerV2 from '../components/closingHymnAndPrayerV2';
+import PreSacramentAgendaV2 from '../components/PreSacramentAgenda';
+import StandardSecondHalf from '../components/StandardSecondHalf';
+import ClosingHymnAndPrayer from '../components/ClosingHymnAndPrayer';
 import WardContacts from '../components/WardContacts';
 import { AppContextProvider, useAppContext } from '../context/AppContext';
 import { initialStateForDemo } from '../utils/helpers';
@@ -170,8 +170,8 @@ const IntegrationSurface = ({
 			) : null}
 			<div data-testid="ward-facing-sections">
 				<PreSacramentAgendaV2 />
-				<StandardSecondHalfV2 />
-				<ClosingHymnAndPrayerV2 />
+				<StandardSecondHalf />
+				<ClosingHymnAndPrayer />
 				<WardContacts />
 			</div>
 		</div>

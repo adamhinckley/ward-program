@@ -1,6 +1,6 @@
 import { useAppContext } from '@/context/AppContext';
 
-const StandardSecondHalfV2 = () => {
+const StandardSecondHalf = () => {
 	const { content } = useAppContext();
 
 	if (Object.keys(content).length === 0) {
@@ -128,4 +128,4 @@ const StandardSecondHalfV2 = () => {
 	);
 };
 
-export default StandardSecondHalfV2;
+export default StandardSecondHalf;

@@ -22,6 +22,15 @@ const StandardSecondHalfV2 = () => {
 	const isIntermediateMusicHymn = content.intermediateMusicType === 'hymn';
 	const showIntermediateMusic =
 		content.showIntermediateMusic === undefined || content.showIntermediateMusic;
+	const resolvedIntermediateLeft = intermediateMusicLeftSide || '';
+	const resolvedIntermediateRight = intermediateMusicRightSide || '';
+	const hasIntermediateMusicContent =
+		Boolean(resolvedIntermediateLeft.trim()) ||
+		Boolean(resolvedIntermediateRight.trim()) ||
+		(Array.isArray(intermediateMusicPerformers) &&
+			intermediateMusicPerformers.some(
+				(performer) => typeof performer === 'string' && performer.trim().length > 0,
+			));
 
 	return (
 		<div>
@@ -48,24 +57,26 @@ const StandardSecondHalfV2 = () => {
 
 				{showIntermediateMusic ? (
 					!isIntermediateMusicHymn ? (
-						<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
-							<div className="my-1 flex justify-between gap-3">
-								<div className="whitespace-nowrap font-semibold">
-									{intermediateMusicLeftSide}
+						hasIntermediateMusicContent ? (
+							<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
+								<div className="my-1 flex justify-between gap-3">
+									<div className="whitespace-nowrap font-semibold">
+										{resolvedIntermediateLeft}
+									</div>
+									<div className="text-right">{resolvedIntermediateRight}</div>
 								</div>
-								<div className="text-right">{intermediateMusicRightSide}</div>
+								{Array.isArray(intermediateMusicPerformers)
+									? intermediateMusicPerformers.map((performer, index) => (
+											<div
+												className="my-[2px] text-center opacity-90"
+												key={index}
+											>
+												{performer}
+											</div>
+										))
+									: null}
 							</div>
-							{Array.isArray(intermediateMusicPerformers)
-								? intermediateMusicPerformers.map((performer, index) => (
-										<div
-											className="my-[2px] text-center opacity-90"
-											key={index}
-										>
-											{performer}
-										</div>
-									))
-								: null}
-						</div>
+						) : null
 					) : (
 						<div className="mb-3 rounded-2xl bg-[var(--program-group-bg)] px-3 py-2">
 							<div className="my-1 flex justify-between gap-3">

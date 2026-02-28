@@ -64,6 +64,8 @@ const MusicEditor = ({
 	const showIntermediateMusic =
 		content.showIntermediateMusic === undefined || content.showIntermediateMusic;
 	const showClosingHymn = content.showClosingHymn === undefined || content.showClosingHymn;
+	const intermediateLeftValue = content.intermediateMusicLeftSide || '';
+	const intermediateRightValue = content.intermediateMusicRightSide || '';
 
 	return (
 		<div className="mt-4">
@@ -140,7 +142,7 @@ const MusicEditor = ({
 					</div>
 				</>
 			)}
-			{content.showIntermediateMusic && (
+			{showIntermediateMusic && (
 				<>
 					<hr className="my-4 border-[var(--editor-border)]" />
 					<div className="flex flex-col">
@@ -191,9 +193,8 @@ const MusicEditor = ({
 										<Input
 											id="intermediateMusicLeftSide"
 											name="intermediateMusicLeftSide"
-											value={content.intermediateMusicLeftSide || ''}
+											value={intermediateLeftValue}
 											onChange={(e) => handleChange(e)}
-											placeholder="special musical number"
 										/>
 									</div>
 									<div className="grid w-[49%] gap-2">
@@ -203,9 +204,8 @@ const MusicEditor = ({
 										<Input
 											id="intermediateMusicRightSide"
 											name="intermediateMusicRightSide"
-											value={content.intermediateMusicRightSide || ''}
+											value={intermediateRightValue}
 											onChange={(e) => handleChange(e)}
-											placeholder="song title"
 										/>
 									</div>
 								</div>

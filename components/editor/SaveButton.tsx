@@ -2,6 +2,7 @@
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 import { containsScriptTagAttempt, sanitizeAnnouncementHtml } from '@/utils/sanitization';
+import { normalizeBulletin } from '@/utils/normalizeBulletin';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 
@@ -25,7 +26,10 @@ const SaveButton = () => {
 			}
 			const sanitizedAnnouncements = sanitizeAnnouncementHtml(currentEditorContent);
 			// save the announcement content before saving the entire content
-			const contentToSave = { ...content, announcements: sanitizedAnnouncements };
+			const contentToSave = normalizeBulletin({
+				...content,
+				announcements: sanitizedAnnouncements,
+			});
 			const response = await fetch('/api/bulletin', {
 				method: 'PUT',
 				headers: {

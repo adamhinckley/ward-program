@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import TabPanel from '@/components/editor/TabPanel';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import AgendaV2 from '@/components/Agenda';
 import FrontPage from '@/components/FrontPage';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
@@ -25,56 +25,7 @@ const sectionLabels: Record<ProgramSection, string> = {
 const WardFacingProgram = () => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-	const headerRef = useRef<HTMLElement | null>(null);
 	const { themeMode, setThemeMode } = useProgramTheme();
-
-	useEffect(() => {
-		let previousScrollY = window.scrollY;
-		let hideHeaderOffset = 0;
-
-		const updateHideHeaderOffset = () => {
-			// Source: measured rendered height of this component's sticky header.
-			hideHeaderOffset = headerRef.current?.getBoundingClientRect().height ?? 0;
-		};
-
-		updateHideHeaderOffset();
-
-		const handleScroll = () => {
-			const currentScrollY = window.scrollY;
-
-			// prevent header from hiding on mobile when user is at the top of the page and scroll down and page pops back up to the top
-			if (currentScrollY <= 0) {
-				setIsHeaderVisible(true);
-				previousScrollY = 0;
-				return;
-			}
-
-			const delta = currentScrollY - previousScrollY;
-
-			if (Math.abs(delta) < 2) {
-				return;
-			}
-
-			// also for the mobile issue mentioned above
-			if (delta > 0 && currentScrollY > hideHeaderOffset) {
-				setIsHeaderVisible(false);
-			} else {
-				setIsHeaderVisible(true);
-			}
-
-			previousScrollY = currentScrollY;
-		};
-
-		window.addEventListener('resize', updateHideHeaderOffset, { passive: true });
-		window.addEventListener('orientationchange', updateHideHeaderOffset, { passive: true });
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		return () => {
-			window.removeEventListener('resize', updateHideHeaderOffset);
-			window.removeEventListener('orientationchange', updateHideHeaderOffset);
-			window.removeEventListener('scroll', handleScroll);
-		};
-	}, []);
 
 	const handleSectionSelect = (section: ProgramSection) => {
 		setActiveSection(section);
@@ -83,12 +34,16 @@ const WardFacingProgram = () => {
 
 	return (
 		<main className="mx-auto min-h-dvh max-w-[550px] bg-[var(--program-bg)] px-3 pb-3 text-[var(--program-fg)] [font-size:var(--program-font-size)] min-[550px]:text-base [&_a]:text-[var(--program-link)]">
-			<header
-				ref={headerRef}
-				className={`sticky top-0 z-[2]  flex items-center justify-between bg-[var(--program-bg)] py-1 transition-transform duration-200 ${
-					isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-				}`}
-			>
+			<ProgramNavigationDrawer
+				isMenuOpen={isMenuOpen}
+				onClose={() => setIsMenuOpen(false)}
+				activeSection={activeSection}
+				onSectionSelect={handleSectionSelect}
+				themeMode={themeMode}
+				setThemeMode={setThemeMode}
+				sectionLabels={sectionLabels}
+			/>
+			<header className="sticky top-0 z-[2] flex items-center justify-between bg-[var(--program-bg)] py-1">
 				<Button
 					variant="ghost"
 					size="icon"
@@ -101,16 +56,6 @@ const WardFacingProgram = () => {
 				<h1 className="text-base font-semibold">{sectionLabels[activeSection]}</h1>
 				<div className="h-8 w-8" aria-hidden="true" />
 			</header>
-
-			<ProgramNavigationDrawer
-				isMenuOpen={isMenuOpen}
-				onClose={() => setIsMenuOpen(false)}
-				activeSection={activeSection}
-				onSectionSelect={handleSectionSelect}
-				themeMode={themeMode}
-				setThemeMode={setThemeMode}
-				sectionLabels={sectionLabels}
-			/>
 
 			<div className="pb-2">
 				<TabPanel value={activeSection === 'agenda' ? 0 : 1} index={0}>

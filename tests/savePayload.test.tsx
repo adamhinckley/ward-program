@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SaveButton from '../components/editor/SaveButton';
 
@@ -41,6 +41,7 @@ const contentWithAllHymnKeys = (): BulletinLike => ({
 
 describe('SaveButton hymn payload', () => {
 	beforeEach(() => {
+		cleanup();
 		vi.clearAllMocks();
 		mockContainsScriptTagAttempt.mockReturnValue(false);
 		mockSanitizeAnnouncementHtml.mockImplementation((html: string) => html);
@@ -96,5 +97,31 @@ describe('SaveButton hymn payload', () => {
 		expect(updatePayload.bulletin.closingHymnLink).toContain(
 			'/our-mountain-home-so-dear?lang=eng',
 		);
+	});
+
+	it('normalizes legacy intermediate music type in save payload', async () => {
+		mockUseAppContext.mockReturnValue({
+			content: {
+				...contentWithAllHymnKeys(),
+				intermediateMusicType: '',
+				interMediateMusicType: 'performance',
+			},
+			editorContentRef: { current: '<p>safe</p>' },
+			userData: { id: 'user-1' },
+		});
+
+		render(<SaveButton />);
+		await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+		expect(fetch).toHaveBeenCalledTimes(1);
+		const [, options] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0] as [
+			string,
+			{ body: string },
+		];
+		const updatePayload = JSON.parse(options.body) as {
+			bulletin: BulletinLike;
+		};
+
+		expect(updatePayload.bulletin.intermediateMusicType).toBe('musicalNumber');
 	});
 });

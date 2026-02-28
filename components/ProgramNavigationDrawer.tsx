@@ -5,6 +5,7 @@ import { Moon, Sun } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
+import { cn } from '@/lib/utils';
 import { LAST_PROGRAM_ID_STORAGE_KEY } from './MissingWardData';
 
 type BeforeInstallPromptEvent = Event & {
@@ -158,18 +159,6 @@ const ProgramNavigationDrawer = ({
 	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';
 	const drawerForeground = isDarkMode ? '#f1f1f4' : '#141417';
 	const drawerBorder = isDarkMode ? 'rgba(148, 163, 184, 0.28)' : 'rgba(100, 116, 139, 0.25)';
-	const drawerSelectedBackground = isDarkMode
-		? 'rgba(147, 197, 253, 0.18)'
-		: 'rgba(30, 64, 175, 0.1)';
-	const drawerHoverBackground = isDarkMode
-		? 'rgba(148, 163, 184, 0.14)'
-		: 'rgba(15, 23, 42, 0.06)';
-	const drawerThemeToggleBackground = isDarkMode
-		? 'rgba(148, 163, 184, 0.12)'
-		: 'rgba(100, 116, 139, 0.12)';
-	const drawerThemeToggleActiveBackground = isDarkMode
-		? 'rgba(147, 197, 253, 0.22)'
-		: 'rgba(30, 64, 175, 0.12)';
 	const drawerUtilityButtonBackground = isDarkMode
 		? 'rgba(148, 163, 184, 0.12)'
 		: 'rgba(100, 116, 139, 0.1)';
@@ -205,7 +194,7 @@ const ProgramNavigationDrawer = ({
 					boxSizing: 'border-box',
 				}}
 			>
-				<nav aria-label="Program sections" style={{ padding: '0 8px' }}>
+				<nav aria-label="Program sections" className="px-2">
 					{(Object.keys(sectionLabels) as ProgramSection[]).map((section) => {
 						const isSelected = activeSection === section;
 						return (
@@ -216,30 +205,16 @@ const ProgramNavigationDrawer = ({
 									onSectionSelect(section);
 									handleClose();
 								}}
-								style={{
-									width: '100%',
-									textAlign: 'left',
-									border: 0,
-									borderRadius: 8,
-									padding: '10px 12px',
-									marginBottom: 4,
-									backgroundColor: isSelected
-										? drawerSelectedBackground
-										: 'transparent',
-									color: drawerForeground,
-									cursor: 'pointer',
-								}}
-								onMouseEnter={(event) => {
-									if (!isSelected) {
-										event.currentTarget.style.backgroundColor =
-											drawerHoverBackground;
-									}
-								}}
-								onMouseLeave={(event) => {
-									event.currentTarget.style.backgroundColor = isSelected
-										? drawerSelectedBackground
-										: 'transparent';
-								}}
+								className={cn(
+									'w-full text-left border-0 rounded-lg px-3 py-2.5 mb-1 text-inherit cursor-pointer bg-transparent',
+									isSelected
+										? isDarkMode
+											? 'bg-[rgba(147,197,253,0.18)]'
+											: 'bg-[rgba(30,64,175,0.10)]'
+										: isDarkMode
+											? '[@media(hover:hover)]:hover:bg-[rgba(148,163,184,0.14)]'
+											: '[@media(hover:hover)]:hover:bg-[rgba(15,23,42,0.06)]',
+								)}
 							>
 								{sectionLabels[section]}
 							</button>
@@ -247,64 +222,46 @@ const ProgramNavigationDrawer = ({
 					})}
 				</nav>
 
-				<div style={{ padding: '12px 16px' }}>
+				<div className="px-4 py-3">
 					<div
-						style={{
-							display: 'grid',
-							gridTemplateColumns: '1fr 1fr',
-							gap: 6,
-							padding: 6,
-							borderRadius: 999,
-							backgroundColor: drawerThemeToggleBackground,
-						}}
+						className={cn(
+							'grid grid-cols-2 gap-1.5 p-1.5 rounded-full',
+							isDarkMode
+								? 'bg-[rgba(148,163,184,0.12)]'
+								: 'bg-[rgba(100,116,139,0.12)]',
+						)}
 					>
 						<button
 							type="button"
 							onClick={() => setThemeMode('light')}
 							aria-label="Switch to light mode"
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								gap: 6,
-								borderRadius: 999,
-								border: 0,
-								padding: '8px 10px',
-								fontWeight: 600,
-								backgroundColor:
-									themeMode === 'light'
-										? drawerThemeToggleActiveBackground
-										: 'transparent',
-								color: drawerForeground,
-								cursor: 'pointer',
-							}}
+							className={cn(
+								'flex items-center justify-center gap-1.5 rounded-full border-0 px-2.5 py-2 font-semibold text-inherit cursor-pointer',
+								themeMode === 'light'
+									? isDarkMode
+										? 'bg-[rgba(147,197,253,0.22)]'
+										: 'bg-[rgba(30,64,175,0.12)]'
+									: 'bg-transparent',
+							)}
 						>
 							<Sun aria-hidden="true" size={16} />
-							<span style={{ fontSize: 12 }}>Light</span>
+							<span className="text-xs">Light</span>
 						</button>
 						<button
 							type="button"
 							onClick={() => setThemeMode('dark')}
 							aria-label="Switch to dark mode"
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								gap: 6,
-								borderRadius: 999,
-								border: 0,
-								padding: '8px 10px',
-								fontWeight: 600,
-								backgroundColor:
-									themeMode === 'dark'
-										? drawerThemeToggleActiveBackground
-										: 'transparent',
-								color: drawerForeground,
-								cursor: 'pointer',
-							}}
+							className={cn(
+								'flex items-center justify-center gap-1.5 rounded-full border-0 px-2.5 py-2 font-semibold text-inherit cursor-pointer',
+								themeMode === 'dark'
+									? isDarkMode
+										? 'bg-[rgba(147,197,253,0.22)]'
+										: 'bg-[rgba(30,64,175,0.12)]'
+									: 'bg-transparent',
+							)}
 						>
 							<Moon aria-hidden="true" size={16} />
-							<span style={{ fontSize: 12 }}>Dark</span>
+							<span className="text-xs">Dark</span>
 						</button>
 					</div>
 				</div>
@@ -314,7 +271,6 @@ const ProgramNavigationDrawer = ({
 						<button
 							type="button"
 							onClick={handleAddToHomeScreen}
-							// disabled={isStandalone}
 							aria-label="Add this app to your home screen"
 							style={{
 								width: '100%',

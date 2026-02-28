@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
+import { createContext, useContext, ReactNode, useState, useRef } from 'react';
 
 import { AppState, Bulletin, UserSettings } from '@/utils/types';
 

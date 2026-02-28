@@ -43,7 +43,7 @@ const WardFacingProgram = () => {
 		const handleScroll = () => {
 			const currentScrollY = window.scrollY;
 
-			// prevent header from hiding on mobile when user is at the top of the page and scroll down and page pops back up to the top
+			// Prevent header from hiding when user is at the top of the page (handles mobile bounce/overscroll effect)
 			if (currentScrollY <= 0) {
 				setIsHeaderVisible(true);
 				previousScrollY = 0;

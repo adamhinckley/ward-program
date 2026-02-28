@@ -6,16 +6,9 @@ import SaveButton from '../components/editor/SaveButton';
 
 type BulletinLike = Record<string, any>;
 
-type SupabaseChain = {
-	update: ReturnType<typeof vi.fn>;
-	eq: ReturnType<typeof vi.fn>;
-	select: ReturnType<typeof vi.fn>;
-};
-
 const mockUseAppContext = vi.fn();
 const mockContainsScriptTagAttempt = vi.fn();
 const mockSanitizeAnnouncementHtml = vi.fn();
-const mockCreateClient = vi.fn();
 
 vi.mock('../context/AppContext', () => ({
 	useAppContext: () => mockUseAppContext(),
@@ -25,22 +18,6 @@ vi.mock('../utils/sanitization', () => ({
 	containsScriptTagAttempt: (...args: unknown[]) => mockContainsScriptTagAttempt(...args),
 	sanitizeAnnouncementHtml: (...args: unknown[]) => mockSanitizeAnnouncementHtml(...args),
 }));
-
-vi.mock('../utils/supabase/client', () => ({
-	createClient: () => mockCreateClient(),
-}));
-
-const createSupabaseChain = (): SupabaseChain => {
-	const chain = {
-		update: vi.fn(),
-		eq: vi.fn(),
-		select: vi.fn(),
-	};
-	chain.update.mockReturnValue(chain);
-	chain.eq.mockReturnValue(chain);
-	chain.select.mockResolvedValue({ data: [{ id: 'user-1' }], error: null });
-	return chain;
-};
 
 const contentWithAllHymnKeys = (): BulletinLike => ({
 	announcements: '<p>safe</p>',
@@ -67,14 +44,17 @@ describe('SaveButton hymn payload', () => {
 		vi.clearAllMocks();
 		mockContainsScriptTagAttempt.mockReturnValue(false);
 		mockSanitizeAnnouncementHtml.mockImplementation((html: string) => html);
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				status: 200,
+				statusText: 'OK',
+			}),
+		);
 	});
 
 	it('includes Number, Title, and Link for each hymn in save payload', async () => {
-		const supabaseChain = createSupabaseChain();
-		mockCreateClient.mockReturnValue({
-			from: vi.fn().mockReturnValue(supabaseChain),
-		});
-
 		mockUseAppContext.mockReturnValue({
 			content: contentWithAllHymnKeys(),
 			editorContentRef: { current: '<p>safe</p>' },
@@ -84,8 +64,14 @@ describe('SaveButton hymn payload', () => {
 		render(<SaveButton />);
 		await userEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-		expect(supabaseChain.update).toHaveBeenCalledTimes(1);
-		const updatePayload = supabaseChain.update.mock.calls[0][0] as {
+		expect(fetch).toHaveBeenCalledTimes(1);
+		const [url, options] = (fetch as ReturnType<typeof vi.fn>).mock.calls[0] as [
+			string,
+			{ body: string },
+		];
+		expect(url).toBe('/api/bulletin');
+
+		const updatePayload = JSON.parse(options.body) as {
 			bulletin: BulletinLike;
 		};
 

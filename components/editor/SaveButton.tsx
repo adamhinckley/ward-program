@@ -1,5 +1,4 @@
 'use client';
-import { createClient } from '@/utils/supabase/client';
 import { useAppContext } from '../../context/AppContext';
 import { useState } from 'react';
 import { containsScriptTagAttempt, sanitizeAnnouncementHtml } from '@/utils/sanitization';
@@ -7,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 
 const SaveButton = () => {
-	const supabase = createClient();
 	const { content, editorContentRef, userData } = useAppContext();
 	const [saving, setSaving] = useState(false);
 	const [error, setError] = useState(false);
@@ -28,14 +26,16 @@ const SaveButton = () => {
 			const sanitizedAnnouncements = sanitizeAnnouncementHtml(currentEditorContent);
 			// save the announcement content before saving the entire content
 			const contentToSave = { ...content, announcements: sanitizedAnnouncements };
-			const { data: bulletinData, error: bulletinError } = await supabase
-				.from('ward-bulletin')
-				.update({ bulletin: contentToSave }) // Assuming 'bulletin' is the column you want to update.
-				.eq('id', userData.id)
-				.select();
+			const response = await fetch('/api/bulletin', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ bulletin: contentToSave }),
+			});
 
-			if (bulletinError) {
-				console.error('Error updating bulletin:', error);
+			if (!response.ok) {
+				console.error('Error updating bulletin:', response.status, response.statusText);
 				setError(true);
 				setSaving(false);
 				return;
@@ -48,18 +48,6 @@ const SaveButton = () => {
 
 		setSaving(false);
 	};
-
-	// const insertData = async () => {
-	// 	const { data, error } = await supabase
-	// 		.from('ward-bulletin')
-	// 		.insert([{ bulletin: content, stake: 'Test', ward: 'test' }]);
-
-	// 	if (error) {
-	// 		console.error('Error inserting data:', error);
-	// 		setError(true);
-	// 		return;
-	// 	}
-	// };
 
 	return (
 		<div>

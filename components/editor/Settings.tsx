@@ -4,6 +4,7 @@ import { Bulletin } from '@/utils/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { buildWardAbsoluteUrl } from '@/utils/wardUrl';
 
 type SettingsProps = {
 	content: Bulletin;
@@ -21,7 +22,9 @@ const Settings = ({ content, handleChange }: SettingsProps) => {
 
 	const qrCodeValue = isDemo
 		? 'https://app.wardprogram.com/demo/program'
-		: `https://app.wardprogram.com/?id=${bulletinId}`;
+		: buildWardAbsoluteUrl(bulletinId);
+
+	console.log('qrCodeValue', qrCodeValue);
 	return (
 		<div className="mb-4 p-4 [&_a]:text-[var(--editor-link)] [&_a]:underline">
 			<p>

@@ -6,6 +6,7 @@ import QRCode from 'react-qr-code';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
 import { LAST_PROGRAM_ID_STORAGE_KEY } from './MissingWardData';
+import { getWardIdFromLocation } from '@/utils/wardUrl';
 
 type BeforeInstallPromptEvent = Event & {
 	prompt: () => Promise<void>;
@@ -50,7 +51,7 @@ const ProgramNavigationDrawer = ({
 			return;
 		}
 		try {
-			const id = new URLSearchParams(window.location.search).get('id');
+			const id = getWardIdFromLocation(window.location);
 			if (!id) {
 				return;
 			}

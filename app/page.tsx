@@ -3,6 +3,7 @@ import MissingWardData from '@/components/MissingWardData';
 import { ClientProvider } from './ClientProvider';
 import { createClient } from '@/utils/supabase/server';
 import HomeLoadingScreen from '@/components/HomeLoadingScreen';
+import FrontPage from '@/components/frontPage';
 
 async function HomeContent({
 	searchParams,
@@ -32,8 +33,14 @@ async function HomeContent({
 		}
 
 		const initialState = data ? { bulletinData: [data] } : 'no data';
+		const imageUrl = data?.bulletin?.imageUrl ?? '';
 
-		return <ClientProvider initialState={initialState} />;
+		return (
+			<ClientProvider
+				initialState={initialState}
+				frontPage={<FrontPage imageUrl={imageUrl} />}
+			/>
+		);
 	} catch (error) {
 		console.error('error getting bulletin:', error);
 		return <MissingWardData />;

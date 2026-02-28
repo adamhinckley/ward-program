@@ -1,9 +1,8 @@
 'use client';
 import dynamic from 'next/dynamic';
 import TabPanel from '@/components/editor/TabPanel';
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import AgendaV2 from '@/components/agendaV2';
-import FrontPage from '@/components/frontPage';
 import { useProgramTheme } from '@/context/ProgramThemeContext';
 import { Menu } from 'lucide-react';
 import Announcements from '@/components/announcements';
@@ -22,7 +21,11 @@ const sectionLabels: Record<ProgramSection, string> = {
 	contacts: 'Contacts',
 };
 
-const WardFacingProgram = () => {
+type WardFacingProgramProps = {
+	frontPage: ReactNode;
+};
+
+const WardFacingProgram = ({ frontPage }: WardFacingProgramProps) => {
 	const [activeSection, setActiveSection] = useState<ProgramSection>('agenda');
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -31,7 +34,7 @@ const WardFacingProgram = () => {
 
 	useEffect(() => {
 		let previousScrollY = window.scrollY;
-		let hideHeaderOffset = 0;
+		let hideHeaderOffset = headerRef.current?.getBoundingClientRect().height ?? 0;
 
 		const updateHideHeaderOffset = () => {
 			// Source: measured rendered height of this component's sticky header.
@@ -114,7 +117,7 @@ const WardFacingProgram = () => {
 
 			<div className="pb-2">
 				<TabPanel value={activeSection === 'agenda' ? 0 : 1} index={0}>
-					<FrontPage />
+					{frontPage}
 					<AgendaV2 />
 				</TabPanel>
 				<TabPanel value={activeSection === 'announcements' ? 0 : 1} index={0}>

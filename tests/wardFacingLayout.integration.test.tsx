@@ -8,7 +8,7 @@ import Leaders from '../components/editor/leaders';
 import Block from '../components/editor/block';
 import PreSacramentAgendaV2 from '../components/PreSacramentAgenda';
 import StandardSecondHalfV2 from '../components/StandardSecondHalf';
-import ClosingHymnAndPrayerV2 from '../components/ClosingHymnAndPrayer';
+import ClosingHymnAndPrayerV2 from '../components/closingHymnAndPrayer';
 import WardContacts from '../components/WardContacts';
 import { AppContextProvider, useAppContext } from '../context/AppContext';
 import { initialStateForDemo } from '../utils/helpers';

@@ -5,7 +5,7 @@ const StandardSecondHalfV2 = dynamic(() => import('@/components/StandardSecondHa
 	ssr: false,
 });
 
-const ClosingHymnAndPrayerV2 = dynamic(() => import('@/components/closingHymnAndPrayer'), {
+const ClosingHymnAndPrayerV2 = dynamic(() => import('@/components/ClosingHymnAndPrayer'), {
 	ssr: false,
 });
 

@@ -6,7 +6,6 @@ export default function manifest(): MetadataRoute.Manifest {
 		name: 'Ward Program',
 		short_name: 'Ward Program',
 		description: 'Sacrament Meeting Agenda for Florence Ward',
-		start_url: '/',
 		scope: '/',
 		display: 'standalone',
 		background_color: '#ffffff',

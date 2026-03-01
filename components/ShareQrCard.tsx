@@ -155,7 +155,14 @@ const ShareQrCard = ({ isDarkMode }: ShareQrCardProps) => {
 				</button>
 			</div>
 			{shareNotice ? (
-				<p className="m-0 text-[11px] leading-4 opacity-85 text-center">{shareNotice}</p>
+				<p
+					role="status"
+					aria-live="polite"
+					aria-atomic="true"
+					className="m-0 text-[11px] leading-4 opacity-85 text-center"
+				>
+					{shareNotice}
+				</p>
 			) : null}
 		</div>
 	);

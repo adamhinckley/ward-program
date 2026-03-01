@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
-import QRCode from 'react-qr-code';
 import type { ProgramSection } from '@/components/WardFacingProgram';
 import type { ProgramTheme } from '@/context/ProgramThemeContext';
 import { cn } from '@/lib/utils';
 import { LAST_PROGRAM_ID_STORAGE_KEY } from './MissingWardData';
 import { getWardIdFromLocation } from '@/utils/wardUrl';
+import ShareQrCard from './ShareQrCard';
 
 type BeforeInstallPromptEvent = Event & {
 	prompt: () => Promise<void>;
@@ -38,14 +38,6 @@ const ProgramNavigationDrawer = ({
 		useState<BeforeInstallPromptEvent | null>(null);
 	const [isStandalone, setIsStandalone] = useState(false);
 	const [installNotice, setInstallNotice] = useState<string | null>(null);
-	const [currentUrl, setCurrentUrl] = useState<string>('');
-
-	useEffect(() => {
-		// Set the current URL
-		if (typeof window !== 'undefined') {
-			setCurrentUrl(window.location.href);
-		}
-	}, []);
 
 	useEffect(() => {
 		if (typeof window === 'undefined') {
@@ -156,6 +148,7 @@ const ProgramNavigationDrawer = ({
 
 		setInstallNotice('Use your browser menu and choose “Install app” or “Add to home screen”.');
 	}, [deferredInstallPrompt, isStandalone]);
+
 	const isDarkMode = themeMode === 'dark';
 	const drawerBackground = isDarkMode ? '#1b1c1f' : '#ffffff';
 	const drawerForeground = isDarkMode ? '#f1f1f4' : '#141417';
@@ -300,23 +293,7 @@ const ProgramNavigationDrawer = ({
 						) : null}
 					</div>
 				)}
-				{currentUrl && (
-					<div
-						className={`mt-4 rounded-lg flex flex-col items-center gap-2 px-3 py-3 pb-6 mr-4 ml-4  ${isDarkMode ? 'bg-white/10' : 'bg-black/[0.03]'}`}
-					>
-						<p className="text-xs m-0 text-center opacity-80">Share with a friend</p>
-						<div className="p-2 bg-white rounded">
-							<QRCode
-								value={currentUrl}
-								size={160}
-								level="M"
-								fgColor="#000000"
-								bgColor="#ffffff"
-								aria-label="QR code for sharing the app"
-							/>
-						</div>
-					</div>
-				)}
+				<ShareQrCard isDarkMode={isDarkMode} />
 			</aside>
 		</div>
 	);

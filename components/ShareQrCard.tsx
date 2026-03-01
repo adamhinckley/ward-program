@@ -11,7 +11,6 @@ type ShareQrCardProps = {
 
 const ShareQrCard = ({ isDarkMode }: ShareQrCardProps) => {
 	const [currentUrl, setCurrentUrl] = useState<string>('');
-	const [isMobileDevice, setIsMobileDevice] = useState(false);
 	const [copyState, setCopyState] = useState<'idle' | 'success' | 'error'>('idle');
 	const [shareNotice, setShareNotice] = useState<string | null>(null);
 	const shareNoticeTimeoutRef = useRef<number | null>(null);
@@ -38,11 +37,6 @@ const ShareQrCard = ({ isDarkMode }: ShareQrCardProps) => {
 
 	useEffect(() => {
 		setCurrentUrl(window.location.href);
-		setIsMobileDevice(
-			/iphone|ipod|android|blackberry|bb10|iemobile|opera mini|windows phone/i.test(
-				window.navigator.userAgent,
-			),
-		);
 	}, []);
 
 	useEffect(() => {
@@ -107,7 +101,7 @@ const ShareQrCard = ({ isDarkMode }: ShareQrCardProps) => {
 	}, [currentUrl, handleCopyLink, showShareNotice]);
 
 	const canUseNativeShare =
-		isMobileDevice && typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+		typeof navigator !== 'undefined' && typeof navigator.share === 'function';
 
 	if (!currentUrl) {
 		return null;
